@@ -6,7 +6,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from cli.llmindex_cli.models import Product
+from llmindex.llmindex_cli.models import Product
 
 
 def import_json(path: str | Path) -> list[Product]:

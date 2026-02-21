@@ -12,7 +12,7 @@ import csv
 from datetime import datetime, timezone
 from pathlib import Path
 
-from cli.llmindex_cli.models import Product
+from llmindex.llmindex_cli.models import Product
 
 
 # Mapping from Shopify CSV columns to llmindex Product fields

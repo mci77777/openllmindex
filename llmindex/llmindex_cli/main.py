@@ -8,14 +8,14 @@ from typing import Optional
 import typer
 from rich.console import Console
 
-from cli.llmindex_cli.generators.feed import write_feed
-from cli.llmindex_cli.generators.manifest import generate_manifest, write_manifest
-from cli.llmindex_cli.generators.pages import write_pages
-from cli.llmindex_cli.models import SiteConfig
-from cli.llmindex_cli.validators import validate_all, validate_feed, validate_manifest
-from cli.importers.csv_importer import import_csv
-from cli.importers.json_importer import import_json
-from cli.importers.shopify_importer import import_shopify_csv
+from llmindex.llmindex_cli.generators.feed import write_feed
+from llmindex.llmindex_cli.generators.manifest import generate_manifest, write_manifest
+from llmindex.llmindex_cli.generators.pages import write_pages
+from llmindex.llmindex_cli.models import SiteConfig
+from llmindex.llmindex_cli.validators import validate_all, validate_feed, validate_manifest
+from llmindex.importers.csv_importer import import_csv
+from llmindex.importers.json_importer import import_json
+from llmindex.importers.shopify_importer import import_shopify_csv
 
 app = typer.Typer(
     name="llmindex",

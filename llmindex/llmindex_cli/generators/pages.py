@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from cli.llmindex_cli.models import Product, SiteConfig
+from llmindex.llmindex_cli.models import Product, SiteConfig
 
 
 def generate_products_page(products: list[Product], config: SiteConfig) -> str:

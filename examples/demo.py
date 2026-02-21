@@ -20,11 +20,11 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
-from cli.importers.csv_importer import import_csv
-from cli.llmindex_cli.generators.feed import write_feed
-from cli.llmindex_cli.generators.manifest import generate_manifest, write_manifest
-from cli.llmindex_cli.generators.pages import write_pages
-from cli.llmindex_cli.models import SiteConfig
+from llmindex.importers.csv_importer import import_csv
+from llmindex.llmindex_cli.generators.feed import write_feed
+from llmindex.llmindex_cli.generators.manifest import generate_manifest, write_manifest
+from llmindex.llmindex_cli.generators.pages import write_pages
+from llmindex.llmindex_cli.models import SiteConfig
 
 
 def main():

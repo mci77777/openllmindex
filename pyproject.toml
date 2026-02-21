@@ -44,14 +44,14 @@ dev = [
 ]
 
 [project.scripts]
-llmindex = "cli.llmindex_cli.main:app"
+llmindex = "llmindex.llmindex_cli.main:app"
 
 [build-system]
 requires = ["setuptools>=75.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["cli*", "spec*"]
+include = ["llmindex*", "spec*"]
 
 [tool.setuptools.package-data]
 spec = ["schemas/*.json", "examples/**/*", "test-vectors/**/*"]
@@ -64,4 +64,4 @@ line-length = 100
 select = ["E", "F", "I", "N", "W"]
 
 [tool.pytest.ini_options]
-testpaths = ["cli/tests", "spec"]
+testpaths = ["llmindex/tests", "spec"]

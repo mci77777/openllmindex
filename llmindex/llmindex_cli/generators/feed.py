@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from cli.llmindex_cli.models import Product
+from llmindex.llmindex_cli.models import Product
 
 
 def generate_feed(products: list[Product]) -> str:

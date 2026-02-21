@@ -11,14 +11,14 @@ from pathlib import Path
 import jsonschema
 import pytest
 
-from cli.importers.csv_importer import import_csv
-from cli.llmindex_cli.generators.feed import generate_feed, write_feed
-from cli.llmindex_cli.generators.manifest import generate_manifest, write_manifest
-from cli.llmindex_cli.generators.pages import write_pages
-from cli.llmindex_cli.models import SiteConfig
+from llmindex.importers.csv_importer import import_csv
+from llmindex.llmindex_cli.generators.feed import generate_feed, write_feed
+from llmindex.llmindex_cli.generators.manifest import generate_manifest, write_manifest
+from llmindex.llmindex_cli.generators.pages import write_pages
+from llmindex.llmindex_cli.models import SiteConfig
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SAMPLE_CSV = PROJECT_ROOT / "cli" / "sample_data" / "sample.csv"
+SAMPLE_CSV = PROJECT_ROOT / "llmindex" / "sample_data" / "sample.csv"
 SCHEMA_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.1.schema.json"
 
 

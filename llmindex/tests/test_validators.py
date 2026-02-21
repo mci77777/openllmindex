@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from cli.llmindex_cli.validators import validate_all, validate_feed, validate_manifest
+from llmindex.llmindex_cli.validators import validate_all, validate_feed, validate_manifest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 EXAMPLES_DIR = PROJECT_ROOT / "spec" / "examples"

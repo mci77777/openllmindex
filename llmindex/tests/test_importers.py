@@ -4,12 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from cli.importers.json_importer import import_json
-from cli.importers.shopify_importer import import_shopify_csv
+from llmindex.importers.json_importer import import_json
+from llmindex.importers.shopify_importer import import_shopify_csv
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-SAMPLE_JSON = PROJECT_ROOT / "cli" / "sample_data" / "sample.json"
-SAMPLE_SHOPIFY = PROJECT_ROOT / "cli" / "sample_data" / "sample_shopify.csv"
+SAMPLE_JSON = PROJECT_ROOT / "llmindex" / "sample_data" / "sample.json"
+SAMPLE_SHOPIFY = PROJECT_ROOT / "llmindex" / "sample_data" / "sample_shopify.csv"
 
 
 class TestJSONImporter:
