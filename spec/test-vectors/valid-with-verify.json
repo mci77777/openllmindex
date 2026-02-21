@@ -1,0 +1,20 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Verified Example",
+    "canonical_url": "https://verified-example.com"
+  },
+  "language": "en",
+  "topics": ["general"],
+  "endpoints": {
+    "products": "https://verified-example.com/llm/products",
+    "policies": "https://verified-example.com/llm/policies",
+    "faq": "https://verified-example.com/llm/faq",
+    "about": "https://verified-example.com/llm/about"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-1234567890"
+  }
+}

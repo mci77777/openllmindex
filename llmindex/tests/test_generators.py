@@ -13,7 +13,9 @@ from llmindex.llmindex_cli.generators.pages import write_pages
 from llmindex.llmindex_cli.models import SiteConfig
 
 SAMPLE_CSV = Path(__file__).resolve().parent.parent / "sample_data" / "sample.csv"
-SCHEMA_PATH = Path(__file__).resolve().parent.parent.parent / "spec" / "schemas" / "llmindex-0.1.schema.json"
+SCHEMA_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "spec" / "schemas" / "llmindex-0.1.schema.json"
+)
 
 
 @pytest.fixture
@@ -74,7 +76,7 @@ class TestManifestGenerator:
 class TestFeedGenerator:
     def test_generates_jsonl(self, products):
         content = generate_feed(products)
-        lines = [l for l in content.strip().split("\n") if l]
+        lines = [line for line in content.strip().split("\n") if line]
         assert len(lines) == 20
 
     def test_each_line_valid_json(self, products):

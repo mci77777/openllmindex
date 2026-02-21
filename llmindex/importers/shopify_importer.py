@@ -14,7 +14,6 @@ from pathlib import Path
 
 from llmindex.llmindex_cli.models import Product
 
-
 # Mapping from Shopify CSV columns to llmindex Product fields
 _SHOPIFY_COLUMN_MAP = {
     "Handle": "handle",
@@ -104,9 +103,7 @@ def import_shopify_csv(
                     availability=availability,
                     brand=brand,
                     category=category,
-                    updated_at=datetime.now(timezone.utc).strftime(
-                        "%Y-%m-%dT%H:%M:%SZ"
-                    ),
+                    updated_at=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 )
                 products.append(product)
             except Exception as exc:

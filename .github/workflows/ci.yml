@@ -26,7 +26,11 @@ jobs:
 
       - run: pytest -v
 
-      - run: pytest examples/test_demo.py -v
+      - run: ruff check .
+
+      - run: ruff format --check .
+
+      - run: pytest examples/test_demo.py -v --cov-append
 
   publish-pypi:
     if: github.event_name == 'release'

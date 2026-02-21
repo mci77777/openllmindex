@@ -15,7 +15,9 @@ TEST_VECTORS_DIR = PROJECT_ROOT / "spec" / "test-vectors"
 class TestManifestValidation:
     """Test manifest validation against schema."""
 
-    @pytest.mark.parametrize("industry", ["ecommerce", "local-business", "saas"])
+    @pytest.mark.parametrize(
+        "industry", ["ecommerce", "local-business", "saas", "blog", "restaurant", "marketplace"]
+    )
     def test_valid_examples_pass(self, industry):
         path = EXAMPLES_DIR / industry / "llmindex.json"
         result = validate_manifest(path)
@@ -46,6 +48,16 @@ class TestManifestValidation:
 
     def test_bad_dates_rejected(self):
         path = TEST_VECTORS_DIR / "invalid-bad-dates.json"
+        result = validate_manifest(path)
+        assert not result.valid
+
+    def test_extra_fields_rejected(self):
+        path = TEST_VECTORS_DIR / "invalid-extra-fields.json"
+        result = validate_manifest(path)
+        assert not result.valid
+
+    def test_http_canonical_url_rejected(self):
+        path = TEST_VECTORS_DIR / "invalid-http-url.json"
         result = validate_manifest(path)
         assert not result.valid
 
@@ -114,3 +126,28 @@ class TestValidateAll:
         manifest = EXAMPLES_DIR / "local-business" / "llmindex.json"
         result = validate_all(manifest)
         assert result.valid, f"Errors: {result.errors}"
+
+    def test_path_does_not_exist_returns_invalid(self):
+        result = validate_all("/nonexistent/manifest.json")
+        assert not result.valid
+        assert result.errors
+        assert any("File not found" in e for e in result.errors)
+
+    def test_multiple_errors_aggregated(self, tmp_path):
+        manifest = {
+            "version": "0.1",
+            "updated_at": "2026-02-20T00:00:00Z",
+            "entity": {"name": "Test", "canonical_url": "https://example.com"},
+            "language": "en",
+            "topics": [],
+            "endpoints": {"products": "https://example.com/llm/products"},
+        }
+        manifest_path = tmp_path / "bad.json"
+        manifest_path.write_text(json.dumps(manifest))
+
+        missing_feed = tmp_path / "missing.jsonl"
+        result = validate_all(manifest_path, missing_feed)
+
+        assert not result.valid
+        assert any("File not found" in e for e in result.errors)
+        assert sum(e.startswith("Schema:") for e in result.errors) >= 2

@@ -122,9 +122,9 @@
   .btn-upgrade:hover { background: rgba(34,197,94,0.2); }
 
   /* CHART */
-  .chart-area { padding: 16px 20px 8px; height: 140px; display: flex; align-items: flex-end; gap: 4px; }
-  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .bar { width: 100%; border-radius: 3px 3px 0 0; background: rgba(34,197,94,0.25); transition: background 150ms; cursor: pointer; }
+  .chart-area { padding: 16px 20px 8px; height: 160px; display: flex; align-items: flex-end; gap: 4px; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .bar { width: 100%; border-radius: 3px 3px 0 0; background: rgba(34,197,94,0.25); transition: background 150ms; cursor: pointer; min-height: 4px; }
   .bar:hover { background: rgba(34,197,94,0.55); }
   .bar-label { font-size: 10px; color: var(--muted); }
 
@@ -446,31 +446,31 @@
       </div>
       <div class="chart-area">
         <div class="bar-group">
-          <div class="bar" style="height: 45%;"></div>
+          <div class="bar" style="height: 54px;"></div>
           <span class="bar-label">周一</span>
         </div>
         <div class="bar-group">
-          <div class="bar" style="height: 62%;"></div>
+          <div class="bar" style="height: 74px;"></div>
           <span class="bar-label">周二</span>
         </div>
         <div class="bar-group">
-          <div class="bar" style="height: 38%;"></div>
+          <div class="bar" style="height: 46px;"></div>
           <span class="bar-label">周三</span>
         </div>
         <div class="bar-group">
-          <div class="bar" style="height: 78%;"></div>
+          <div class="bar" style="height: 94px;"></div>
           <span class="bar-label">周四</span>
         </div>
         <div class="bar-group">
-          <div class="bar" style="height: 90%;"></div>
+          <div class="bar" style="height: 108px;"></div>
           <span class="bar-label">周五</span>
         </div>
         <div class="bar-group">
-          <div class="bar" style="height: 55%;"></div>
+          <div class="bar" style="height: 66px;"></div>
           <span class="bar-label">周六</span>
         </div>
         <div class="bar-group">
-          <div class="bar" style="height: 70%;"></div>
+          <div class="bar" style="height: 84px;"></div>
           <span class="bar-label">周日</span>
         </div>
       </div>

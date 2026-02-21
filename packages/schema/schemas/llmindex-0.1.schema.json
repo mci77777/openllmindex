@@ -3,6 +3,7 @@
   "$id": "https://llmindex.org/schemas/llmindex-0.1.schema.json",
   "title": "llmindex v0.1 Manifest",
   "description": "Schema for /.well-known/llmindex.json — the machine-readable index for LLM/AI discovery.",
+  "$comment": "Note: JSON Schema 'format' (e.g., 'uri', 'date-time') is an annotation in Draft-07. For strict validation, use a validator with format checking enabled (e.g., Ajv + ajv-formats, python-jsonschema FormatChecker). This schema also includes lightweight 'pattern' constraints for some fields.",
   "type": "object",
   "required": ["version", "updated_at", "entity", "language", "topics", "endpoints"],
   "additionalProperties": false,
@@ -16,10 +17,12 @@
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}",
-      "description": "ISO 8601 datetime (UTC recommended) of last manifest update."
+      "description": "ISO 8601 / RFC 3339 datetime (UTC recommended) of last manifest update.",
+      "$comment": "Use a format-checking validator to fully enforce 'date-time'. The pattern check is intentionally lightweight."
     },
     "entity": {
       "type": "object",
+      "description": "The entity (company, brand, person) this manifest describes.",
       "required": ["name", "canonical_url"],
       "additionalProperties": false,
       "properties": {
@@ -32,7 +35,8 @@
           "type": "string",
           "format": "uri",
           "pattern": "^https://",
-          "description": "Canonical homepage URL. Must be HTTPS."
+          "description": "Canonical homepage URL. Must be HTTPS.",
+          "$comment": "This should be an absolute URL. The '^https://' pattern enforces HTTPS even when 'format' is not checked."
         }
       }
     },
@@ -52,8 +56,10 @@
     },
     "endpoints": {
       "type": "object",
+      "description": "URLs pointing to LLM-friendly information pages (products, policies, FAQ, about).",
       "required": ["products", "policies", "faq", "about"],
       "additionalProperties": false,
+      "$comment": "Each endpoint should be a valid absolute URI. Consider using HTTPS for all endpoint URLs.",
       "properties": {
         "products": {
           "type": "string",
@@ -79,7 +85,9 @@
     },
     "feeds": {
       "type": "object",
+      "description": "Optional machine-readable data feeds (e.g., JSONL product feed).",
       "additionalProperties": false,
+      "$comment": "Feed URLs should be valid absolute URIs. Use HTTPS where possible.",
       "properties": {
         "products_jsonl": {
           "type": "string",
@@ -95,6 +103,7 @@
     },
     "verify": {
       "type": "object",
+      "description": "Optional domain ownership verification challenge (DNS TXT or HTTP proof file).",
       "required": ["method", "value"],
       "additionalProperties": false,
       "properties": {
@@ -112,6 +121,7 @@
     },
     "sig": {
       "type": "object",
+      "description": "Optional cryptographic signature of the manifest.",
       "required": ["alg", "kid", "jws"],
       "additionalProperties": false,
       "properties": {

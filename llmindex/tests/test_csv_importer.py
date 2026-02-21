@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-import pytest
-
 from llmindex.importers.csv_importer import import_csv
 
 SAMPLE_CSV = Path(__file__).resolve().parent.parent / "sample_data" / "sample.csv"

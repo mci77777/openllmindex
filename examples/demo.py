@@ -20,11 +20,14 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
-from llmindex.importers.csv_importer import import_csv
-from llmindex.llmindex_cli.generators.feed import write_feed
-from llmindex.llmindex_cli.generators.manifest import generate_manifest, write_manifest
-from llmindex.llmindex_cli.generators.pages import write_pages
-from llmindex.llmindex_cli.models import SiteConfig
+from llmindex.importers.csv_importer import import_csv  # noqa: E402
+from llmindex.llmindex_cli.generators.feed import write_feed  # noqa: E402
+from llmindex.llmindex_cli.generators.manifest import (  # noqa: E402
+    generate_manifest,
+    write_manifest,
+)
+from llmindex.llmindex_cli.generators.pages import write_pages  # noqa: E402
+from llmindex.llmindex_cli.models import SiteConfig  # noqa: E402
 
 
 def main():
@@ -109,7 +112,9 @@ def main():
     feed_content = Path(feed_path).read_text().strip().split("\n")
     for line in feed_content[:3]:
         obj = json.loads(line)
-        print(f"  {obj['id']}: {obj['title']} — {obj.get('currency', '')} {obj.get('price', 'N/A')}")
+        currency = obj.get("currency", "")
+        price = obj.get("price", "N/A")
+        print(f"  {obj['id']}: {obj['title']} — {currency} {price}")
     print(f"  ... ({len(feed_content)} total)")
 
     print("\n" + "=" * 60)

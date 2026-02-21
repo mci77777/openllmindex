@@ -1,6 +1,6 @@
 # llmindex Specification v0.1
 
-> **Status**: Draft
+> **Status**: v0.1.0
 > **Fixed Entry Point**: `/.well-known/llmindex.json`
 > **Goal**: Provide a machine-readable index for LLMs, AI search engines, and crawlers to discover and understand a website's key information.
 
@@ -144,3 +144,17 @@ Implementors MAY generate a `/llms.txt` file as a compatibility layer for tools 
 | `version` field is unrecognized | Attempt best-effort parsing; warn on unknown fields. |
 | `endpoints.*` URL returns 404/5xx | Mark endpoint as unavailable; continue with others. |
 | `feeds.*` URL is unreachable | Skip feed; rely on endpoint pages. |
+
+## 10. Security Considerations
+
+- **HTTPS required**: Manifests MUST be served over HTTPS, and `entity.canonical_url` MUST be an HTTPS URL. Implementations SHOULD use HTTPS for all `endpoints.*` and `feeds.*` URLs.
+- **No secrets in manifests**: Implementations MUST NOT include authentication tokens, API keys, session identifiers, or other secrets in the manifest (including in URL query strings).
+- **robots.txt guidance**: If you want AI agents to discover and read your llmindex content, do not block `/.well-known/llmindex.json` or your referenced `/llm/*` endpoints in `robots.txt`. If you do not want automated access, use `robots.txt` and/or other access controls to limit crawling.
+
+## 11. IANA Considerations
+
+This specification uses the existing `application/json` media type. No new IANA registrations are required.
+
+## 12. Changelog
+
+- **v0.1.0 (2025-02-22)** — Initial Release.

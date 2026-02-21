@@ -35,9 +35,7 @@ def import_json(path: str | Path) -> list[Product]:
 
             # Fill in defaults
             if "updated_at" not in item or not item["updated_at"]:
-                item["updated_at"] = datetime.now(timezone.utc).strftime(
-                    "%Y-%m-%dT%H:%M:%SZ"
-                )
+                item["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
             if "availability" not in item or not item["availability"]:
                 item["availability"] = "in_stock"

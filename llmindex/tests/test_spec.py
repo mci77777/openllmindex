@@ -20,7 +20,7 @@ class TestExamplesValidation:
 
     @pytest.mark.parametrize(
         "example_name",
-        ["ecommerce", "local-business", "saas"],
+        ["ecommerce", "local-business", "saas", "blog", "restaurant", "marketplace"],
     )
     def test_example_validates(self, schema, example_name):
         path = SPEC_DIR / "examples" / example_name / "llmindex.json"
@@ -29,11 +29,26 @@ class TestExamplesValidation:
 
 
 class TestTestVectors:
-    """All test vectors in spec/test-vectors/ must FAIL validation."""
+    """Test vectors in spec/test-vectors/ must match expected validity."""
 
     @pytest.mark.parametrize(
         "vector_name",
-        ["invalid-missing-required", "invalid-bad-urls", "invalid-bad-dates"],
+        ["valid-minimal", "valid-with-verify"],
+    )
+    def test_valid_manifest_accepted(self, schema, vector_name):
+        path = SPEC_DIR / "test-vectors" / f"{vector_name}.json"
+        data = json.loads(path.read_text())
+        jsonschema.validate(data, schema)  # raises on failure
+
+    @pytest.mark.parametrize(
+        "vector_name",
+        [
+            "invalid-missing-required",
+            "invalid-bad-urls",
+            "invalid-bad-dates",
+            "invalid-extra-fields",
+            "invalid-http-url",
+        ],
     )
     def test_invalid_manifest_rejected(self, schema, vector_name):
         path = SPEC_DIR / "test-vectors" / f"{vector_name}.json"
@@ -47,7 +62,12 @@ class TestSchemaStructure:
 
     def test_required_fields(self, schema):
         assert set(schema["required"]) == {
-            "version", "updated_at", "entity", "language", "topics", "endpoints"
+            "version",
+            "updated_at",
+            "entity",
+            "language",
+            "topics",
+            "endpoints",
         }
 
     def test_endpoints_required(self, schema):

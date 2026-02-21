@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 from llmindex.llmindex_cli.models import Product, SiteConfig
 
@@ -20,10 +21,15 @@ def generate_products_page(products: list[Product], config: SiteConfig) -> str:
     for cat in sorted(categories):
         lines.append(f"\n## {cat}\n")
         for p in categories[cat]:
-            avail = "In Stock" if p.availability == "in_stock" else (
-                "Pre-order" if p.availability == "preorder" else "Out of Stock"
+            avail = (
+                "In Stock"
+                if p.availability == "in_stock"
+                else ("Pre-order" if p.availability == "preorder" else "Out of Stock")
             )
-            price_str = f"{p.currency} {p.price:.2f}" if p.price is not None and p.currency else "Price on request"
+            if p.price is not None and p.currency:
+                price_str = f"{p.currency} {p.price:.2f}"
+            else:
+                price_str = "Price on request"
             lines.append(f"- **[{p.title}]({p.url})** — {price_str} ({avail})")
 
     return "\n".join(lines) + "\n"
@@ -73,7 +79,8 @@ def generate_faq_page(config: SiteConfig) -> str:
 A: Standard shipping takes 5–7 business days. Express shipping takes 2–3 business days.
 
 **Q: Do you ship internationally?**
-A: Yes, we ship to select international destinations. Shipping costs and delivery times vary by location.
+A: Yes, we ship to select international destinations. Shipping costs and delivery times vary by
+location.
 
 **Q: How can I track my order?**
 A: Once your order ships, you will receive a tracking number via email.
@@ -98,6 +105,7 @@ A: Our products are designed in-house and manufactured by trusted partners world
 
 def generate_about_page(config: SiteConfig) -> str:
     """Generate about.md template."""
+    domain = config.canonical_url.replace("https://", "").replace("http://", "").split("/")[0]
     return f"""# About {config.name}
 
 ## Our Story
@@ -107,7 +115,7 @@ def generate_about_page(config: SiteConfig) -> str:
 ## Contact
 
 - **Website**: {config.canonical_url}
-- **Email**: support@{config.canonical_url.replace('https://', '').replace('http://', '').split('/')[0]}
+- **Email**: support@{domain}
 
 ## Language
 
@@ -115,7 +123,7 @@ Primary language: {config.language}
 
 ## Topics
 
-{', '.join(config.topics)}
+{", ".join(config.topics)}
 """
 
 
@@ -123,16 +131,45 @@ def write_pages(
     products: list[Product],
     config: SiteConfig,
     output_dir: str,
+    templates_dir: Optional[Path] = None,
 ) -> list[str]:
     """Generate all /llm pages and write to output_dir/llm/."""
     base = Path(output_dir) / "llm"
     base.mkdir(parents=True, exist_ok=True)
 
+    templates: dict[str, str] = {}
+    if templates_dir is not None:
+        try:
+            from jinja2 import Environment, FileSystemLoader, StrictUndefined, TemplateNotFound
+        except ModuleNotFoundError as e:
+            raise ModuleNotFoundError(
+                "Jinja2 is required for --templates-dir. Install with: pip install "
+                "'llmindex[templates]'"
+            ) from e
+
+        env = Environment(
+            loader=FileSystemLoader(str(templates_dir)),
+            autoescape=False,
+            undefined=StrictUndefined,
+        )
+
+        def render_if_present(template_name: str) -> Optional[str]:
+            try:
+                template = env.get_template(template_name)
+            except TemplateNotFound:
+                return None
+            return template.render(config=config, site_name=config.name)
+
+        for name in ("policies", "faq", "about"):
+            rendered = render_if_present(f"{name}.md.j2")
+            if rendered is not None:
+                templates[name] = rendered
+
     pages = {
         "products.md": generate_products_page(products, config),
-        "policies.md": generate_policies_page(config),
-        "faq.md": generate_faq_page(config),
-        "about.md": generate_about_page(config),
+        "policies.md": templates.get("policies") or generate_policies_page(config),
+        "faq.md": templates.get("faq") or generate_faq_page(config),
+        "about.md": templates.get("about") or generate_about_page(config),
     }
 
     written = []

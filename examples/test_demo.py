@@ -5,14 +5,13 @@ Run with: pytest examples/test_demo.py -v
 """
 
 import json
-import shutil
 from pathlib import Path
 
 import jsonschema
 import pytest
 
 from llmindex.importers.csv_importer import import_csv
-from llmindex.llmindex_cli.generators.feed import generate_feed, write_feed
+from llmindex.llmindex_cli.generators.feed import write_feed
 from llmindex.llmindex_cli.generators.manifest import generate_manifest, write_manifest
 from llmindex.llmindex_cli.generators.pages import write_pages
 from llmindex.llmindex_cli.models import SiteConfig

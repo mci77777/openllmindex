@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Example Blog",
+    "canonical_url": "https://example-blog.com"
+  },
+  "language": "en",
+  "topics": ["writing", "technology"],
+  "endpoints": {
+    "products": "https://example-blog.com/llm/products",
+    "policies": "https://example-blog.com/llm/policies",
+    "faq": "https://example-blog.com/llm/faq",
+    "about": "https://example-blog.com/llm/about"
+  }
+}

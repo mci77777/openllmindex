@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Minimal Example",
+    "canonical_url": "https://example.com"
+  },
+  "language": "en",
+  "topics": ["general"],
+  "endpoints": {
+    "products": "https://example.com/llm/products",
+    "policies": "https://example.com/llm/policies",
+    "faq": "https://example.com/llm/faq",
+    "about": "https://example.com/llm/about"
+  }
+}

@@ -1,9 +1,10 @@
-"""Tests for JSON and Shopify CSV importers."""
+"""Tests for CSV, JSON, and Shopify CSV importers."""
 
 from pathlib import Path
 
 import pytest
 
+from llmindex.importers.csv_importer import import_csv
 from llmindex.importers.json_importer import import_json
 from llmindex.importers.shopify_importer import import_shopify_csv
 
@@ -86,9 +87,7 @@ class TestShopifyImporter:
         assert bag.brand == "ArtisanCo"
 
     def test_custom_currency(self):
-        products = import_shopify_csv(
-            SAMPLE_SHOPIFY, base_url="https://myshop.com", currency="EUR"
-        )
+        products = import_shopify_csv(SAMPLE_SHOPIFY, base_url="https://myshop.com", currency="EUR")
         for p in products:
             if p.price is not None:
                 assert p.currency == "EUR"
@@ -97,3 +96,30 @@ class TestShopifyImporter:
         products = import_shopify_csv(SAMPLE_SHOPIFY, base_url="https://myshop.com")
         bag = next(p for p in products if "leather" in p.title.lower())
         assert bag.image_url == "https://cdn.shopify.com/leather-bag.jpg"
+
+
+class TestCSVImporterBoundaries:
+    """Boundary tests for the standard products CSV importer."""
+
+    def test_empty_file(self, tmp_path):
+        csv_file = tmp_path / "empty.csv"
+        csv_file.write_text("")
+        products = import_csv(csv_file)
+        assert products == []
+
+    def test_only_header_row(self, tmp_path):
+        csv_file = tmp_path / "header_only.csv"
+        csv_file.write_text("id,title,url,price,currency,availability,updated_at\n")
+        products = import_csv(csv_file)
+        assert products == []
+
+    def test_duplicate_ids_both_present(self, tmp_path):
+        csv_file = tmp_path / "dupe.csv"
+        csv_file.write_text(
+            "id,title,url,price,currency,availability,updated_at\n"
+            "P001,First,https://example.com/p1,10.00,USD,in_stock,2026-01-01T00:00:00Z\n"
+            "P001,Second,https://example.com/p2,12.00,USD,in_stock,2026-01-02T00:00:00Z\n"
+        )
+        products = import_csv(csv_file)
+        assert len(products) == 2
+        assert [p.id for p in products] == ["P001", "P001"]

@@ -7,7 +7,8 @@
   "files": [
     "index.js",
     "index.d.ts",
-    "schemas/llmindex-0.1.schema.json"
+    "schemas/llmindex-0.1.schema.json",
+    "schemas/product-line-0.1.schema.json"
   ],
   "keywords": [
     "llmindex",

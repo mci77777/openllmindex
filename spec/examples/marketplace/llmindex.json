@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Open Marketplace",
+    "canonical_url": "https://open-marketplace.com"
+  },
+  "language": "en",
+  "topics": ["ecommerce", "marketplace"],
+  "endpoints": {
+    "products": "https://open-marketplace.com/llm/products",
+    "policies": "https://open-marketplace.com/llm/policies",
+    "faq": "https://open-marketplace.com/llm/faq",
+    "about": "https://open-marketplace.com/llm/about"
+  }
+}

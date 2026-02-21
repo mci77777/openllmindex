@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 
-from llmindex.llmindex_cli.models import Feeds, SiteConfig
+from llmindex.llmindex_cli.models import SiteConfig
 
 
 def generate_manifest(config: SiteConfig, has_feed: bool = True) -> dict:

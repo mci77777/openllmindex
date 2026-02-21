@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://llmindex.org/schemas/product-line-0.1.schema.json",
+  "title": "Product Line (products.jsonl)",
+  "description": "Schema for a single line in products.jsonl feed.",
+  "$comment": "Note: JSON Schema 'format' (e.g., 'uri', 'date-time') is an annotation in Draft-07. For strict validation, use a validator with format checking enabled (e.g., Ajv + ajv-formats, python-jsonschema FormatChecker).",
+  "type": "object",
+  "required": ["id", "title", "url", "availability", "updated_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique product identifier."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Product display name."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Product page URL.",
+      "$comment": "This should be an absolute URL. Use a format-checking validator to enforce 'uri'."
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Primary product image URL.",
+      "$comment": "This should be an absolute URL. Use a format-checking validator to enforce 'uri'."
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Product price."
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 currency code."
+    },
+    "price_range": {
+      "type": "object",
+      "required": ["min", "max", "currency"],
+      "properties": {
+        "min": {"type": "number", "minimum": 0},
+        "max": {"type": "number", "minimum": 0},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}
+      }
+    },
+    "availability": {
+      "type": "string",
+      "enum": ["in_stock", "out_of_stock", "preorder"],
+      "description": "Product availability status."
+    },
+    "brand": {
+      "type": "string",
+      "description": "Brand name."
+    },
+    "category": {
+      "type": "string",
+      "description": "Product category."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 datetime of last product update.",
+      "$comment": "Use a format-checking validator to fully enforce 'date-time'."
+    }
+  },
+  "oneOf": [
+    {"required": ["price", "currency"]},
+    {"required": ["price_range"]}
+  ]
+}

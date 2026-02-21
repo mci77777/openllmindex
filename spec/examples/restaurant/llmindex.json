@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Bistro Verde (San Francisco, CA)",
+    "canonical_url": "https://bistro-verde.com"
+  },
+  "language": "en",
+  "topics": ["food", "dining"],
+  "endpoints": {
+    "products": "https://bistro-verde.com/llm/products",
+    "policies": "https://bistro-verde.com/llm/policies",
+    "faq": "https://bistro-verde.com/llm/faq",
+    "about": "https://bistro-verde.com/llm/about"
+  }
+}
