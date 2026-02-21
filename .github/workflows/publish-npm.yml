@@ -7,6 +7,7 @@ on:
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
+    environment: pypi
     defaults:
       run:
         working-directory: packages/schema
