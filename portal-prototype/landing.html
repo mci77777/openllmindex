@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLMIndex — 让 AI 读懂你的网站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: #1E293B;
+    --color-secondary: #334155;
+    --color-cta: #22C55E;
+    --color-bg: #0F172A;
+    --color-text: #F8FAFC;
+    --color-muted: #94A3B8;
+    --color-border: #1E293B;
+    --color-surface: #1E293B;
+    --color-surface2: #334155;
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.3);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.4);
+    --shadow-xl: 0 20px 25px rgba(0,0,0,0.5);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.2; }
+  a { text-decoration: none; color: inherit; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 16px; left: 16px; right: 16px; z-index: 50;
+    background: rgba(15,23,42,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 0 24px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; }
+  .nav-logo span { color: var(--color-cta); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 14px; color: var(--color-muted); transition: color 200ms; cursor: pointer; }
+  .nav-links a:hover { color: var(--color-text); }
+  .nav-actions { display: flex; gap: 12px; align-items: center; }
+  .btn-ghost { font-size: 14px; color: var(--color-muted); padding: 8px 16px; border-radius: 8px; transition: all 200ms; cursor: pointer; }
+  .btn-ghost:hover { color: var(--color-text); background: var(--color-surface); }
+  .btn-cta {
+    background: var(--color-cta); color: #0F172A; font-weight: 600;
+    padding: 10px 20px; border-radius: 8px; font-size: 14px;
+    transition: all 200ms; cursor: pointer; border: none;
+  }
+  .btn-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 160px 24px 100px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+    color: var(--color-cta); font-size: 13px; font-weight: 500;
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 24px;
+  }
+  .hero-badge-dot { width: 6px; height: 6px; background: var(--color-cta); border-radius: 50%; }
+  .hero h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 700; margin-bottom: 20px; }
+  .hero h1 em { color: var(--color-cta); font-style: normal; }
+  .hero p { font-size: 18px; color: var(--color-muted); max-width: 600px; margin: 0 auto 40px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary-lg {
+    background: var(--color-cta); color: #0F172A; font-weight: 700;
+    padding: 14px 32px; border-radius: 10px; font-size: 16px;
+    transition: all 200ms; cursor: pointer; border: none;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-primary-lg:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(34,197,94,0.3); }
+  .btn-outline-lg {
+    background: transparent; color: var(--color-text);
+    border: 1px solid var(--color-border); padding: 14px 32px;
+    border-radius: 10px; font-size: 16px; transition: all 200ms; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-outline-lg:hover { border-color: var(--color-muted); background: var(--color-surface); }
+  .hero-meta { margin-top: 24px; font-size: 13px; color: var(--color-muted); }
+
+  /* CODE PREVIEW */
+  .code-preview {
+    max-width: 700px; margin: 60px auto 0;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-xl);
+  }
+  .code-bar {
+    background: var(--color-secondary); padding: 12px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .code-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .code-dot.red { background: #EF4444; }
+  .code-dot.yellow { background: #F59E0B; }
+  .code-dot.green { background: #22C55E; }
+  .code-filename { font-size: 12px; color: var(--color-muted); margin-left: 8px; }
+  .code-body { padding: 24px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; }
+  .code-key { color: #7DD3FC; }
+  .code-val { color: #86EFAC; }
+  .code-str { color: #FCA5A5; }
+  .code-comment { color: #475569; }
+
+  /* SHARED */
+  .section { padding: 100px 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--color-cta); margin-bottom: 12px; }
+  .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin-bottom: 16px; }
+  .section-sub { font-size: 17px; color: var(--color-muted); max-width: 560px; line-height: 1.7; }
+  .divider { border: none; border-top: 1px solid var(--color-border); }
+
+  /* LOGOS */
+  .logos { padding: 40px 24px; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+  .logos-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .logos-label { font-size: 12px; color: var(--color-muted); letter-spacing: 1px; text-transform: uppercase; }
+  .logo-item { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; color: #475569; transition: color 200ms; cursor: default; }
+  .logo-item:hover { color: var(--color-muted); }
+
+  /* FEATURES */
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 60px; }
+  .feature-card {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: 12px; padding: 28px;
+    transition: all 200ms; cursor: default;
+  }
+  .feature-card:hover { border-color: var(--color-cta); box-shadow: 0 0 0 1px rgba(34,197,94,0.2); transform: translateY(-2px); }
+  .feature-icon {
+    width: 44px; height: 44px; background: rgba(34,197,94,0.1);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .feature-icon svg { width: 22px; height: 22px; stroke: var(--color-cta); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .feature-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: var(--color-muted); line-height: 1.6; }
+
+  /* HOW IT WORKS */
+  .how-bg { background: var(--color-surface); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; margin-top: 60px; }
+  .step { padding: 32px; position: relative; }
+  .step:not(:last-child)::after {
+    content: ''; position: absolute; top: 52px; right: 0;
+    width: 1px; height: 40px; background: var(--color-border);
+  }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+    color: var(--color-cta); font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .step p { font-size: 14px; color: var(--color-muted); line-height: 1.6; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 60px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  .pricing-card {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: 16px; padding: 32px; position: relative;
+    transition: all 200ms;
+  }
+  .pricing-card.featured {
+    border-color: var(--color-cta);
+    box-shadow: 0 0 0 1px rgba(34,197,94,0.3), var(--shadow-xl);
+  }
+  .pricing-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--color-cta); color: #0F172A; font-size: 11px; font-weight: 700;
+    padding: 4px 12px; border-radius: 100px; letter-spacing: 1px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .pricing-plan { font-size: 13px; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .pricing-price { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; margin-bottom: 4px; }
+  .pricing-price span { font-size: 16px; font-weight: 400; color: var(--color-muted); }
+  .pricing-desc { font-size: 14px; color: var(--color-muted); margin-bottom: 24px; }
+  .pricing-features { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .pricing-features li { font-size: 14px; display: flex; align-items: center; gap: 10px; }
+  .pricing-features li::before { content: ''; width: 16px; height: 16px; background: rgba(34,197,94,0.15); border-radius: 50%; flex-shrink: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 8l3.5 3.5L13 5' stroke='%2322C55E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: contain; }
+  .btn-plan {
+    width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 15px;
+    cursor: pointer; transition: all 200ms; border: none;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-plan.outline { background: transparent; border: 1px solid var(--color-border); color: var(--color-text); }
+  .btn-plan.outline:hover { border-color: var(--color-muted); background: var(--color-secondary); }
+  .btn-plan.solid { background: var(--color-cta); color: #0F172A; }
+  .btn-plan.solid:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--color-border); padding: 60px 24px 40px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+  .footer-brand p { font-size: 14px; color: var(--color-muted); margin-top: 12px; line-height: 1.7; max-width: 260px; }
+  .footer-col h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--color-muted); margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 14px; color: var(--color-muted); margin-bottom: 10px; transition: color 200ms; cursor: pointer; }
+  .footer-col a:hover { color: var(--color-text); }
+  .footer-bottom { max-width: 1100px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+  .footer-bottom p { font-size: 13px; color: var(--color-muted); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .step:not(:last-child)::after { display: none; }
+  }
+  @media (max-width: 480px) {
+    .footer-inner { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">llm<span>index</span></div>
+  <div class="nav-links">
+    <a href="#features">功能</a>
+    <a href="#how">工作原理</a>
+    <a href="#pricing">定价</a>
+    <a href="#docs">文档</a>
+  </div>
+  <div class="nav-actions">
+    <a class="btn-ghost" href="/portal">登录</a>
+    <button class="btn-cta">免费开始</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    面向 LLM 的网站标准协议 v0.1
+  </div>
+  <h1>让 AI 精准读懂<br><em>你的网站</em></h1>
+  <p>一行命令生成 <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:15px;">/.well-known/llmindex.json</code>，让 ChatGPT、Claude、Perplexity 等 AI 准确理解你的产品、价格与政策。</p>
+  <div class="hero-actions">
+    <button class="btn-primary-lg">免费生成索引</button>
+    <button class="btn-outline-lg">查看文档</button>
+  </div>
+  <p class="hero-meta">无需信用卡 · 5 分钟完成 · 开源规范</p>
+
+  <div class="code-preview">
+    <div class="code-bar">
+      <span class="code-dot red"></span>
+      <span class="code-dot yellow"></span>
+      <span class="code-dot green"></span>
+      <span class="code-filename">/.well-known/llmindex.json</span>
+    </div>
+    <div class="code-body">
+      <span class="code-comment">// 自动生成 · 每日更新</span><br>
+      {<br>
+      &nbsp;&nbsp;<span class="code-key">"version"</span>: <span class="code-str">"0.1"</span>,<br>
+      &nbsp;&nbsp;<span class="code-key">"entity"</span>: { <span class="code-key">"name"</span>: <span class="code-str">"Acme Store"</span> },<br>
+      &nbsp;&nbsp;<span class="code-key">"topics"</span>: [<span class="code-str">"ecommerce"</span>, <span class="code-str">"fashion"</span>],<br>
+      &nbsp;&nbsp;<span class="code-key">"endpoints"</span>: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"products"</span>: <span class="code-str">"/llm/products"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"policies"</span>: <span class="code-str">"/llm/policies"</span><br>
+      &nbsp;&nbsp;},<br>
+      &nbsp;&nbsp;<span class="code-key">"verify"</span>: { <span class="code-key">"method"</span>: <span class="code-str">"dns_txt"</span> }<br>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos">
+  <div class="logos-inner">
+    <span class="logos-label">已被以下 AI 识别</span>
+    <span class="logo-item">ChatGPT</span>
+    <span class="logo-item">Claude</span>
+    <span class="logo-item">Perplexity</span>
+    <span class="logo-item">Gemini</span>
+    <span class="logo-item">Copilot</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-label">核心功能</div>
+    <h2 class="section-title">一套规范，全面覆盖</h2>
+    <p class="section-sub">从生成到验证，从产品目录到政策文档，llmindex 帮你把网站变成 AI 可读的结构化数据源。</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>一键生成 Manifest</h3>
+        <p>运行 <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px;">llmindex generate</code>，自动输出符合规范的 <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px;">llmindex.json</code>，无需手写 JSON。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3>域名验证</h3>
+        <p>通过 DNS TXT 记录或 HTTP 文件验证域名所有权，防止冒充，让 AI 信任你的数据来源。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <h3>产品目录 Feed</h3>
+        <p>导入 CSV / Shopify / JSON，自动生成 <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px;">products.jsonl</code>，让 AI 实时获取库存与价格。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        </div>
+        <h3>实时监控</h3>
+        <p>追踪 AI 爬虫访问频率、端点健康状态，当索引失效时立即告警。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        </div>
+        <h3>多平台集成</h3>
+        <p>提供 Next.js 插件、WordPress 插件、Shopify App，5 分钟完成接入，无需改动现有代码。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h3>JWS 签名</h3>
+        <p>对 Manifest 进行加密签名，AI 可验证数据完整性，防止中间人篡改。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-bg" id="how">
+  <div class="container">
+    <div class="section-label">工作原理</div>
+    <h2 class="section-title">三步完成接入</h2>
+    <p class="section-sub">从安装到 AI 可读，整个流程不超过 10 分钟。</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>安装 CLI</h3>
+        <p>通过 pip 或 npm 安装 llmindex 工具，支持 Python 3.9+ 和 Node 18+。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>配置站点</h3>
+        <p>填写 <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px;">llmindex.yaml</code>，声明站点名称、语言、主题和端点路径。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>生成并部署</h3>
+        <p>运行 <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px;">llmindex generate</code>，将输出文件上传到 <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px;">/.well-known/</code> 目录即可。</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>验证 &amp; 监控</h3>
+        <p>在控制台完成域名验证，开启自动更新和 AI 爬虫监控。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">定价</div>
+    <h2 class="section-title">简单透明的定价</h2>
+    <p class="section-sub" style="margin:0 auto 0;">从免费开始，按需升级。</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-plan">免费</div>
+        <div class="pricing-price">$0<span>/月</span></div>
+        <div class="pricing-desc">适合个人开发者和小型站点</div>
+        <ul class="pricing-features">
+          <li>1 个站点</li>
+          <li>手动生成 Manifest</li>
+          <li>基础验证</li>
+          <li>社区支持</li>
+        </ul>
+        <button class="btn-plan outline">免费开始</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">最受欢迎</div>
+        <div class="pricing-plan">Pro</div>
+        <div class="pricing-price">$29<span>/月</span></div>
+        <div class="pricing-desc">适合成长中的电商和 SaaS</div>
+        <ul class="pricing-features">
+          <li>10 个站点</li>
+          <li>自动每日更新</li>
+          <li>产品目录 Feed</li>
+          <li>AI 爬虫监控</li>
+          <li>JWS 签名</li>
+          <li>邮件告警</li>
+        </ul>
+        <button class="btn-plan solid">立即升级</button>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-plan">Enterprise</div>
+        <div class="pricing-price">定制<span></span></div>
+        <div class="pricing-desc">适合大型企业和平台</div>
+        <ul class="pricing-features">
+          <li>无限站点</li>
+          <li>私有部署</li>
+          <li>SLA 保障</li>
+          <li>专属客户成功</li>
+          <li>自定义集成</li>
+        </ul>
+        <button class="btn-plan outline">联系销售</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">llm<span style="color:var(--color-cta)">index</span></div>
+      <p>让 AI 精准读懂你的网站。开源规范，开放生态。</p>
+    </div>
+    <div class="footer-col">
+      <h4>产品</h4>
+      <a href="#">功能</a>
+      <a href="#">定价</a>
+      <a href="#">更新日志</a>
+      <a href="#">路线图</a>
+    </div>
+    <div class="footer-col">
+      <h4>开发者</h4>
+      <a href="#">文档</a>
+      <a href="#">规范</a>
+      <a href="#">GitHub</a>
+      <a href="#">CLI 参考</a>
+    </div>
+    <div class="footer-col">
+      <h4>公司</h4>
+      <a href="#">关于</a>
+      <a href="#">博客</a>
+      <a href="#">隐私政策</a>
+      <a href="#">服务条款</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 LLMIndex. 基于 MIT 协议开源。</p>
+    <p>规范版本 v0.1</p>
+  </div>
+</footer>
+
+</body>
+</html>

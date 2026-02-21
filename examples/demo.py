@@ -35,7 +35,7 @@ def main():
         language="en",
         topics=["electronics", "gadgets"],
     )
-    csv_path = project_root / "cli" / "sample_data" / "sample.csv"
+    csv_path = project_root / "llmindex" / "sample_data" / "sample.csv"
     output_dir = project_root / "examples" / "_demo_output"
 
     # Clean previous output
