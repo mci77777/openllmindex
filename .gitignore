@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+.venv/
+venv/
+*.so
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+
+# Internal workflow artifacts
+.workflow/
+
+# Demo output
+examples/_demo_output/
+
+# Internal business documents (not for open-source)
+llmindex_business_roadmap.md
+llmindex_execution_plan.csv
+llmindex_spec_v0_1.md

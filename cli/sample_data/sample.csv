@@ -1,0 +1,21 @@
+id,title,url,image_url,price,currency,availability,brand,category,updated_at
+P001,Trail Runner Pro,https://acme.com/products/trail-runner-pro,https://acme.com/img/trail-runner-pro.jpg,129.99,USD,in_stock,ACME,Footwear,2026-02-15T08:00:00Z
+P002,Summit Backpack 40L,https://acme.com/products/summit-backpack-40l,https://acme.com/img/summit-backpack.jpg,89.99,USD,in_stock,ACME,Bags,2026-02-14T10:00:00Z
+P003,Alpine Jacket Waterproof,https://acme.com/products/alpine-jacket,https://acme.com/img/alpine-jacket.jpg,199.99,USD,in_stock,ACME,Clothing,2026-02-10T12:00:00Z
+P004,Titanium Cookset,https://acme.com/products/titanium-cookset,https://acme.com/img/titanium-cookset.jpg,74.50,USD,in_stock,ACME,Camping,2026-02-12T09:00:00Z
+P005,LED Headlamp 800lm,https://acme.com/products/led-headlamp-800,https://acme.com/img/headlamp.jpg,45.00,USD,in_stock,ACME,Lighting,2026-02-13T11:00:00Z
+P006,Ultralight Tent 2P,https://acme.com/products/ultralight-tent-2p,https://acme.com/img/tent-2p.jpg,349.00,USD,out_of_stock,ACME,Shelter,2026-02-08T14:00:00Z
+P007,Merino Wool Base Layer,https://acme.com/products/merino-base-layer,https://acme.com/img/merino-base.jpg,65.00,USD,in_stock,ACME,Clothing,2026-02-11T07:00:00Z
+P008,Carbon Trekking Poles,https://acme.com/products/carbon-trekking-poles,https://acme.com/img/trekking-poles.jpg,119.00,USD,in_stock,ACME,Accessories,2026-02-09T16:00:00Z
+P009,Dry Bag 20L,https://acme.com/products/dry-bag-20l,https://acme.com/img/dry-bag.jpg,29.99,USD,in_stock,ACME,Bags,2026-02-14T08:00:00Z
+P010,Solar Charger Panel,https://acme.com/products/solar-charger,https://acme.com/img/solar-charger.jpg,59.99,USD,preorder,ACME,Electronics,2026-02-16T10:00:00Z
+P011,Insulated Water Bottle 1L,https://acme.com/products/insulated-bottle-1l,https://acme.com/img/bottle.jpg,34.99,USD,in_stock,ACME,Accessories,2026-02-15T06:00:00Z
+P012,Climbing Harness Sport,https://acme.com/products/climbing-harness-sport,https://acme.com/img/harness.jpg,79.99,USD,in_stock,ACME,Climbing,2026-02-07T12:00:00Z
+P013,Down Sleeping Bag -10C,https://acme.com/products/down-sleeping-bag,https://acme.com/img/sleeping-bag.jpg,259.00,USD,in_stock,ACME,Camping,2026-02-06T15:00:00Z
+P014,Trail Running Vest 5L,https://acme.com/products/trail-vest-5l,https://acme.com/img/trail-vest.jpg,99.00,USD,in_stock,ACME,Bags,2026-02-10T09:00:00Z
+P015,Camp Chair Ultralight,https://acme.com/products/camp-chair-ultralight,https://acme.com/img/camp-chair.jpg,54.99,USD,out_of_stock,ACME,Camping,2026-02-05T11:00:00Z
+P016,GPS Watch Explorer,https://acme.com/products/gps-watch-explorer,https://acme.com/img/gps-watch.jpg,299.99,USD,in_stock,ACME,Electronics,2026-02-15T14:00:00Z
+P017,Softshell Pants,https://acme.com/products/softshell-pants,https://acme.com/img/softshell-pants.jpg,89.00,USD,in_stock,ACME,Clothing,2026-02-12T08:00:00Z
+P018,First Aid Kit Pro,https://acme.com/products/first-aid-kit-pro,https://acme.com/img/first-aid.jpg,39.99,USD,in_stock,ACME,Safety,2026-02-13T10:00:00Z
+P019,Hammock Double,https://acme.com/products/hammock-double,https://acme.com/img/hammock.jpg,69.99,USD,in_stock,ACME,Camping,2026-02-11T13:00:00Z
+P020,Waterproof Stuff Sack Set,https://acme.com/products/stuff-sack-set,https://acme.com/img/stuff-sacks.jpg,24.99,USD,in_stock,ACME,Accessories,2026-02-14T07:00:00Z

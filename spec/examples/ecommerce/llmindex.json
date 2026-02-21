@@ -1,0 +1,23 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-17T10:00:00Z",
+  "entity": {
+    "name": "ACME Outdoor Gear",
+    "canonical_url": "https://acme-outdoor.com"
+  },
+  "language": "en",
+  "topics": ["outdoor-gear", "camping", "hiking"],
+  "endpoints": {
+    "products": "https://acme-outdoor.com/llm/products",
+    "policies": "https://acme-outdoor.com/llm/policies",
+    "faq": "https://acme-outdoor.com/llm/faq",
+    "about": "https://acme-outdoor.com/llm/about"
+  },
+  "feeds": {
+    "products_jsonl": "https://acme-outdoor.com/llm/feed/products.jsonl"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-a1b2c3d4e5"
+  }
+}

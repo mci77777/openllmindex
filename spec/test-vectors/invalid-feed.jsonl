@@ -1,0 +1,4 @@
+{not valid json at all
+{"id":"P001","title":"Missing URL and price","availability":"in_stock","updated_at":"2026-02-15T08:00:00Z"}
+{"id":"","title":"","url":"https://example.com/p","price":10,"currency":"USD","availability":"bad_status","updated_at":"2026-02-15T08:00:00Z"}
+{"id":"P003","title":"Wrong price type","url":"https://example.com/p3","price":"free","currency":"USD","availability":"in_stock","updated_at":"not-a-date"}

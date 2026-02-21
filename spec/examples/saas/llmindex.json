@@ -1,0 +1,17 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-10T14:30:00Z",
+  "entity": {
+    "name": "TaskFlow",
+    "canonical_url": "https://taskflow.io"
+  },
+  "language": "en",
+  "topics": ["saas", "productivity", "project-management"],
+  "endpoints": {
+    "products": "https://taskflow.io/llm/products",
+    "policies": "https://taskflow.io/llm/policies",
+    "faq": "https://taskflow.io/llm/faq",
+    "about": "https://taskflow.io/llm/about"
+  },
+  "license": "CC-BY-4.0"
+}

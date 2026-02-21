@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "updated_at": "not-a-date",
+  "entity": {
+    "name": "Bad Date Corp",
+    "canonical_url": "https://example.com"
+  },
+  "language": "en",
+  "topics": ["test"],
+  "endpoints": {
+    "products": "https://example.com/llm/products",
+    "policies": "https://example.com/llm/policies",
+    "faq": "https://example.com/llm/faq",
+    "about": "https://example.com/llm/about"
+  }
+}

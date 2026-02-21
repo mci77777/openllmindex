@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-15T09:00:00Z",
+  "entity": {
+    "name": "Sunrise Bakery",
+    "canonical_url": "https://sunrise-bakery.com"
+  },
+  "language": "en",
+  "topics": ["bakery", "pastry", "local-business"],
+  "endpoints": {
+    "products": "https://sunrise-bakery.com/llm/products",
+    "policies": "https://sunrise-bakery.com/llm/policies",
+    "faq": "https://sunrise-bakery.com/llm/faq",
+    "about": "https://sunrise-bakery.com/llm/about"
+  }
+}

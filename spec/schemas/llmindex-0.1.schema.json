@@ -1,0 +1,209 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://llmindex.org/schemas/llmindex-0.1.schema.json",
+  "title": "llmindex v0.1 Manifest",
+  "description": "Schema for /.well-known/llmindex.json — the machine-readable index for LLM/AI discovery.",
+  "type": "object",
+  "required": ["version", "updated_at", "entity", "language", "topics", "endpoints"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "0.1",
+      "description": "Specification version. Must be '0.1' for this schema."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}",
+      "description": "ISO 8601 datetime (UTC recommended) of last manifest update."
+    },
+    "entity": {
+      "type": "object",
+      "required": ["name", "canonical_url"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Display name of the entity."
+        },
+        "canonical_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "description": "Canonical homepage URL. Must be HTTPS."
+        }
+      }
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Z][a-zA-Z]{1,7})?$",
+      "description": "Primary language in BCP-47 format (e.g., 'en', 'zh-CN')."
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Category tags describing the entity's domain."
+    },
+    "endpoints": {
+      "type": "object",
+      "required": ["products", "policies", "faq", "about"],
+      "additionalProperties": false,
+      "properties": {
+        "products": {
+          "type": "string",
+          "format": "uri",
+          "description": "Product listing page URL."
+        },
+        "policies": {
+          "type": "string",
+          "format": "uri",
+          "description": "Policies page URL."
+        },
+        "faq": {
+          "type": "string",
+          "format": "uri",
+          "description": "FAQ page URL."
+        },
+        "about": {
+          "type": "string",
+          "format": "uri",
+          "description": "About page URL."
+        }
+      }
+    },
+    "feeds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "products_jsonl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to products JSONL feed."
+        },
+        "offers_json": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to offers JSON feed."
+        }
+      }
+    },
+    "verify": {
+      "type": "object",
+      "required": ["method", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["dns_txt", "http_file"],
+          "description": "Verification method."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Challenge value or proof file name."
+        }
+      }
+    },
+    "sig": {
+      "type": "object",
+      "required": ["alg", "kid", "jws"],
+      "additionalProperties": false,
+      "properties": {
+        "alg": {
+          "type": "string",
+          "description": "Signature algorithm (e.g., 'EdDSA')."
+        },
+        "kid": {
+          "type": "string",
+          "description": "Key identifier."
+        },
+        "jws": {
+          "type": "string",
+          "description": "JWS Compact Serialization."
+        }
+      }
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier or URL to license text."
+    }
+  },
+  "definitions": {
+    "product_line": {
+      "title": "Product Line (products.jsonl)",
+      "description": "Schema for a single line in products.jsonl feed.",
+      "type": "object",
+      "required": ["id", "title", "url", "availability", "updated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique product identifier."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Product display name."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Product page URL."
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Primary product image URL."
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Product price."
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code."
+        },
+        "price_range": {
+          "type": "object",
+          "required": ["min", "max", "currency"],
+          "properties": {
+            "min": {"type": "number", "minimum": 0},
+            "max": {"type": "number", "minimum": 0},
+            "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}
+          }
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["in_stock", "out_of_stock", "preorder"],
+          "description": "Product availability status."
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand name."
+        },
+        "category": {
+          "type": "string",
+          "description": "Product category."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 datetime of last product update."
+        }
+      },
+      "oneOf": [
+        {"required": ["price", "currency"]},
+        {"required": ["price_range"]}
+      ]
+    }
+  }
+}
