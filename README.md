@@ -157,20 +157,50 @@ pytest
 
 ## CLI Reference
 
+### `llmindex generate`
+
 ```
 llmindex generate [OPTIONS]
+
+Input (one required):
+  -i, --input-csv         PATH   Products CSV file
+      --input-json        PATH   Products JSON file (array of objects)
+      --input-shopify-csv PATH   Shopify product export CSV
 
 Options:
   -s, --site        TEXT   Entity/brand name (required)
   -u, --url         TEXT   Canonical HTTPS URL (required)
-  -i, --input-csv   PATH   Path to products CSV (required)
   -o, --output-dir  PATH   Output directory (default: dist)
   -l, --language    TEXT   Primary language, BCP-47 (default: en)
   -t, --topic       TEXT   Category topics (repeatable)
       --base-url    TEXT   Base URL for endpoints (defaults to --url)
+      --currency    TEXT   Default currency for Shopify imports (default: USD)
 ```
 
-## CSV Format
+### `llmindex validate`
+
+```
+llmindex validate MANIFEST_PATH [OPTIONS]
+
+Arguments:
+  MANIFEST_PATH     PATH   Path to llmindex.json file (required)
+
+Options:
+  -f, --feed        PATH   Path to products.jsonl (auto-detected if omitted)
+```
+
+Example:
+
+```bash
+llmindex validate dist/.well-known/llmindex.json
+llmindex validate dist/.well-known/llmindex.json --feed dist/llm/feed/products.jsonl
+```
+
+## Input Formats
+
+### CSV (default)
+
+Standard CSV with columns matching the product schema.
 
 | Column | Required | Description |
 |--------|----------|-------------|
@@ -186,6 +216,30 @@ Options:
 | `updated_at` | No | ISO 8601 datetime |
 
 See [`cli/sample_data/sample.csv`](cli/sample_data/sample.csv) for a working example with 20 products.
+
+### JSON
+
+A JSON array of product objects with the same fields:
+
+```bash
+llmindex generate --site "TechCo" --url https://techco.com --input-json products.json
+```
+
+See [`cli/sample_data/sample.json`](cli/sample_data/sample.json) for an example.
+
+### Shopify CSV Export
+
+Import directly from Shopify's product CSV export format. Handles are deduplicated (one product per handle), and product URLs are auto-constructed from your store URL:
+
+```bash
+llmindex generate \
+  --site "My Store" \
+  --url https://mystore.com \
+  --input-shopify-csv shopify_products.csv \
+  --currency USD
+```
+
+See [`cli/sample_data/sample_shopify.csv`](cli/sample_data/sample_shopify.csv) for an example.
 
 ## Industry Examples
 

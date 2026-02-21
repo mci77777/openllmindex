@@ -1,0 +1,34 @@
+[
+  {
+    "id": "J001",
+    "title": "Wireless Mouse",
+    "url": "https://example.com/products/wireless-mouse",
+    "price": 29.99,
+    "currency": "USD",
+    "availability": "in_stock",
+    "brand": "TechCo",
+    "category": "Peripherals",
+    "updated_at": "2026-02-20T10:00:00Z"
+  },
+  {
+    "id": "J002",
+    "title": "Mechanical Keyboard",
+    "url": "https://example.com/products/mech-keyboard",
+    "price": 89.99,
+    "currency": "USD",
+    "availability": "in_stock",
+    "brand": "TechCo",
+    "category": "Peripherals",
+    "updated_at": "2026-02-19T08:00:00Z"
+  },
+  {
+    "id": "J003",
+    "title": "USB-C Hub",
+    "url": "https://example.com/products/usbc-hub",
+    "price": 49.99,
+    "currency": "USD",
+    "availability": "preorder",
+    "category": "Accessories",
+    "updated_at": "2026-02-18T12:00:00Z"
+  }
+]

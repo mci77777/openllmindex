@@ -1,0 +1,7 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Variant SKU,Variant Price,Variant Compare At Price,Image Src,Status
+classic-leather-bag,Classic Leather Bag,"<p>Handmade leather bag</p>",ArtisanCo,Bags,leather;handmade,true,Size,Medium,CLB-001,149.99,,https://cdn.shopify.com/leather-bag.jpg,active
+classic-leather-bag,,,,,,true,Size,Large,CLB-002,169.99,,https://cdn.shopify.com/leather-bag-lg.jpg,active
+wool-scarf,Wool Scarf,"<p>Soft merino wool scarf</p>",ArtisanCo,Accessories,wool;winter,true,Color,Red,WS-001,45.00,,https://cdn.shopify.com/wool-scarf.jpg,active
+wool-scarf,,,,,,true,Color,Blue,WS-002,45.00,,,active
+draft-item,Draft Product,"<p>Not yet published</p>",TestVendor,Test,,false,Title,Default,DRAFT-001,99.99,,,draft
+silk-pillow,Silk Pillow,"<p>Premium silk pillowcase</p>",HomeStyle,Home,silk;luxury,true,Size,Standard,SP-001,79.99,89.99,https://cdn.shopify.com/silk-pillow.jpg,active
