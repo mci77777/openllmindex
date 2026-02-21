@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>llmindex — Machine-Readable Index for AI Discovery</title>
+  <meta name="description" content="A lightweight JSON manifest standard that tells LLMs and AI search engines where to find structured information about your website.">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --code-bg: #0d1117;
+      --max-w: 820px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 2px 6px; font-size: 0.9em;
+      font-family: 'SFMono-Regular', Consolas, monospace;
+    }
+    pre {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px; overflow-x: auto;
+      font-size: 0.85em; line-height: 1.5;
+    }
+    pre code { background: none; border: none; padding: 0; }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 80px 24px 60px;
+      background: linear-gradient(180deg, #0d1117 0%, #161b22 100%);
+    }
+    .hero h1 { font-size: 3em; font-weight: 800; margin-bottom: 16px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 1.25em; color: var(--muted); max-width: 600px; margin: 0 auto 32px; }
+    .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .badges img { height: 24px; }
+    .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta a {
+      display: inline-block; padding: 12px 24px; border-radius: 8px;
+      font-weight: 600; font-size: 1em; transition: opacity 0.2s;
+    }
+    .cta a:hover { opacity: 0.85; text-decoration: none; }
+    .cta-primary { background: var(--accent); color: #fff !important; }
+    .cta-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text) !important; }
+
+    /* Sections */
+    .section { max-width: var(--max-w); margin: 0 auto; padding: 60px 24px; }
+    .section h2 { font-size: 1.8em; margin-bottom: 24px; }
+    .section h3 { font-size: 1.2em; margin: 24px 0 12px; color: var(--accent); }
+
+    /* Grid */
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px; margin: 24px 0;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 20px;
+    }
+    .card h4 { margin-bottom: 8px; color: var(--accent); }
+    .card p { color: var(--muted); font-size: 0.95em; }
+
+    /* Comparison */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    th, td {
+      text-align: left; padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-size: 0.9em; font-weight: 600; }
+
+    /* Flow */
+    .flow {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 8px; margin: 24px 0; font-family: monospace; font-size: 0.95em;
+    }
+    .flow-step {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 8px 14px;
+    }
+    .flow-arrow { color: var(--muted); }
+
+    /* Install */
+    .install-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .install-grid h4 { margin-bottom: 8px; }
+    @media (max-width: 600px) { .install-grid { grid-template-columns: 1fr; } }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 40px 24px; color: var(--muted);
+      border-top: 1px solid var(--border); font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="badges">
+      <img src="https://img.shields.io/badge/spec-v0.1-orange.svg" alt="Spec v0.1">
+      <img src="https://img.shields.io/badge/Python-3.11%2B-blue.svg" alt="Python 3.11+">
+      <img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" alt="License">
+      <img src="https://img.shields.io/badge/npm-@llmindex/schema-red.svg" alt="npm">
+    </div>
+    <h1><span>llmindex</span></h1>
+    <p>A machine-readable index standard for LLM and AI search discovery. Tell AI agents what your website offers and where to find it.</p>
+    <div class="cta">
+      <a class="cta-primary" href="https://github.com/mci77777/openllmindex">GitHub Repository</a>
+      <a class="cta-secondary" href="https://github.com/mci77777/openllmindex/blob/main/spec/spec.md">Read the Spec</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>What is llmindex?</h2>
+    <p>
+      AI search engines (ChatGPT, Perplexity, Gemini) answer user questions by reading website content directly.
+      But there's no standard way for websites to tell AI agents <strong>what information is available</strong> and <strong>where to find it</strong>.
+    </p>
+    <p style="margin-top:12px;">
+      <strong>llmindex</strong> defines a lightweight JSON manifest at <code>/.well-known/llmindex.json</code> — think of it as <em>robots.txt for the AI era</em>.
+    </p>
+
+    <h3>How it works</h3>
+    <div class="flow">
+      <div class="flow-step">LLM visits your site</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">Fetches /.well-known/llmindex.json</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">Reads /llm/* endpoints</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">Answers accurately</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h4>Structured Discovery</h4>
+        <p>JSON manifest with typed schema. AI agents know exactly where your products, policies, and FAQ live.</p>
+      </div>
+      <div class="card">
+        <h4>Machine-Readable Feeds</h4>
+        <p>JSONL product feeds let AI ingest your catalog as structured data, not scraped HTML.</p>
+      </div>
+      <div class="card">
+        <h4>Domain Verification</h4>
+        <p>Built-in DNS TXT or HTTP file verification proves you own the domain.</p>
+      </div>
+      <div class="card">
+        <h4>Version Control</h4>
+        <p>Timestamped, versioned manifests. AI agents can detect stale data and re-crawl.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Quick Start</h2>
+    <p>Create <code>/.well-known/llmindex.json</code> on your server:</p>
+    <pre><code>{
+  "version": "0.1",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Your Brand",
+    "canonical_url": "https://your-site.com"
+  },
+  "language": "en",
+  "topics": ["your-industry"],
+  "endpoints": {
+    "products": "https://your-site.com/llm/products",
+    "policies": "https://your-site.com/llm/policies",
+    "faq": "https://your-site.com/llm/faq",
+    "about": "https://your-site.com/llm/about"
+  }
+}</code></pre>
+    <p style="margin-top:12px;">Then create the <code>/llm/*</code> pages as Markdown or HTML. That's it.</p>
+
+    <h3>Install the tools</h3>
+    <div class="install-grid">
+      <div>
+        <h4>Python CLI (Generator + Validator)</h4>
+        <pre><code>pip install llmindex
+
+# Generate from CSV
+llmindex generate \
+  --site "My Store" \
+  --url https://mystore.com \
+  --input-csv products.csv
+
+# Validate
+llmindex validate dist/.well-known/llmindex.json</code></pre>
+      </div>
+      <div>
+        <h4>npm (Schema + TypeScript Types)</h4>
+        <pre><code>npm install @llmindex/schema
+
+// Validate with Ajv
+import Ajv from "ajv";
+import schema from "@llmindex/schema";
+
+const ajv = new Ajv();
+const validate = ajv.compile(schema);
+validate(manifest); // true/false</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Comparison with llms.txt</h2>
+    <table>
+      <thead>
+        <tr><th></th><th>llmindex</th><th>llms.txt</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Format</td><td>JSON (machine-parseable)</td><td>Plain text</td></tr>
+        <tr><td>Location</td><td><code>/.well-known/llmindex.json</code></td><td><code>/llms.txt</code></td></tr>
+        <tr><td>Schema validation</td><td>JSON Schema provided</td><td>No formal schema</td></tr>
+        <tr><td>Structured feeds</td><td>JSONL product feeds</td><td>Not specified</td></tr>
+        <tr><td>Domain verification</td><td>DNS TXT / HTTP file</td><td>Not specified</td></tr>
+        <tr><td>Focus</td><td>Structured discovery + data</td><td>Guidance for LLMs</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:8px; color: var(--muted);">Both serve complementary purposes — you can use both.</p>
+  </div>
+
+  <div class="section">
+    <h2>Industry Examples</h2>
+    <div class="grid">
+      <div class="card">
+        <h4>E-commerce</h4>
+        <p>Full manifest with product JSONL feed, domain verification, shipping policies, and FAQ.</p>
+        <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/ecommerce">View example &rarr;</a>
+      </div>
+      <div class="card">
+        <h4>Local Business</h4>
+        <p>Minimal manifest for a bakery — just the required fields. No product feed needed.</p>
+        <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/local-business">View example &rarr;</a>
+      </div>
+      <div class="card">
+        <h4>SaaS</h4>
+        <p>Software product with pricing plans, license field, terms and privacy policies.</p>
+        <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/saas">View example &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Specification</h2>
+    <h3>Required Fields</h3>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>version</code></td><td>string</td><td>"0.1"</td></tr>
+        <tr><td><code>updated_at</code></td><td>string</td><td>ISO 8601 datetime</td></tr>
+        <tr><td><code>entity.name</code></td><td>string</td><td>Brand/company name</td></tr>
+        <tr><td><code>entity.canonical_url</code></td><td>string</td><td>Homepage (HTTPS)</td></tr>
+        <tr><td><code>language</code></td><td>string</td><td>BCP-47 code</td></tr>
+        <tr><td><code>topics</code></td><td>array</td><td>Category tags (1+)</td></tr>
+        <tr><td><code>endpoints</code></td><td>object</td><td>products, policies, faq, about</td></tr>
+      </tbody>
+    </table>
+    <h3>Optional Fields</h3>
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>feeds</code></td><td>Machine-readable data feeds (JSONL, JSON)</td></tr>
+        <tr><td><code>verify</code></td><td>Domain ownership proof (DNS/HTTP)</td></tr>
+        <tr><td><code>sig</code></td><td>Cryptographic signature (JWS)</td></tr>
+        <tr><td><code>license</code></td><td>SPDX identifier or URL</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;">
+      <a href="https://github.com/mci77777/openllmindex/blob/main/spec/spec.md">Read the full v0.1 specification &rarr;</a>
+    </p>
+  </div>
+
+  <footer>
+    <p>
+      <strong>llmindex</strong> &mdash;
+      Spec: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> |
+      CLI: <a href="https://github.com/mci77777/openllmindex/blob/main/LICENSE">AGPL-3.0</a> |
+      <a href="https://github.com/mci77777/openllmindex">GitHub</a>
+    </p>
+  </footer>
+
+</body>
+</html>

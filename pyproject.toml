@@ -5,12 +5,36 @@ description = "LLM-ready index generator for websites — spec, validator, and C
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "AGPL-3.0-or-later"}
+authors = [
+    {name = "llmindex contributors"},
+]
+keywords = ["llm", "ai", "search", "seo", "manifest", "schema", "json", "structured-data"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
 dependencies = [
     "typer>=0.12",
     "rich>=13",
     "pydantic>=2.6",
     "jsonschema>=4.21",
 ]
+
+[project.urls]
+Homepage = "https://github.com/mci77777/openllmindex"
+Documentation = "https://github.com/mci77777/openllmindex#readme"
+Repository = "https://github.com/mci77777/openllmindex"
+Issues = "https://github.com/mci77777/openllmindex/issues"
+Changelog = "https://github.com/mci77777/openllmindex/releases"
 
 [project.optional-dependencies]
 dev = [
@@ -28,6 +52,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["cli*", "spec*"]
+
+[tool.setuptools.package-data]
+spec = ["schemas/*.json", "examples/**/*", "test-vectors/**/*"]
 
 [tool.ruff]
 target-version = "py311"

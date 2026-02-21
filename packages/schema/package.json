@@ -1,0 +1,33 @@
+{
+  "name": "@llmindex/schema",
+  "version": "0.1.0",
+  "description": "JSON Schema and TypeScript types for the llmindex v0.1 manifest standard",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "schemas/llmindex-0.1.schema.json"
+  ],
+  "keywords": [
+    "llmindex",
+    "llm",
+    "ai",
+    "search",
+    "schema",
+    "json-schema",
+    "manifest",
+    "structured-data",
+    "seo"
+  ],
+  "license": "CC-BY-4.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mci77777/openllmindex.git",
+    "directory": "packages/schema"
+  },
+  "homepage": "https://github.com/mci77777/openllmindex",
+  "bugs": {
+    "url": "https://github.com/mci77777/openllmindex/issues"
+  }
+}

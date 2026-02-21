@@ -409,6 +409,18 @@ Machine-readable schema for validation: [`spec/schemas/llmindex-0.1.schema.json`
 
 llmindex and llms.txt serve complementary purposes. llmindex focuses on structured, machine-parseable discovery; llms.txt focuses on human-readable guidance. You can use both.
 
+## Packages
+
+| Package | Registry | Description |
+|---------|----------|-------------|
+| [`llmindex`](https://pypi.org/project/llmindex/) | PyPI | CLI generator + validator (Python) |
+| [`@llmindex/schema`](https://www.npmjs.com/package/@llmindex/schema) | npm | JSON Schema + TypeScript types |
+
+## Integrations
+
+- **[Next.js](integrations/nextjs/)** — Static files, API routes, or middleware rewrite
+- **[WordPress](integrations/wordpress/)** — Static file, rewrite rules, or WooCommerce product feed
+
 ## Project Structure
 
 ```
@@ -426,17 +438,18 @@ openllmindex/
 │   ├── llmindex_cli/            # CLI application (Typer)
 │   │   ├── main.py              # Entry point
 │   │   ├── models.py            # Pydantic data models
+│   │   ├── validators.py        # Schema + feed validation
 │   │   └── generators/          # Output generators
-│   │       ├── manifest.py      #   Manifest generator
-│   │       ├── pages.py         #   Markdown page generator
-│   │       └── feed.py          #   JSONL feed generator
-│   ├── importers/               # Data importers
-│   │   └── csv_importer.py      #   CSV product importer
-│   ├── sample_data/             # Sample CSV for testing
-│   └── tests/                   # Test suite (40+ tests)
+│   ├── importers/               # Data importers (CSV, JSON, Shopify)
+│   ├── sample_data/             # Sample data for testing
+│   └── tests/                   # Test suite (70+ tests)
+├── packages/                    # Published packages
+│   └── schema/                  # @llmindex/schema (npm)
+├── integrations/                # Platform integrations
+│   ├── nextjs/                  #   Next.js middleware + examples
+│   └── wordpress/               #   WordPress + WooCommerce
+├── docs/                        # GitHub Pages documentation site
 ├── examples/                    # Usage examples
-│   ├── demo.py                  # End-to-end demo script
-│   └── test_demo.py             # Demo test suite
 ├── pyproject.toml               # Python package config
 ├── LICENSE                      # AGPL-3.0
 └── README.md
