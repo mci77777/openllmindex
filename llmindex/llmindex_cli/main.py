@@ -434,7 +434,10 @@ def generate(
     templates_dir: Optional[Path] = typer.Option(
         None,
         "--templates-dir",
-        help="Directory with Jinja2 templates to override policies/faq/about (files: policies.md.j2, faq.md.j2, about.md.j2).",
+        help=(
+            "Directory with Jinja2 templates to override policies/faq/about "
+            "(files: policies.md.j2, faq.md.j2, about.md.j2)."
+        ),
     ),
     output_dir: Path = typer.Option(
         "dist", "--output-dir", "-o", help="Output directory (default: dist)"
@@ -454,7 +457,8 @@ def generate(
 ) -> None:
     """Generate llmindex artifacts (manifest, /llm pages, optional product feed).
 
-    If no product input is provided, the command still succeeds and generates only the manifest + pages.
+    If no product input is provided, the command still succeeds and generates only the
+    manifest + pages.
     This is useful for SaaS, blogs, and other non-ecommerce sites.
     """
 
@@ -540,7 +544,10 @@ def generate(
     # Generate pages
     try:
         page_paths = write_pages(
-            products, site_config, str(output_dir), templates_dir=templates_dir
+            products,
+            site_config,
+            str(output_dir),
+            templates_dir=templates_dir,
         )
     except ModuleNotFoundError as e:
         console.print(f"[red]Error:[/red] {e}")
@@ -554,7 +561,8 @@ def generate(
         console.print(f"  [green]✓[/green] {feed_path}")
 
     console.print(
-        f"\n[bold green]Done![/bold green] Generated {4 + (1 if products else 0) + 1} files in {output_dir}/"
+        f"\n[bold green]Done![/bold green] Generated "
+        f"{4 + (1 if products else 0) + 1} files in {output_dir}/"
     )
 
 
@@ -573,7 +581,9 @@ def validate(
     check_urls: bool = typer.Option(
         False,
         "--check-urls",
-        help="Check that manifest endpoint URLs are reachable via HTTP HEAD (requires httpx extra).",
+        help=(
+            "Check that manifest endpoint URLs are reachable via HTTP HEAD (requires httpx extra)."
+        ),
     ),
 ) -> None:
     """Validate a manifest (and optionally its feed) against the llmindex v0.1 schema."""
@@ -595,7 +605,8 @@ def validate(
             import httpx  # type: ignore[import-not-found]
         except ModuleNotFoundError as e:
             console.print(
-                "[red]Error:[/red] httpx is required for --check-urls. Install with: pip install 'llmindex[verify]'"
+                "[red]Error:[/red] httpx is required for --check-urls. "
+                "Install with: pip install 'llmindex[verify]'"
             )
             raise typer.Exit(1) from e
 
@@ -619,7 +630,12 @@ def validate(
             try:
                 for name, endpoint_url in endpoints.items():
                     if not isinstance(endpoint_url, str):
-                        table.add_row(str(name), "[red]unreachable[/red]", "—", str(endpoint_url))
+                        table.add_row(
+                            str(name),
+                            "[red]unreachable[/red]",
+                            "—",
+                            str(endpoint_url),
+                        )
                         continue
 
                     try:
@@ -633,7 +649,10 @@ def validate(
                         )
                     except httpx.HTTPError as ex:  # type: ignore[attr-defined]
                         table.add_row(
-                            str(name), "[red]unreachable[/red]", "—", f"{endpoint_url} ({ex})"
+                            str(name),
+                            "[red]unreachable[/red]",
+                            "—",
+                            f"{endpoint_url} ({ex})",
                         )
             finally:
                 client.close()
