@@ -1,16 +1,19 @@
 {
   "version": "0.1",
-  "updated_at": "2026-02-20T00:00:00Z",
+  "updated_at": "2026-02-22T08:00:00Z",
   "entity": {
-    "name": "Open Marketplace",
-    "canonical_url": "https://open-marketplace.com"
+    "name": "CraftHub Marketplace",
+    "canonical_url": "https://crafthub.io"
   },
   "language": "en",
-  "topics": ["ecommerce", "marketplace"],
+  "topics": ["marketplace", "handmade", "ecommerce"],
   "endpoints": {
-    "products": "https://open-marketplace.com/llm/products",
-    "policies": "https://open-marketplace.com/llm/policies",
-    "faq": "https://open-marketplace.com/llm/faq",
-    "about": "https://open-marketplace.com/llm/about"
+    "products": "https://crafthub.io/llm/products",
+    "policies": "https://crafthub.io/llm/policies",
+    "faq": "https://crafthub.io/llm/faq",
+    "about": "https://crafthub.io/llm/about"
+  },
+  "feeds": {
+    "products_jsonl": "https://crafthub.io/llm/feed/products.jsonl"
   }
 }
