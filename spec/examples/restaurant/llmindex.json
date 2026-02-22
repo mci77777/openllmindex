@@ -1,16 +1,16 @@
 {
   "version": "0.1",
-  "updated_at": "2026-02-20T00:00:00Z",
+  "updated_at": "2026-02-22T08:00:00Z",
   "entity": {
-    "name": "Bistro Verde (San Francisco, CA)",
-    "canonical_url": "https://bistro-verde.com"
+    "name": "The Golden Fork Restaurant",
+    "canonical_url": "https://goldenfork.restaurant"
   },
   "language": "en",
-  "topics": ["food", "dining"],
+  "topics": ["restaurant", "dining", "local-business"],
   "endpoints": {
-    "products": "https://bistro-verde.com/llm/products",
-    "policies": "https://bistro-verde.com/llm/policies",
-    "faq": "https://bistro-verde.com/llm/faq",
-    "about": "https://bistro-verde.com/llm/about"
+    "products": "https://goldenfork.restaurant/llm/products",
+    "policies": "https://goldenfork.restaurant/llm/policies",
+    "faq": "https://goldenfork.restaurant/llm/faq",
+    "about": "https://goldenfork.restaurant/llm/about"
   }
 }
