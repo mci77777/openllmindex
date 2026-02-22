@@ -1,16 +1,16 @@
 {
   "version": "0.1",
-  "updated_at": "2026-02-20T00:00:00Z",
+  "updated_at": "2026-02-22T08:00:00Z",
   "entity": {
-    "name": "Example Blog",
-    "canonical_url": "https://example-blog.com"
+    "name": "Morning Brew Newsletter",
+    "canonical_url": "https://morningbrew.com"
   },
   "language": "en",
-  "topics": ["writing", "technology"],
+  "topics": ["blog", "content-marketing", "newsletter"],
   "endpoints": {
-    "products": "https://example-blog.com/llm/products",
-    "policies": "https://example-blog.com/llm/policies",
-    "faq": "https://example-blog.com/llm/faq",
-    "about": "https://example-blog.com/llm/about"
+    "products": "https://morningbrew.com/llm/products",
+    "policies": "https://morningbrew.com/llm/policies",
+    "faq": "https://morningbrew.com/llm/faq",
+    "about": "https://morningbrew.com/llm/about"
   }
 }
