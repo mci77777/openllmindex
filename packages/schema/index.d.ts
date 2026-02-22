@@ -116,8 +116,12 @@ export interface LlmindexProductLine {
   updated_at: string;
 }
 
-/** The full JSON Schema object (Draft-07). */
+/** The full JSON Schema object for v0.1 (Draft-07). */
 declare const llmindexSchema: object;
+/** The full JSON Schema object for v0.1 (Draft-07). */
+declare const llmindexSchemaV01: object;
+/** The full JSON Schema object for v0.2 (Draft-07). */
+declare const llmindexSchemaV02: object;
 
 export default llmindexSchema;
-export { llmindexSchema };
+export { llmindexSchema, llmindexSchemaV01, llmindexSchemaV02 };

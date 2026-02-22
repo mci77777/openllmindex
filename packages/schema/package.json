@@ -1,13 +1,14 @@
 {
   "name": "@llmindex/schema",
-  "version": "0.1.0",
-  "description": "JSON Schema and TypeScript types for the llmindex v0.1 manifest standard",
+  "version": "0.2.0",
+  "description": "JSON Schema and TypeScript types for the llmindex v0.1/v0.2 manifest standard",
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
     "index.js",
     "index.d.ts",
     "schemas/llmindex-0.1.schema.json",
+    "schemas/llmindex-0.2.schema.json",
     "schemas/product-line-0.1.schema.json"
   ],
   "keywords": [

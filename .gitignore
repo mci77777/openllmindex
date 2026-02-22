@@ -26,6 +26,10 @@ portal-prototype/
 # Demo output
 examples/_demo_output/
 
+# Node.js (dev dependencies for examples)
+node_modules/
+package-lock.json
+
 # Internal business documents (not for open-source)
 llmindex_business_roadmap.md
 llmindex_execution_plan.csv

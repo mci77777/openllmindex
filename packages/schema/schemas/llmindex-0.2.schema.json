@@ -1,0 +1,310 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://llmindex.org/schemas/llmindex-0.2.schema.json",
+  "title": "llmindex v0.2 Manifest",
+  "description": "Schema for /.well-known/llmindex.json — the machine-readable index for LLM/AI discovery.",
+  "$comment": "Note: JSON Schema 'format' (e.g., 'uri', 'date-time') is an annotation in Draft-07. For strict validation, use a validator with format checking enabled (e.g., Ajv + ajv-formats, python-jsonschema FormatChecker). This schema also includes lightweight 'pattern' constraints for some fields.",
+  "type": "object",
+  "required": ["version", "updated_at", "entity", "language", "topics", "endpoints"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "0.2",
+      "description": "Specification version. Must be '0.2' for this schema."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}",
+      "description": "ISO 8601 / RFC 3339 datetime (UTC recommended) of last manifest update.",
+      "$comment": "Use a format-checking validator to fully enforce 'date-time'. The pattern check is intentionally lightweight."
+    },
+    "feed_updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}",
+      "description": "ISO 8601 / RFC 3339 datetime (UTC recommended) of last feed update.",
+      "$comment": "Independent from updated_at; used for feed freshness checks and incremental updates."
+    },
+    "entity": {
+      "type": "object",
+      "description": "The entity (company, brand, person) this manifest describes.",
+      "required": ["name", "canonical_url"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Display name of the entity."
+        },
+        "canonical_url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "description": "Canonical homepage URL. Must be HTTPS.",
+          "$comment": "This should be an absolute URL. The '^https://' pattern enforces HTTPS even when 'format' is not checked."
+        }
+      }
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Z][a-zA-Z]{1,7})?$",
+      "description": "Primary language in BCP-47 format (e.g., 'en', 'zh-CN')."
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]{2,3}(-[A-Z][a-zA-Z]{1,7})?$"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Optional list of supported languages (BCP-47). Use with localized_endpoints."
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Category tags describing the entity's domain."
+    },
+    "endpoints": {
+      "type": "object",
+      "description": "URLs pointing to LLM-friendly information pages (products, policies, FAQ, about).",
+      "required": ["products", "policies", "faq", "about"],
+      "additionalProperties": false,
+      "$comment": "Each endpoint should be a valid absolute URI. Consider using HTTPS for all endpoint URLs.",
+      "properties": {
+        "products": {
+          "type": "string",
+          "format": "uri",
+          "description": "Product listing page URL."
+        },
+        "policies": {
+          "type": "string",
+          "format": "uri",
+          "description": "Policies page URL."
+        },
+        "faq": {
+          "type": "string",
+          "format": "uri",
+          "description": "FAQ page URL."
+        },
+        "about": {
+          "type": "string",
+          "format": "uri",
+          "description": "About page URL."
+        }
+      }
+    },
+    "localized_endpoints": {
+      "type": "object",
+      "description": "Optional localized endpoint URLs keyed by BCP-47 language tag.",
+      "$comment": "Keys are BCP-47 tags (e.g., 'en', 'zh-CN'). Values may include any subset of endpoints.* fields (partial overrides).",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z]{2,3}(-[A-Z][a-zA-Z]{1,7})?$": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "products": {
+              "type": "string",
+              "format": "uri",
+              "description": "Localized product listing page URL."
+            },
+            "policies": {
+              "type": "string",
+              "format": "uri",
+              "description": "Localized policies page URL."
+            },
+            "faq": {
+              "type": "string",
+              "format": "uri",
+              "description": "Localized FAQ page URL."
+            },
+            "about": {
+              "type": "string",
+              "format": "uri",
+              "description": "Localized about page URL."
+            }
+          }
+        }
+      }
+    },
+    "feeds": {
+      "type": "object",
+      "description": "Optional machine-readable data feeds (e.g., JSONL product feed).",
+      "additionalProperties": false,
+      "$comment": "Feed URLs should be valid absolute URIs. Use HTTPS where possible.",
+      "properties": {
+        "products_jsonl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to products JSONL feed."
+        },
+        "products_jsonl_delta": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to delta products JSONL feed (incremental updates)."
+        },
+        "offers_json": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to offers JSON feed."
+        }
+      }
+    },
+    "verify": {
+      "type": "object",
+      "description": "Optional domain ownership verification challenge (DNS TXT or HTTP proof file).",
+      "required": ["method", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["dns_txt", "http_file"],
+          "description": "Verification method."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Challenge value or proof file name."
+        }
+      }
+    },
+    "sig": {
+      "type": "object",
+      "description": "Optional cryptographic signature of the manifest.",
+      "required": ["alg", "kid", "jws"],
+      "additionalProperties": false,
+      "properties": {
+        "alg": {
+          "type": "string",
+          "description": "Signature algorithm (e.g., 'EdDSA')."
+        },
+        "kid": {
+          "type": "string",
+          "description": "Key identifier."
+        },
+        "jws": {
+          "type": "string",
+          "description": "JWS Compact Serialization."
+        }
+      }
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier or URL to license text."
+    },
+    "access_control": {
+      "type": "object",
+      "description": "Optional access control declarations for AI agents and LLM crawlers.",
+      "$comment": "v0.2 pre-adoption field. All sub-fields are optional. 'allow' defaults to ['*'] (all agents). This field is informational — enforcement is at the application layer.",
+      "additionalProperties": false,
+      "properties": {
+        "allow": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "description": "List of allowed AI agent identifiers. Use ['*'] to allow all (default). Example: ['GPTBot', 'ClaudeBot']."
+        },
+        "deny": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "description": "List of denied AI agent identifiers. Takes precedence over allow. Example: ['BadBot/1.0']."
+        },
+        "rate_limit": {
+          "type": "string",
+          "pattern": "^\\d+/(second|minute|hour|day|month)$",
+          "description": "Suggested rate limit for AI crawlers. Format: '<count>/<unit>' (e.g., '1000/day', '10/minute').",
+          "$comment": "This is a hint to well-behaved crawlers; enforcement requires server-side implementation."
+        },
+        "requires_attribution": {
+          "type": "boolean",
+          "description": "If true, AI-generated content derived from this data must attribute the source."
+        },
+        "commercial_use": {
+          "type": "string",
+          "enum": ["allowed", "non-commercial", "contact-required"],
+          "description": "Commercial use permission: 'allowed' (default), 'non-commercial' (free/non-profit only), 'contact-required' (contact owner before commercial use)."
+        }
+      }
+    }
+  },
+  "definitions": {
+    "product_line": {
+      "title": "Product Line (products.jsonl)",
+      "description": "Schema for a single line in products.jsonl feed.",
+      "type": "object",
+      "required": ["id", "title", "url", "availability", "updated_at"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique product identifier."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Product display name."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Product page URL."
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Primary product image URL."
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Product price."
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code."
+        },
+        "price_range": {
+          "type": "object",
+          "required": ["min", "max", "currency"],
+          "properties": {
+            "min": {"type": "number", "minimum": 0},
+            "max": {"type": "number", "minimum": 0},
+            "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}
+          }
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["in_stock", "out_of_stock", "preorder"],
+          "description": "Product availability status."
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand name."
+        },
+        "category": {
+          "type": "string",
+          "description": "Product category."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 datetime of last product update."
+        }
+      },
+      "oneOf": [
+        {"required": ["price", "currency"]},
+        {"required": ["price_range"]}
+      ]
+    }
+  }
+}

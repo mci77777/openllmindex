@@ -21,6 +21,9 @@ SAMPLE_CSV = PROJECT_ROOT / "llmindex" / "sample_data" / "sample.csv"
 SCHEMA_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.1.schema.json"
 
 
+SCHEMA_V02_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.2.schema.json"
+
+
 @pytest.fixture
 def output_dir(tmp_path):
     return tmp_path / "demo_output"
@@ -117,11 +120,26 @@ class TestDemoWorkflow:
 
 
 class TestSchemaExamplesValidation:
-    """Validate all spec examples work as documented in README."""
+    """Validate all spec examples against appropriate schema version."""
 
-    @pytest.mark.parametrize("industry", ["ecommerce", "local-business", "saas"])
-    def test_readme_examples_valid(self, schema, industry):
-        """Each README-listed example must validate against the schema."""
+    @pytest.fixture
+    def schema_v02(self):
+        return json.loads(SCHEMA_V02_PATH.read_text())
+
+    @pytest.mark.parametrize(
+        "industry",
+        ["blog", "local-business", "marketplace", "restaurant", "saas"],
+    )
+    def test_v01_examples_valid(self, schema, industry):
+        """Each v0.1 example must validate against the v0.1 schema."""
         path = PROJECT_ROOT / "spec" / "examples" / industry / "llmindex.json"
         data = json.loads(path.read_text())
+        assert data["version"] == "0.1"
         jsonschema.validate(data, schema)
+
+    def test_v02_ecommerce_example_valid(self, schema_v02):
+        """The ecommerce example (v0.2) must validate against the v0.2 schema."""
+        path = PROJECT_ROOT / "spec" / "examples" / "ecommerce" / "llmindex.json"
+        data = json.loads(path.read_text())
+        assert data["version"] == "0.2"
+        jsonschema.validate(data, schema_v02)

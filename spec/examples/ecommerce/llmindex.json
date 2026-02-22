@@ -29,7 +29,7 @@
   },
   "feeds": {
     "products_jsonl": "https://acme-outdoor.com/llm/feed/products.jsonl",
-    "products_jsonl_delta": "https://acme-outdoor.com/llm/feed/products-delta.jsonl?since={timestamp}"
+    "products_jsonl_delta": "https://acme-outdoor.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z"
   },
   "verify": {
     "method": "dns_txt",
