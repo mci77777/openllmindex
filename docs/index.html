@@ -110,8 +110,9 @@
     <div class="badges">
       <img src="https://img.shields.io/badge/spec-v0.1-orange.svg" alt="Spec v0.1">
       <img src="https://img.shields.io/badge/Python-3.11%2B-blue.svg" alt="Python 3.11+">
+      <img src="https://img.shields.io/pypi/v/openllmindex.svg?label=PyPI" alt="PyPI">
+      <img src="https://img.shields.io/badge/npm-@llmindex%2Fschema-red.svg" alt="npm">
       <img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" alt="License">
-      <img src="https://img.shields.io/badge/npm-@llmindex/schema-red.svg" alt="npm">
     </div>
     <h1><span>llmindex</span></h1>
     <p>A machine-readable index standard for LLM and AI search discovery. Tell AI agents what your website offers and where to find it.</p>
@@ -183,23 +184,31 @@
 }</code></pre>
     <p style="margin-top:12px;">Then create the <code>/llm/*</code> pages as Markdown or HTML. That's it.</p>
 
-    <h3>Install the tools</h3>
+    <h3>Install the CLI</h3>
     <div class="install-grid">
       <div>
         <h4>Python CLI (Generator + Validator)</h4>
-        <pre><code>pip install llmindex
+        <pre><code>pip install openllmindex
 
-# Show version
-llmindex version
+# Initialize a new project
+llmindex init
 
-# Generate from CSV
+# Generate manifest + pages from CSV
 llmindex generate \
   --site "My Store" \
   --url https://mystore.com \
   --input-csv products.csv
 
-# Validate
-llmindex validate dist/.well-known/llmindex.json</code></pre>
+# Validate manifest
+llmindex validate .well-known/llmindex.json
+
+# Verify domain ownership &amp; URL reachability
+llmindex verify \
+  --manifest .well-known/llmindex.json \
+  --check-urls
+
+# Show manifest status summary
+llmindex status .well-known/llmindex.json</code></pre>
       </div>
       <div>
         <h4>npm (Schema + TypeScript Types)</h4>
@@ -212,6 +221,24 @@ import schema from "@llmindex/schema";
 const ajv = new Ajv();
 const validate = ajv.compile(schema);
 validate(manifest); // true/false</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Packages</h2>
+    <div class="grid">
+      <div class="card">
+        <h4>openllmindex (PyPI)</h4>
+        <p>Python CLI for generating, validating, and verifying llmindex manifests. Supports CSV/JSON/Shopify import.</p>
+        <pre><code>pip install openllmindex</code></pre>
+        <p style="margin-top:8px;"><a href="https://pypi.org/project/openllmindex/">pypi.org/project/openllmindex</a></p>
+      </div>
+      <div class="card">
+        <h4>@llmindex/schema (npm)</h4>
+        <p>JSON Schema and TypeScript type definitions for llmindex manifests. Use with any JavaScript/TypeScript validator.</p>
+        <pre><code>npm install @llmindex/schema</code></pre>
+        <p style="margin-top:8px;"><a href="https://www.npmjs.com/package/@llmindex/schema">npmjs.com/package/@llmindex/schema</a></p>
       </div>
     </div>
   </div>
@@ -251,6 +278,21 @@ validate(manifest); // true/false</code></pre>
         <h4>SaaS</h4>
         <p>Software product with pricing plans, license field, terms and privacy policies.</p>
         <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/saas">View example &rarr;</a>
+      </div>
+      <div class="card">
+        <h4>Blog / Newsletter</h4>
+        <p>Content site with no product feed. Minimal manifest showcasing the newsletter use case.</p>
+        <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/blog">View example &rarr;</a>
+      </div>
+      <div class="card">
+        <h4>Restaurant</h4>
+        <p>Local dining with menu, reservation policies, operating hours, and address.</p>
+        <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/restaurant">View example &rarr;</a>
+      </div>
+      <div class="card">
+        <h4>Marketplace</h4>
+        <p>Multi-seller marketplace with JSONL product feed spanning different sellers and categories.</p>
+        <a href="https://github.com/mci77777/openllmindex/tree/main/spec/examples/marketplace">View example &rarr;</a>
       </div>
     </div>
   </div>
