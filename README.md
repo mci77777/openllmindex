@@ -372,6 +372,136 @@ spec/examples/saas/
 ```
 </details>
 
+### Healthcare — Telemedicine (v0.2)
+
+Multi-language healthcare platform with access control and attribution requirements.
+
+<details>
+<summary>View manifest</summary>
+
+```json
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "entity": {
+    "name": "MediCare Health Systems",
+    "canonical_url": "https://medicare-health.com"
+  },
+  "language": "en",
+  "languages": ["en", "es"],
+  "topics": ["healthcare", "telemedicine", "medical"],
+  "endpoints": { "..." },
+  "localized_endpoints": { "es": { "..." } },
+  "access_control": {
+    "allow": ["*"],
+    "deny": ["BadBot"],
+    "rate_limit": "500/day",
+    "requires_attribution": true,
+    "commercial_use": "contact-required"
+  },
+  "license": "CC-BY-NC-4.0"
+}
+```
+</details>
+
+### Education — Online Courses (v0.2)
+
+Course platform with 3-language support and non-commercial license.
+
+<details>
+<summary>View manifest</summary>
+
+```json
+{
+  "version": "0.2",
+  "entity": { "name": "LearnHub Academy", "canonical_url": "https://learnhub.edu" },
+  "languages": ["en", "zh-CN", "ja"],
+  "topics": ["education", "online-courses", "certification"],
+  "access_control": { "commercial_use": "non-commercial" },
+  "license": "CC-BY-NC-SA-4.0"
+}
+```
+</details>
+
+### Real Estate — Property Listings
+
+Property listing site with product feed and HTTP file verification.
+
+<details>
+<summary>View manifest</summary>
+
+```json
+{
+  "version": "0.1",
+  "entity": { "name": "PrimeProperty Realty", "canonical_url": "https://primeproperty.com" },
+  "topics": ["real-estate", "property", "housing", "rental"],
+  "feeds": { "products_jsonl": "https://primeproperty.com/llm/feed/products.jsonl" },
+  "verify": { "method": "http_file", "value": "llmindex-verify.txt" }
+}
+```
+</details>
+
+### Fintech — Digital Payments (v0.2)
+
+Financial services with selective bot access, multi-language, and dual feeds.
+
+<details>
+<summary>View manifest</summary>
+
+```json
+{
+  "version": "0.2",
+  "entity": { "name": "PayWave Financial", "canonical_url": "https://paywave.finance" },
+  "languages": ["en", "de", "fr"],
+  "topics": ["fintech", "payments", "banking", "digital-wallet"],
+  "access_control": {
+    "allow": ["GPTBot", "ClaudeBot", "PerplexityBot"],
+    "rate_limit": "100/hour",
+    "commercial_use": "contact-required"
+  },
+  "feeds": { "products_jsonl": "...", "offers_json": "..." }
+}
+```
+</details>
+
+### Nonprofit — Environmental Foundation
+
+Public-domain nonprofit with DNS verification.
+
+<details>
+<summary>View manifest</summary>
+
+```json
+{
+  "version": "0.1",
+  "entity": { "name": "GreenEarth Foundation", "canonical_url": "https://greenearth.org" },
+  "topics": ["nonprofit", "environment", "sustainability", "charity"],
+  "license": "CC0-1.0",
+  "verify": { "method": "dns_txt", "value": "llmindex-verify-greenearth-2026" }
+}
+```
+</details>
+
+### Travel — Global Tourism (v0.2)
+
+Travel platform with 6-language support, delta feeds, and open access.
+
+<details>
+<summary>View manifest</summary>
+
+```json
+{
+  "version": "0.2",
+  "entity": { "name": "WanderPath Travel", "canonical_url": "https://wanderpath.com" },
+  "languages": ["en", "es", "fr", "de", "ja", "zh-CN"],
+  "topics": ["travel", "tourism", "hotels", "flights", "vacation"],
+  "feeds": { "products_jsonl": "...", "products_jsonl_delta": "...?since=..." },
+  "access_control": { "rate_limit": "2000/day", "commercial_use": "allowed" },
+  "license": "CC-BY-4.0"
+}
+```
+</details>
+
 ## Specification
 
 The full llmindex v0.1 specification: [`spec/spec.md`](spec/spec.md)
@@ -435,10 +565,19 @@ openllmindex/
 │   ├── spec.md                  # v0.1 specification document
 │   ├── schemas/                 # JSON Schema for validation
 │   │   └── llmindex-0.1.schema.json
-│   ├── examples/                # Industry examples
-│   │   ├── ecommerce/           #   Full store with feed + verify
+│   ├── examples/                # Industry examples (12 industries)
+│   │   ├── blog/                #   Blog/newsletter
+│   │   ├── ecommerce/           #   Full store with feed + verify (v0.2)
+│   │   ├── education/           #   Online courses, 3 languages (v0.2)
+│   │   ├── fintech/             #   Digital payments, selective access (v0.2)
+│   │   ├── healthcare/          #   Telemedicine, access control (v0.2)
 │   │   ├── local-business/      #   Minimal bakery
-│   │   └── saas/                #   SaaS with license
+│   │   ├── marketplace/         #   Handmade marketplace
+│   │   ├── nonprofit/           #   Environmental foundation
+│   │   ├── real-estate/         #   Property listings with feed
+│   │   ├── restaurant/          #   Restaurant with verify
+│   │   ├── saas/                #   SaaS with license + verify
+│   │   └── travel/              #   Global tourism, 6 languages (v0.2)
 │   └── test-vectors/            # Invalid manifests for testing
 ├── llmindex/                    # Generator CLI tool (Python package)
 │   ├── llmindex_cli/            # CLI application (Typer)
