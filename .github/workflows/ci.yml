@@ -21,6 +21,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+          cache-dependency-path: pyproject.toml
 
       - run: pip install -e ".[dev]"
 
@@ -75,8 +76,10 @@ jobs:
           cache: npm
           cache-dependency-path: packages/schema/package.json
 
-      - name: Copy schema
-        run: cp ../../spec/schemas/llmindex-0.1.schema.json schemas/
+      - name: Copy schemas
+        run: |
+          cp ../../spec/schemas/llmindex-0.1.schema.json schemas/
+          cp ../../spec/schemas/product-line-0.1.schema.json schemas/
 
       - run: npm publish --provenance --access public
         env:
