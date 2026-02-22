@@ -4,6 +4,8 @@
 [![Spec: CC BY 4.0](https://img.shields.io/badge/Spec-CC_BY_4.0-green.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
 [![Spec Version](https://img.shields.io/badge/spec-v0.1-orange.svg)](spec/spec.md)
+[![PyPI](https://img.shields.io/pypi/v/openllmindex.svg)](https://pypi.org/project/openllmindex/)
+[![npm](https://img.shields.io/npm/v/@llmindex/schema.svg)](https://www.npmjs.com/package/@llmindex/schema)
 
 > A machine-readable index standard for LLM and AI search discovery.
 
@@ -118,7 +120,7 @@ The CLI tool auto-generates all llmindex files from a product CSV:
 
 ```bash
 # Install
-pip install -e .
+pip install openllmindex
 
 # Generate from CSV
 llmindex generate \
@@ -151,7 +153,7 @@ dist/
 python examples/demo.py
 
 # Run the test suite
-pip install -e ".[dev]"
+pip install "openllmindex[dev]"
 pytest
 ```
 
@@ -215,7 +217,7 @@ Standard CSV with columns matching the product schema.
 | `category` | No | Product category |
 | `updated_at` | No | ISO 8601 datetime |
 
-See [`cli/sample_data/sample.csv`](cli/sample_data/sample.csv) for a working example with 20 products.
+See [`llmindex/sample_data/sample.csv`](llmindex/sample_data/sample.csv) for a working example with 20 products.
 
 ### JSON
 
@@ -225,7 +227,7 @@ A JSON array of product objects with the same fields:
 llmindex generate --site "TechCo" --url https://techco.com --input-json products.json
 ```
 
-See [`cli/sample_data/sample.json`](cli/sample_data/sample.json) for an example.
+See [`llmindex/sample_data/sample.json`](llmindex/sample_data/sample.json) for an example.
 
 ### Shopify CSV Export
 
@@ -239,7 +241,7 @@ llmindex generate \
   --currency USD
 ```
 
-See [`cli/sample_data/sample_shopify.csv`](cli/sample_data/sample_shopify.csv) for an example.
+See [`llmindex/sample_data/sample_shopify.csv`](llmindex/sample_data/sample_shopify.csv) for an example.
 
 ## Industry Examples
 
@@ -411,10 +413,10 @@ llmindex and llms.txt serve complementary purposes. llmindex focuses on structur
 
 ## Packages
 
-| Package | Registry | Description |
-|---------|----------|-------------|
-| [`llmindex`](https://pypi.org/project/llmindex/) | PyPI | CLI generator + validator (Python) |
-| [`@llmindex/schema`](https://www.npmjs.com/package/@llmindex/schema) | npm | JSON Schema + TypeScript types |
+| Package | Registry | Install |
+|---------|----------|---------|
+| [`openllmindex`](https://pypi.org/project/openllmindex/) | PyPI | `pip install openllmindex` |
+| [`@llmindex/schema`](https://www.npmjs.com/package/@llmindex/schema) | npm | `npm install @llmindex/schema` |
 
 ## Integrations
 
@@ -434,7 +436,7 @@ openllmindex/
 │   │   ├── local-business/      #   Minimal bakery
 │   │   └── saas/                #   SaaS with license
 │   └── test-vectors/            # Invalid manifests for testing
-├── cli/                         # Generator CLI tool
+├── llmindex/                    # Generator CLI tool (Python package)
 │   ├── llmindex_cli/            # CLI application (Typer)
 │   │   ├── main.py              # Entry point
 │   │   ├── models.py            # Pydantic data models
@@ -442,7 +444,7 @@ openllmindex/
 │   │   └── generators/          # Output generators
 │   ├── importers/               # Data importers (CSV, JSON, Shopify)
 │   ├── sample_data/             # Sample data for testing
-│   └── tests/                   # Test suite (70+ tests)
+│   └── tests/                   # Test suite (100+ tests)
 ├── packages/                    # Published packages
 │   └── schema/                  # @llmindex/schema (npm)
 ├── integrations/                # Platform integrations
@@ -458,7 +460,7 @@ openllmindex/
 ## License
 
 - **Specification** (`spec/`): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — free to adopt, reference, and build upon
-- **CLI Tools** (`cli/`): [AGPL-3.0-or-later](LICENSE)
+- **CLI Tools** (`llmindex/`): [AGPL-3.0-or-later](LICENSE)
 
 ## Contributing
 
