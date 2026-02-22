@@ -130,9 +130,12 @@ class TestSchemaExamplesValidation:
         "industry",
         [
             "blog",
+            "gaming",
+            "kids",
             "local-business",
             "marketplace",
             "nonprofit",
+            "pet",
             "real-estate",
             "restaurant",
             "saas",
@@ -147,7 +150,20 @@ class TestSchemaExamplesValidation:
 
     @pytest.mark.parametrize(
         "industry",
-        ["ecommerce", "education", "fintech", "healthcare", "travel"],
+        [
+            "automotive",
+            "beauty",
+            "ecommerce",
+            "education",
+            "fintech",
+            "fitness",
+            "food-beverage",
+            "healthcare",
+            "home-decor",
+            "jewelry",
+            "travel",
+            "wellness",
+        ],
     )
     def test_v02_examples_valid(self, schema_v02, industry):
         """Each v0.2 example must validate against the v0.2 schema."""
