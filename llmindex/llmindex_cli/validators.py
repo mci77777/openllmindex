@@ -82,6 +82,37 @@ def validate_manifest(manifest_path: str | Path) -> ValidationResult:
                         f"differs from canonical ({expected_host})"
                     )
 
+        # Validate access_control business logic
+        ac = data.get("access_control")
+        if ac and isinstance(ac, dict):
+            allow = ac.get("allow", [])
+            deny = ac.get("deny", [])
+            commercial_use = ac.get("commercial_use")
+
+            # deny=['*'] blocks all agents — flag as a warning
+            if "*" in deny:
+                result.add_warning(
+                    "access_control.deny contains '*' which will block all AI agents"
+                )
+
+            # allow/deny overlap: same identifier appears in both lists
+            if allow and deny:
+                overlap = set(allow) & set(deny)
+                # '*' in deny dominates, already warned above; check non-wildcard overlap
+                specific_overlap = overlap - {"*"}
+                for entry in sorted(specific_overlap):
+                    result.add_warning(
+                        f"access_control: '{entry}' appears in both allow and deny; "
+                        "deny takes precedence"
+                    )
+
+            # commercial_use='contact-required' with allow='*' is unusual — add info warning
+            if commercial_use == "contact-required" and allow == ["*"]:
+                result.add_warning(
+                    "access_control.commercial_use is 'contact-required' but allow=['*']; "
+                    "consider restricting allow or adding contact information to about page"
+                )
+
     return result
 
 

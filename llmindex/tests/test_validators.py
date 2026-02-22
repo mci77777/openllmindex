@@ -151,3 +151,102 @@ class TestValidateAll:
         assert not result.valid
         assert any("File not found" in e for e in result.errors)
         assert sum(e.startswith("Schema:") for e in result.errors) >= 2
+
+
+def _make_manifest(tmp_path, **overrides):
+    """Helper: create a minimal valid manifest, optionally with overrides."""
+    base = {
+        "version": "0.1",
+        "updated_at": "2026-02-22T00:00:00Z",
+        "entity": {"name": "Test Co", "canonical_url": "https://test.com"},
+        "language": "en",
+        "topics": ["test"],
+        "endpoints": {
+            "products": "https://test.com/llm/products",
+            "policies": "https://test.com/llm/policies",
+            "faq": "https://test.com/llm/faq",
+            "about": "https://test.com/llm/about",
+        },
+    }
+    base.update(overrides)
+    path = tmp_path / "llmindex.json"
+    path.write_text(json.dumps(base))
+    return path
+
+
+class TestAccessControlValidation:
+    """Test business-logic validation for access_control field."""
+
+    def test_valid_access_control_passes(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={
+                "allow": ["GPTBot", "ClaudeBot"],
+                "deny": ["BadBot/1.0"],
+                "rate_limit": "1000/day",
+                "requires_attribution": True,
+                "commercial_use": "allowed",
+            },
+        )
+        result = validate_manifest(path)
+        assert result.valid, f"Errors: {result.errors}"
+        assert result.warnings == []
+
+    def test_deny_wildcard_produces_warning(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={"deny": ["*"]},
+        )
+        result = validate_manifest(path)
+        assert result.valid  # Still valid — just a warning
+        assert any("deny contains '*'" in w for w in result.warnings)
+
+    def test_allow_deny_overlap_produces_warning(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={"allow": ["GPTBot", "ClaudeBot"], "deny": ["GPTBot"]},
+        )
+        result = validate_manifest(path)
+        assert result.valid
+        assert any("GPTBot" in w and "allow and deny" in w for w in result.warnings)
+
+    def test_contact_required_with_allow_all_warns(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={"allow": ["*"], "commercial_use": "contact-required"},
+        )
+        result = validate_manifest(path)
+        assert result.valid
+        assert any("contact-required" in w for w in result.warnings)
+
+    def test_invalid_commercial_use_value_fails_schema(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={"commercial_use": "unknown-value"},
+        )
+        result = validate_manifest(path)
+        assert not result.valid
+        assert any("access_control" in e or "commercial_use" in e for e in result.errors)
+
+    def test_invalid_rate_limit_format_fails_schema(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={"rate_limit": "1000-per-day"},  # wrong format
+        )
+        result = validate_manifest(path)
+        assert not result.valid
+
+    def test_no_access_control_is_valid(self, tmp_path):
+        path = _make_manifest(tmp_path)
+        result = validate_manifest(path)
+        assert result.valid
+        assert result.warnings == []
+
+    def test_non_commercial_usage_is_valid(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            access_control={"commercial_use": "non-commercial"},
+        )
+        result = validate_manifest(path)
+        assert result.valid
+        assert result.warnings == []
