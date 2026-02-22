@@ -36,7 +36,7 @@ def config_with_csv(config_dir: Path) -> Path:
     csv_path = config_dir / "products.csv"
     csv_path.write_text(
         "id,title,url,availability,updated_at\n"
-        'P001,Widget,https://example.com/widget,in_stock,2026-01-01T00:00:00Z\n',
+        "P001,Widget,https://example.com/widget,in_stock,2026-01-01T00:00:00Z\n",
         encoding="utf-8",
     )
     return config_dir
@@ -47,15 +47,17 @@ def config_with_json(config_dir: Path) -> Path:
     """Config dir with a products.json file."""
     json_path = config_dir / "products.json"
     json_path.write_text(
-        json.dumps([
-            {
-                "id": "P001",
-                "title": "Widget",
-                "url": "https://example.com/widget",
-                "availability": "in_stock",
-                "updated_at": "2026-01-01T00:00:00Z",
-            }
-        ]),
+        json.dumps(
+            [
+                {
+                    "id": "P001",
+                    "title": "Widget",
+                    "url": "https://example.com/widget",
+                    "availability": "in_stock",
+                    "updated_at": "2026-01-01T00:00:00Z",
+                }
+            ]
+        ),
         encoding="utf-8",
     )
     return config_dir
@@ -102,7 +104,7 @@ class TestBuildArtifacts:
         csv_path = tmp_path / "custom_products.csv"
         csv_path.write_text(
             "id,title,url,availability,updated_at\n"
-            'P002,Gadget,https://example.com/gadget,in_stock,2026-01-01T00:00:00Z\n',
+            "P002,Gadget,https://example.com/gadget,in_stock,2026-01-01T00:00:00Z\n",
             encoding="utf-8",
         )
         config_path = config_dir / "llmindex.yaml"

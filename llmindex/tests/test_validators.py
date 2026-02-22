@@ -321,7 +321,9 @@ class TestLocalizedEndpoints:
         )
         result = validate_manifest(path)
         assert result.valid
-        assert any("localized_endpoints" in w and "differs from canonical" in w for w in result.warnings)
+        assert any(
+            "localized_endpoints" in w and "differs from canonical" in w for w in result.warnings
+        )
 
     def test_unknown_version_uses_v01_with_warning(self, tmp_path):
         path = _make_manifest(tmp_path, version="0.9")

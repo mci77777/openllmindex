@@ -131,7 +131,9 @@ def validate_manifest(manifest_path: str | Path) -> ValidationResult:
         # Check endpoint URLs match canonical domain
         endpoints = data.get("endpoints", {})
         if canonical and isinstance(endpoints, dict):
-            _warn_if_url_hosts_differ(result, canonical_url=canonical, urls=endpoints, prefix="endpoints")
+            _warn_if_url_hosts_differ(
+                result, canonical_url=canonical, urls=endpoints, prefix="endpoints"
+            )
 
         # Validate access_control business logic
         ac = data.get("access_control")

@@ -80,4 +80,3 @@ def test_sign_missing_key_fails(tmp_path: Path) -> None:
     missing_key = tmp_path / "missing-private.pem"
     with pytest.raises(FileNotFoundError):
         sign_manifest(manifest_path, missing_key)
-

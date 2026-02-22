@@ -122,5 +122,7 @@ def sign_manifest(manifest_path: Path, key_path: Path) -> str:
     jws = f"{header_b64}.{payload_b64}.{signature_b64}"
 
     manifest["sig"] = {"alg": "EdDSA", "kid": "local", "jws": jws}
-    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     return jws
