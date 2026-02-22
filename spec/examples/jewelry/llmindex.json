@@ -1,0 +1,49 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T10:00:00Z",
+  "entity": {
+    "name": "AuraGems",
+    "canonical_url": "https://auragems.com"
+  },
+  "language": "en",
+  "languages": ["en", "fr", "ar"],
+  "topics": ["jewelry", "fine-jewelry", "engagement", "watches", "luxury"],
+  "endpoints": {
+    "products": "https://auragems.com/llm/products",
+    "policies": "https://auragems.com/llm/policies",
+    "faq": "https://auragems.com/llm/faq",
+    "about": "https://auragems.com/llm/about"
+  },
+  "localized_endpoints": {
+    "fr": {
+      "products": "https://auragems.com/llm/fr/products",
+      "about": "https://auragems.com/llm/fr/about"
+    },
+    "ar": {
+      "products": "https://auragems.com/llm/ar/products",
+      "about": "https://auragems.com/llm/ar/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://auragems.com/llm/feed/products.jsonl",
+    "offers_json": "https://auragems.com/llm/feed/offers.json"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-auragems-2026"
+  },
+  "sig": {
+    "alg": "EdDSA",
+    "kid": "auragems-2026-01",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImF1cmFnZW1zLTIwMjYtMDEifQ.eyJ2IjoiMC4yIn0.cGxhY2Vob2xkZXI"
+  },
+  "license": "CC-BY-NC-4.0",
+  "access_control": {
+    "allow": ["*"],
+    "deny": ["BadBot", "ScraperBot"],
+    "rate_limit": "600/day",
+    "requires_attribution": true,
+    "commercial_use": "contact-required"
+  }
+}

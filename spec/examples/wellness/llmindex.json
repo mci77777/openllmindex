@@ -1,0 +1,41 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T08:00:00Z",
+  "entity": {
+    "name": "ZenVital",
+    "canonical_url": "https://zenvital.com"
+  },
+  "language": "en",
+  "languages": ["en", "ja", "ko"],
+  "topics": ["wellness", "supplements", "meditation", "sleep", "holistic-health"],
+  "endpoints": {
+    "products": "https://zenvital.com/llm/products",
+    "policies": "https://zenvital.com/llm/policies",
+    "faq": "https://zenvital.com/llm/faq",
+    "about": "https://zenvital.com/llm/about"
+  },
+  "localized_endpoints": {
+    "ja": {
+      "products": "https://zenvital.com/llm/ja/products",
+      "about": "https://zenvital.com/llm/ja/about"
+    },
+    "ko": {
+      "products": "https://zenvital.com/llm/ko/products",
+      "about": "https://zenvital.com/llm/ko/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://zenvital.com/llm/feed/products.jsonl"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "rate_limit": "1200/day",
+    "requires_attribution": false,
+    "commercial_use": "allowed"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-zenvital-2026"
+  }
+}

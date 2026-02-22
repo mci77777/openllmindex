@@ -1,0 +1,44 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T07:00:00Z",
+  "entity": {
+    "name": "VoltDrive",
+    "canonical_url": "https://voltdrive.com"
+  },
+  "language": "en",
+  "languages": ["en", "de", "zh-CN"],
+  "topics": ["automotive", "ev-accessories", "car-tech", "sustainability"],
+  "endpoints": {
+    "products": "https://voltdrive.com/llm/products",
+    "policies": "https://voltdrive.com/llm/policies",
+    "faq": "https://voltdrive.com/llm/faq",
+    "about": "https://voltdrive.com/llm/about"
+  },
+  "localized_endpoints": {
+    "de": {
+      "products": "https://voltdrive.com/llm/de/products",
+      "about": "https://voltdrive.com/llm/de/about"
+    },
+    "zh-CN": {
+      "products": "https://voltdrive.com/llm/zh/products",
+      "about": "https://voltdrive.com/llm/zh/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://voltdrive.com/llm/feed/products.jsonl",
+    "products_jsonl_delta": "https://voltdrive.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "deny": ["ScraperBot"],
+    "rate_limit": "800/day",
+    "requires_attribution": true,
+    "commercial_use": "allowed"
+  },
+  "license": "CC-BY-4.0",
+  "verify": {
+    "method": "http_file",
+    "value": "llmindex-verify.txt"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "entity": {
+    "name": "PixelForge",
+    "canonical_url": "https://pixelforge.gg"
+  },
+  "language": "en",
+  "topics": ["gaming", "peripherals", "esports", "streaming-gear"],
+  "endpoints": {
+    "products": "https://pixelforge.gg/llm/products",
+    "policies": "https://pixelforge.gg/llm/policies",
+    "faq": "https://pixelforge.gg/llm/faq",
+    "about": "https://pixelforge.gg/llm/about"
+  },
+  "feeds": {
+    "products_jsonl": "https://pixelforge.gg/llm/feed/products.jsonl"
+  }
+}
