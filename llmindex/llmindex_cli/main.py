@@ -642,6 +642,51 @@ def generate(
 
 
 @app.command()
+def watch(
+    config_path: Path = typer.Option(
+        "llmindex.yaml",
+        "--config",
+        help="Path to llmindex.yaml config file.",
+    ),
+    output_dir: Path = typer.Option(
+        "dist", "--output-dir", "-o", help="Output directory (default: dist)"
+    ),
+    templates_dir: Optional[Path] = typer.Option(
+        None,
+        "--templates-dir",
+        help="Directory with Jinja2 templates (policies.md.j2, faq.md.j2, about.md.j2).",
+    ),
+    currency: str = typer.Option(
+        "USD", "--currency", help="Default currency for Shopify imports (default: USD)"
+    ),
+) -> None:
+    """Watch source files and rebuild artifacts on change.
+
+    Monitors llmindex.yaml and product source files (CSV/JSON) for changes,
+    then automatically regenerates manifest, pages, and feed.
+
+    Requires the [watch] extra: pip install 'llmindex[watch]'
+    """
+    if not config_path.exists():
+        console.print(f"[red]Error:[/red] Config file not found: {config_path}")
+        raise typer.Exit(1)
+
+    try:
+        from llmindex.llmindex_cli.commands.watch import run_watch
+    except ModuleNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1) from e
+
+    try:
+        run_watch(config_path, output_dir, templates_dir=templates_dir, currency=currency)
+    except ModuleNotFoundError as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1) from e
+    except KeyboardInterrupt:
+        console.print("\n[bold]Watch stopped.[/bold]")
+
+
+@app.command()
 def version() -> None:
     """Show llmindex CLI version."""
     console.print("llmindex v0.1.0")

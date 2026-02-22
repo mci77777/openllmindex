@@ -52,6 +52,9 @@ verify = [
 sign = [
     "cryptography>=42.0",
 ]
+watch = [
+    "watchfiles>=0.21",
+]
 
 [project.scripts]
 llmindex = "llmindex.llmindex_cli.main:app"

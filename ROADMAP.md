@@ -122,7 +122,7 @@ llmindex sign verify --key keys/public.pem .well-known/llmindex.json
 
 ---
 
-#### 5. CLI watch 模式（v0.2.1）
+#### 5. CLI watch 模式（v0.2.1）[x]
 
 **动机**：开发阶段自动监听源数据（CSV/JSON），变更后自动重建 artifacts。
 
@@ -176,6 +176,6 @@ llmindex watch --config llmindex.yaml --output-dir dist
 |------|----------|------|
 | v0.1.0 | CLI 完整 + 规范正式化 + 双包发布 | ✅ 已发布 |
 | v0.1.1 | 更多行业示例 + docs site 更新 | ✅ 已完成 |
-| v0.2.0 | 多语言 + access_control + EdDSA 签名 + 增量更新 | 🔄 开发中 |
-| v0.2.1 | CLI watch 模式 | 📋 规划中 |
+| v0.2.0 | 多语言 + access_control + EdDSA 签名 + 增量更新 | ✅ 已完成 |
+| v0.2.1 | CLI watch 模式 | ✅ 已完成 |
 | v1.0.0 | 稳定版 + SDK + validator service | 📋 远期 |
