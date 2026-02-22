@@ -1,0 +1,43 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T08:00:00Z",
+  "entity": {
+    "name": "GlowLab Cosmetics",
+    "canonical_url": "https://glowlab.beauty"
+  },
+  "language": "en",
+  "languages": ["en", "ko", "ja"],
+  "topics": ["beauty", "skincare", "cosmetics", "clean-beauty", "dtc"],
+  "endpoints": {
+    "products": "https://glowlab.beauty/llm/products",
+    "policies": "https://glowlab.beauty/llm/policies",
+    "faq": "https://glowlab.beauty/llm/faq",
+    "about": "https://glowlab.beauty/llm/about"
+  },
+  "localized_endpoints": {
+    "ko": {
+      "products": "https://glowlab.beauty/llm/ko/products",
+      "about": "https://glowlab.beauty/llm/ko/about"
+    },
+    "ja": {
+      "products": "https://glowlab.beauty/llm/ja/products",
+      "about": "https://glowlab.beauty/llm/ja/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://glowlab.beauty/llm/feed/products.jsonl",
+    "offers_json": "https://glowlab.beauty/llm/feed/offers.json"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "rate_limit": "3000/day",
+    "requires_attribution": true,
+    "commercial_use": "allowed"
+  },
+  "license": "CC-BY-4.0",
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-glowlab-2026"
+  }
+}

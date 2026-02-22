@@ -1,0 +1,42 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T09:00:00Z",
+  "entity": {
+    "name": "HarvestBox",
+    "canonical_url": "https://harvestbox.co"
+  },
+  "language": "en",
+  "languages": ["en", "es"],
+  "topics": ["food", "beverage", "organic", "meal-kit", "subscription"],
+  "endpoints": {
+    "products": "https://harvestbox.co/llm/products",
+    "policies": "https://harvestbox.co/llm/policies",
+    "faq": "https://harvestbox.co/llm/faq",
+    "about": "https://harvestbox.co/llm/about"
+  },
+  "localized_endpoints": {
+    "es": {
+      "products": "https://harvestbox.co/llm/es/products",
+      "about": "https://harvestbox.co/llm/es/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://harvestbox.co/llm/feed/products.jsonl",
+    "offers_json": "https://harvestbox.co/llm/feed/offers.json"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-harvestbox-2026"
+  },
+  "sig": {
+    "alg": "EdDSA",
+    "kid": "harvestbox-2026-01",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImhhcnZlc3Rib3gtMjAyNi0wMSJ9.eyJ2IjoiMC4yIn0.cGxhY2Vob2xkZXI"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "rate_limit": "500/day",
+    "commercial_use": "contact-required"
+  }
+}

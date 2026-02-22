@@ -1,0 +1,42 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T10:00:00Z",
+  "entity": {
+    "name": "PeakFit Athletics",
+    "canonical_url": "https://peakfit.com"
+  },
+  "language": "en",
+  "languages": ["en", "de", "pt-BR"],
+  "topics": ["fitness", "activewear", "supplements", "wearables", "dtc"],
+  "endpoints": {
+    "products": "https://peakfit.com/llm/products",
+    "policies": "https://peakfit.com/llm/policies",
+    "faq": "https://peakfit.com/llm/faq",
+    "about": "https://peakfit.com/llm/about"
+  },
+  "localized_endpoints": {
+    "de": {
+      "products": "https://peakfit.com/llm/de/products",
+      "about": "https://peakfit.com/llm/de/about"
+    },
+    "pt-BR": {
+      "products": "https://peakfit.com/llm/pt-BR/products",
+      "about": "https://peakfit.com/llm/pt-BR/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://peakfit.com/llm/feed/products.jsonl",
+    "products_jsonl_delta": "https://peakfit.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z"
+  },
+  "access_control": {
+    "allow": ["GPTBot", "ClaudeBot", "PerplexityBot"],
+    "deny": ["BadBot"],
+    "rate_limit": "1500/day",
+    "commercial_use": "allowed"
+  },
+  "verify": {
+    "method": "http_file",
+    "value": "llmindex-verify.txt"
+  }
+}

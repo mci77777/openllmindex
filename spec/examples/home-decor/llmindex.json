@@ -1,0 +1,37 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T06:00:00Z",
+  "entity": {
+    "name": "Nesting Home",
+    "canonical_url": "https://nestinghome.com"
+  },
+  "language": "en",
+  "languages": ["en", "fr", "de"],
+  "topics": ["home-decor", "furniture", "interior-design", "sustainable-living"],
+  "endpoints": {
+    "products": "https://nestinghome.com/llm/products",
+    "policies": "https://nestinghome.com/llm/policies",
+    "faq": "https://nestinghome.com/llm/faq",
+    "about": "https://nestinghome.com/llm/about"
+  },
+  "localized_endpoints": {
+    "fr": {
+      "products": "https://nestinghome.com/llm/fr/products",
+      "about": "https://nestinghome.com/llm/fr/about"
+    },
+    "de": {
+      "products": "https://nestinghome.com/llm/de/products",
+      "about": "https://nestinghome.com/llm/de/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://nestinghome.com/llm/feed/products.jsonl"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "rate_limit": "1000/day",
+    "requires_attribution": true,
+    "commercial_use": "non-commercial"
+  }
+}
