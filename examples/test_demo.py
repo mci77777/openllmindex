@@ -128,7 +128,15 @@ class TestSchemaExamplesValidation:
 
     @pytest.mark.parametrize(
         "industry",
-        ["blog", "local-business", "marketplace", "restaurant", "saas"],
+        [
+            "blog",
+            "local-business",
+            "marketplace",
+            "nonprofit",
+            "real-estate",
+            "restaurant",
+            "saas",
+        ],
     )
     def test_v01_examples_valid(self, schema, industry):
         """Each v0.1 example must validate against the v0.1 schema."""
@@ -137,9 +145,13 @@ class TestSchemaExamplesValidation:
         assert data["version"] == "0.1"
         jsonschema.validate(data, schema)
 
-    def test_v02_ecommerce_example_valid(self, schema_v02):
-        """The ecommerce example (v0.2) must validate against the v0.2 schema."""
-        path = PROJECT_ROOT / "spec" / "examples" / "ecommerce" / "llmindex.json"
+    @pytest.mark.parametrize(
+        "industry",
+        ["ecommerce", "education", "fintech", "healthcare", "travel"],
+    )
+    def test_v02_examples_valid(self, schema_v02, industry):
+        """Each v0.2 example must validate against the v0.2 schema."""
+        path = PROJECT_ROOT / "spec" / "examples" / industry / "llmindex.json"
         data = json.loads(path.read_text())
         assert data["version"] == "0.2"
         jsonschema.validate(data, schema_v02)
