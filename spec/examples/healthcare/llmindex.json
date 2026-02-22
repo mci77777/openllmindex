@@ -1,0 +1,36 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T08:00:00Z",
+  "entity": {
+    "name": "MediCare Health Systems",
+    "canonical_url": "https://medicare-health.com"
+  },
+  "language": "en",
+  "languages": ["en", "es"],
+  "topics": ["healthcare", "telemedicine", "medical"],
+  "endpoints": {
+    "products": "https://medicare-health.com/llm/products",
+    "policies": "https://medicare-health.com/llm/policies",
+    "faq": "https://medicare-health.com/llm/faq",
+    "about": "https://medicare-health.com/llm/about"
+  },
+  "localized_endpoints": {
+    "es": {
+      "products": "https://medicare-health.com/llm/es/products",
+      "about": "https://medicare-health.com/llm/es/about"
+    }
+  },
+  "access_control": {
+    "allow": ["*"],
+    "deny": ["BadBot"],
+    "rate_limit": "500/day",
+    "requires_attribution": true,
+    "commercial_use": "contact-required"
+  },
+  "license": "CC-BY-NC-4.0",
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-medicare-2026"
+  }
+}
