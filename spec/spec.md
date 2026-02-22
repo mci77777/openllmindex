@@ -158,4 +158,5 @@ This specification uses the existing `application/json` media type. No new IANA 
 ## 12. Changelog
 
 - **v0.1.0 (2025-02-22)** — Initial Release.
-- **v0.2.0 (Unreleased)** — Add `languages`, `localized_endpoints`, `access_control`, `feed_updated_at`, and EdDSA JWS signing (CLI: `llmindex sign keygen|manifest|verify`).
+- **v0.2.0 (2026-02-22)** — Add `languages`, `localized_endpoints`, `access_control`, `feed_updated_at`, `feeds.products_jsonl_delta`, and EdDSA JWS signing (CLI: `llmindex sign keygen|manifest|verify`).
+- **v0.2.1 (2026-02-22)** — Add CLI `watch` mode for auto-rebuilding artifacts on source file changes (`watchfiles` optional extra).
