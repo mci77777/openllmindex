@@ -1,0 +1,46 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T10:00:00Z",
+  "feed_updated_at": "2026-02-22T08:00:00Z",
+  "entity": {
+    "name": "Full V02 Example",
+    "canonical_url": "https://full-v02.example.com"
+  },
+  "language": "en",
+  "languages": ["en", "es"],
+  "topics": ["general", "test"],
+  "endpoints": {
+    "products": "https://full-v02.example.com/llm/products",
+    "policies": "https://full-v02.example.com/llm/policies",
+    "faq": "https://full-v02.example.com/llm/faq",
+    "about": "https://full-v02.example.com/llm/about"
+  },
+  "localized_endpoints": {
+    "es": {
+      "products": "https://full-v02.example.com/llm/es/products",
+      "about": "https://full-v02.example.com/llm/es/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://full-v02.example.com/llm/feed/products.jsonl",
+    "products_jsonl_delta": "https://full-v02.example.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z",
+    "offers_json": "https://full-v02.example.com/llm/feed/offers.json"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-test-full-v02"
+  },
+  "sig": {
+    "alg": "EdDSA",
+    "kid": "key-test-001",
+    "jws": "eyJhbGciOiJFZERTQSJ9.eyJ0ZXN0IjoidHJ1ZSJ9.placeholder"
+  },
+  "license": "CC-BY-4.0",
+  "access_control": {
+    "allow": ["GPTBot", "ClaudeBot"],
+    "deny": ["BadBot"],
+    "rate_limit": "1000/day",
+    "requires_attribution": true,
+    "commercial_use": "allowed"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Bad Languages Example",
+    "canonical_url": "https://example.com"
+  },
+  "language": "en",
+  "languages": ["en", "en", "123"],
+  "topics": ["test"],
+  "endpoints": {
+    "products": "https://example.com/llm/products",
+    "policies": "https://example.com/llm/policies",
+    "faq": "https://example.com/llm/faq",
+    "about": "https://example.com/llm/about"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-20T00:00:00Z",
+  "entity": {
+    "name": "Bad Access Control Example",
+    "canonical_url": "https://example.com"
+  },
+  "language": "en",
+  "topics": ["test"],
+  "endpoints": {
+    "products": "https://example.com/llm/products",
+    "policies": "https://example.com/llm/policies",
+    "faq": "https://example.com/llm/faq",
+    "about": "https://example.com/llm/about"
+  },
+  "access_control": {
+    "rate_limit": "500 per day",
+    "commercial_use": "maybe"
+  }
+}
