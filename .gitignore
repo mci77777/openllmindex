@@ -19,6 +19,10 @@ htmlcov/
 # Internal workflow artifacts
 .workflow/
 
+# Internal prototypes (not for open-source)
+design-system/
+portal-prototype/
+
 # Demo output
 examples/_demo_output/
 

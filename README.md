@@ -3,9 +3,13 @@
 [![License: AGPL-3.0](https://img.shields.io/badge/CLI-AGPL--3.0-blue.svg)](LICENSE)
 [![Spec: CC BY 4.0](https://img.shields.io/badge/Spec-CC_BY_4.0-green.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
-[![Spec Version](https://img.shields.io/badge/spec-v0.1-orange.svg)](spec/spec.md)
+[![Spec Version](https://img.shields.io/badge/spec-v0.2-orange.svg)](spec/spec.md)
 [![PyPI](https://img.shields.io/pypi/v/openllmindex.svg)](https://pypi.org/project/openllmindex/)
 [![npm](https://img.shields.io/npm/v/@llmindex/schema.svg)](https://www.npmjs.com/package/@llmindex/schema)
+
+<p align="center">
+  <img src="assets/openllmindex.png" alt="llmindex — AI-readable index for your website" width="700">
+</p>
 
 > A machine-readable index standard for LLM and AI search discovery.
 
