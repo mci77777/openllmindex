@@ -1,38 +1,68 @@
 {
   "version": "0.2",
-  "updated_at": "2026-02-17T10:00:00Z",
-  "feed_updated_at": "2026-02-22T10:00:00Z",
+  "updated_at": "2026-02-22T12:00:00Z",
+  "feed_updated_at": "2026-02-22T12:00:00Z",
   "entity": {
-    "name": "ACME Outdoor Gear",
-    "canonical_url": "https://acme-outdoor.com"
+    "name": "MODA Fashion",
+    "canonical_url": "https://modafashion.com"
   },
   "language": "en",
-  "languages": ["en", "zh-CN"],
-  "topics": ["outdoor-gear", "camping", "hiking"],
+  "languages": ["en", "es", "fr", "de", "ja", "zh-CN"],
+  "topics": ["fashion", "menswear", "womenswear", "streetwear", "luxury-basics", "dtc"],
   "endpoints": {
-    "products": "https://acme-outdoor.com/llm/products",
-    "policies": "https://acme-outdoor.com/llm/policies",
-    "faq": "https://acme-outdoor.com/llm/faq",
-    "about": "https://acme-outdoor.com/llm/about"
+    "products": "https://modafashion.com/llm/products",
+    "policies": "https://modafashion.com/llm/policies",
+    "faq": "https://modafashion.com/llm/faq",
+    "about": "https://modafashion.com/llm/about"
   },
   "localized_endpoints": {
     "en": {
-      "products": "https://acme-outdoor.com/llm/products",
-      "policies": "https://acme-outdoor.com/llm/policies",
-      "faq": "https://acme-outdoor.com/llm/faq",
-      "about": "https://acme-outdoor.com/llm/about"
+      "products": "https://modafashion.com/llm/products",
+      "policies": "https://modafashion.com/llm/policies",
+      "faq": "https://modafashion.com/llm/faq",
+      "about": "https://modafashion.com/llm/about"
+    },
+    "es": {
+      "products": "https://modafashion.com/llm/es/products",
+      "about": "https://modafashion.com/llm/es/about"
+    },
+    "fr": {
+      "products": "https://modafashion.com/llm/fr/products",
+      "about": "https://modafashion.com/llm/fr/about"
+    },
+    "de": {
+      "products": "https://modafashion.com/llm/de/products",
+      "about": "https://modafashion.com/llm/de/about"
+    },
+    "ja": {
+      "products": "https://modafashion.com/llm/ja/products",
+      "about": "https://modafashion.com/llm/ja/about"
     },
     "zh-CN": {
-      "products": "https://acme-outdoor.com/llm/zh/products",
-      "about": "https://acme-outdoor.com/llm/zh/about"
+      "products": "https://modafashion.com/llm/zh/products",
+      "about": "https://modafashion.com/llm/zh/about"
     }
   },
   "feeds": {
-    "products_jsonl": "https://acme-outdoor.com/llm/feed/products.jsonl",
-    "products_jsonl_delta": "https://acme-outdoor.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z"
+    "products_jsonl": "https://modafashion.com/llm/feed/products.jsonl",
+    "products_jsonl_delta": "https://modafashion.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z",
+    "offers_json": "https://modafashion.com/llm/feed/offers.json"
   },
   "verify": {
     "method": "dns_txt",
-    "value": "llmindex-verify-a1b2c3d4e5"
+    "value": "llmindex-verify-moda-2026"
+  },
+  "sig": {
+    "alg": "EdDSA",
+    "kid": "moda-2026-01",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6Im1vZGEtMjAyNi0wMSJ9.eyJ2ZXJzaW9uIjoiMC4yIiwidXBkYXRlZF9hdCI6IjIwMjYtMDItMjJUMTI6MDA6MDBaIn0.dGVzdHNpZ25hdHVyZQ"
+  },
+  "license": "CC-BY-4.0",
+  "access_control": {
+    "allow": ["*"],
+    "deny": ["BadBot"],
+    "rate_limit": "2000/day",
+    "requires_attribution": true,
+    "commercial_use": "allowed"
   }
 }
