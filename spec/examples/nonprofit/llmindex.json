@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-19T12:00:00Z",
+  "entity": {
+    "name": "GreenEarth Foundation",
+    "canonical_url": "https://greenearth.org"
+  },
+  "language": "en",
+  "topics": ["nonprofit", "environment", "sustainability", "charity"],
+  "endpoints": {
+    "products": "https://greenearth.org/llm/products",
+    "policies": "https://greenearth.org/llm/policies",
+    "faq": "https://greenearth.org/llm/faq",
+    "about": "https://greenearth.org/llm/about"
+  },
+  "license": "CC0-1.0",
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-greenearth-2026"
+  }
+}

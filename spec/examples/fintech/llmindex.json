@@ -1,0 +1,44 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-21T09:00:00Z",
+  "feed_updated_at": "2026-02-21T06:00:00Z",
+  "entity": {
+    "name": "PayWave Financial",
+    "canonical_url": "https://paywave.finance"
+  },
+  "language": "en",
+  "languages": ["en", "de", "fr"],
+  "topics": ["fintech", "payments", "banking", "digital-wallet"],
+  "endpoints": {
+    "products": "https://paywave.finance/llm/products",
+    "policies": "https://paywave.finance/llm/policies",
+    "faq": "https://paywave.finance/llm/faq",
+    "about": "https://paywave.finance/llm/about"
+  },
+  "localized_endpoints": {
+    "de": {
+      "products": "https://paywave.finance/llm/de/products",
+      "policies": "https://paywave.finance/llm/de/policies",
+      "faq": "https://paywave.finance/llm/de/faq",
+      "about": "https://paywave.finance/llm/de/about"
+    },
+    "fr": {
+      "products": "https://paywave.finance/llm/fr/products",
+      "about": "https://paywave.finance/llm/fr/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://paywave.finance/llm/feed/products.jsonl",
+    "offers_json": "https://paywave.finance/llm/feed/offers.json"
+  },
+  "access_control": {
+    "allow": ["GPTBot", "ClaudeBot", "PerplexityBot"],
+    "rate_limit": "100/hour",
+    "requires_attribution": true,
+    "commercial_use": "contact-required"
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-paywave-2026"
+  }
+}

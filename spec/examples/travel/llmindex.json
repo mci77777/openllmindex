@@ -1,0 +1,43 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-22T10:00:00Z",
+  "feed_updated_at": "2026-02-22T08:00:00Z",
+  "entity": {
+    "name": "WanderPath Travel",
+    "canonical_url": "https://wanderpath.com"
+  },
+  "language": "en",
+  "languages": ["en", "es", "fr", "de", "ja", "zh-CN"],
+  "topics": ["travel", "tourism", "hotels", "flights", "vacation"],
+  "endpoints": {
+    "products": "https://wanderpath.com/llm/products",
+    "policies": "https://wanderpath.com/llm/policies",
+    "faq": "https://wanderpath.com/llm/faq",
+    "about": "https://wanderpath.com/llm/about"
+  },
+  "localized_endpoints": {
+    "es": {
+      "products": "https://wanderpath.com/llm/es/products",
+      "faq": "https://wanderpath.com/llm/es/faq",
+      "about": "https://wanderpath.com/llm/es/about"
+    },
+    "fr": {
+      "products": "https://wanderpath.com/llm/fr/products",
+      "about": "https://wanderpath.com/llm/fr/about"
+    },
+    "ja": {
+      "products": "https://wanderpath.com/llm/ja/products",
+      "about": "https://wanderpath.com/llm/ja/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://wanderpath.com/llm/feed/products.jsonl",
+    "products_jsonl_delta": "https://wanderpath.com/llm/feed/products-delta.jsonl?since=2026-02-21T00:00:00Z"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "rate_limit": "2000/day",
+    "commercial_use": "allowed"
+  },
+  "license": "CC-BY-4.0"
+}

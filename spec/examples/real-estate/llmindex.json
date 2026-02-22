@@ -1,0 +1,23 @@
+{
+  "version": "0.1",
+  "updated_at": "2026-02-18T10:00:00Z",
+  "entity": {
+    "name": "PrimeProperty Realty",
+    "canonical_url": "https://primeproperty.com"
+  },
+  "language": "en",
+  "topics": ["real-estate", "property", "housing", "rental"],
+  "endpoints": {
+    "products": "https://primeproperty.com/llm/products",
+    "policies": "https://primeproperty.com/llm/policies",
+    "faq": "https://primeproperty.com/llm/faq",
+    "about": "https://primeproperty.com/llm/about"
+  },
+  "feeds": {
+    "products_jsonl": "https://primeproperty.com/llm/feed/products.jsonl"
+  },
+  "verify": {
+    "method": "http_file",
+    "value": "llmindex-verify.txt"
+  }
+}
