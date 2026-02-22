@@ -37,7 +37,7 @@ jobs:
     if: github.event_name == 'release'
     needs: test
     runs-on: ubuntu-latest
-    environment: pypi
+    environment: PYPI_TOKEN
     permissions:
       id-token: write
     steps:
@@ -60,7 +60,7 @@ jobs:
     if: github.event_name == 'release'
     needs: test
     runs-on: ubuntu-latest
-    environment: pypi
+    environment: NPM_TOKEN
     permissions:
       id-token: write
     defaults:
