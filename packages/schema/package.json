@@ -24,7 +24,7 @@
   "license": "CC-BY-4.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mci77777/openllmindex.git",
+    "url": "git+https://github.com/mci77777/openllmindex.git",
     "directory": "packages/schema"
   },
   "homepage": "https://github.com/mci77777/openllmindex",
