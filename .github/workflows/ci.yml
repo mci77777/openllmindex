@@ -44,8 +44,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        working-directory: packages/schema
-        run: npm install ajv ajv-formats
+        run: npm install
 
       - name: CJS require test
         run: node packages/schema/tests/test_cjs_require.cjs
