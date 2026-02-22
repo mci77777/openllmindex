@@ -1,0 +1,42 @@
+{
+  "version": "0.2",
+  "updated_at": "2026-02-20T14:00:00Z",
+  "entity": {
+    "name": "LearnHub Academy",
+    "canonical_url": "https://learnhub.edu"
+  },
+  "language": "en",
+  "languages": ["en", "zh-CN", "ja"],
+  "topics": ["education", "online-courses", "certification"],
+  "endpoints": {
+    "products": "https://learnhub.edu/llm/products",
+    "policies": "https://learnhub.edu/llm/policies",
+    "faq": "https://learnhub.edu/llm/faq",
+    "about": "https://learnhub.edu/llm/about"
+  },
+  "localized_endpoints": {
+    "en": {
+      "products": "https://learnhub.edu/llm/products",
+      "policies": "https://learnhub.edu/llm/policies",
+      "faq": "https://learnhub.edu/llm/faq",
+      "about": "https://learnhub.edu/llm/about"
+    },
+    "zh-CN": {
+      "products": "https://learnhub.edu/llm/zh/products",
+      "about": "https://learnhub.edu/llm/zh/about"
+    },
+    "ja": {
+      "products": "https://learnhub.edu/llm/ja/products",
+      "about": "https://learnhub.edu/llm/ja/about"
+    }
+  },
+  "feeds": {
+    "products_jsonl": "https://learnhub.edu/llm/feed/products.jsonl"
+  },
+  "access_control": {
+    "allow": ["*"],
+    "requires_attribution": true,
+    "commercial_use": "non-commercial"
+  },
+  "license": "CC-BY-NC-SA-4.0"
+}
