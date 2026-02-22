@@ -1,5 +1,5 @@
 [project]
-name = "llmindex"
+name = "openllmindex"
 version = "0.1.0"
 description = "LLM-ready index generator for websites — spec, validator, and CLI tools"
 readme = "README.md"
