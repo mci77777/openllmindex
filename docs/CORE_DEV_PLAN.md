@@ -80,9 +80,9 @@
 |---|------|------|------|
 | 3.1 | Spec 正式化 | `spec/spec.md` | ✅ commit `0abbc7a` |
 | 3.2 | 中文版规范 | `spec/spec.zh.md` | ✅ commit `0abbc7a` |
-| 3.3 | JSON Schema 文档化 | `spec/schemas/` | 🔄 待完善 description/$comment |
+| 3.3 | JSON Schema 文档化 | `spec/schemas/` | ✅ 已完成（description/$comment 字段齐全）|
 | 3.4 | Feed Schema 独立文件 | `spec/schemas/product-line-0.1.schema.json` | ✅ 已存在并发布至 npm |
-| 3.5 | 更多 test vectors | `spec/test-vectors/` | 🔄 待补充 |
+| 3.5 | 更多 test vectors | `spec/test-vectors/` | ✅ 已完成（8 个 vector 全部存在）|
 | 3.6 | 更多 industry examples | `spec/examples/` | 🔄 ecommerce/local-business/saas 已有，待补 blog/restaurant/marketplace |
 | 3.7 | docs site 更新 | `docs/index.html` | 🔄 内容可能滞后 |
 
