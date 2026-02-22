@@ -142,6 +142,39 @@
     "license": {
       "type": "string",
       "description": "SPDX license identifier or URL to license text."
+    },
+    "access_control": {
+      "type": "object",
+      "description": "Optional access control declarations for AI agents and LLM crawlers.",
+      "$comment": "v0.2 pre-adoption field. All sub-fields are optional. 'allow' defaults to ['*'] (all agents). This field is informational — enforcement is at the application layer.",
+      "additionalProperties": false,
+      "properties": {
+        "allow": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "description": "List of allowed AI agent identifiers. Use ['*'] to allow all (default). Example: ['GPTBot', 'ClaudeBot']."
+        },
+        "deny": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "description": "List of denied AI agent identifiers. Takes precedence over allow. Example: ['BadBot/1.0']."
+        },
+        "rate_limit": {
+          "type": "string",
+          "pattern": "^\\d+/(second|minute|hour|day|month)$",
+          "description": "Suggested rate limit for AI crawlers. Format: '<count>/<unit>' (e.g., '1000/day', '10/minute').",
+          "$comment": "This is a hint to well-behaved crawlers; enforcement requires server-side implementation."
+        },
+        "requires_attribution": {
+          "type": "boolean",
+          "description": "If true, AI-generated content derived from this data must attribute the source."
+        },
+        "commercial_use": {
+          "type": "string",
+          "enum": ["allowed", "non-commercial", "contact-required"],
+          "description": "Commercial use permission: 'allowed' (default), 'non-commercial' (free/non-profit only), 'contact-required' (contact owner before commercial use)."
+        }
+      }
     }
   },
   "definitions": {

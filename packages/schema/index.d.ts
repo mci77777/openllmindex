@@ -39,6 +39,23 @@ export interface LlmindexFeeds {
   offers_json?: string;
 }
 
+/**
+ * Access control declarations for AI agents and LLM crawlers.
+ * @since v0.2 pre-adoption (optional field in v0.1 schema)
+ */
+export interface AccessControl {
+  /** List of allowed AI agent identifiers. Use ['*'] to allow all (default). */
+  allow?: string[];
+  /** List of denied AI agent identifiers. Takes precedence over allow. */
+  deny?: string[];
+  /** Suggested rate limit hint. Format: '<count>/<unit>' (e.g., '1000/day'). */
+  rate_limit?: string;
+  /** If true, AI-generated content derived from this data must attribute the source. */
+  requires_attribution?: boolean;
+  /** Commercial use permission level. */
+  commercial_use?: "allowed" | "non-commercial" | "contact-required";
+}
+
 /** The llmindex v0.1 manifest. */
 export interface LlmindexManifest {
   /** Spec version. Always "0.1". */
@@ -61,6 +78,8 @@ export interface LlmindexManifest {
   sig?: LlmindexSig;
   /** SPDX license identifier or URL. */
   license?: string;
+  /** Access control declarations for AI agents. */
+  access_control?: AccessControl;
 }
 
 /** Price range for products with variable pricing. */
