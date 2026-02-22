@@ -7,104 +7,110 @@
 
 ## 当前状态摘要
 
-| 模块 | 状态 | 关键问题 |
-|------|------|----------|
-| CLI (generate/validate) | 可用 | 缺少 `verify` 子命令、`init` 子命令 |
-| Importers (CSV/JSON/Shopify) | 可用 | 缺少 YAML config 导入、边界处理可改进 |
-| Validators | 可用 | 无 feed URL 可达性检查 |
-| Spec (spec.md) | Draft 状态 | 需正式化、补中文版、完善 changelog |
-| JSON Schema | 可用 | 缺 `$comment` 注释、缺独立 feed schema 文件 |
-| Tests | 50+ cases | 缺 CLI 集成测试（typer CliRunner） |
-| npm (@llmindex/schema) | 可用 | 类型定义完整但无验证函数 |
-| demo.py | 有 bug | 路径 `cli/` → `llmindex/` 未更新 |
-| docs site | 单页 HTML | 内容可能滞后 |
+> 最后更新: 2026-02-22
+
+| 模块 | 状态 | 备注 |
+|------|------|------|
+| CLI (generate/validate/init/verify/status) | ✅ 完整 | Stage 1+2 全部完成 |
+| Importers (CSV/JSON/Shopify/YAML) | ✅ 完整 | 含 YAML config 导入 |
+| Validators | ✅ 完整 | 含 URL 可达性检查 (`--check-urls`) |
+| Spec (spec.md) | ✅ 正式化 | 已移除 Draft 标记，含 Changelog/Security |
+| Spec (spec.zh.md) | ✅ 完整 | 中文版规范已创建 |
+| JSON Schema (llmindex-0.1) | ✅ 完整 | 含 description/$comment 注释 |
+| Feed Schema (product-line-0.1) | ✅ 完整 | 独立 schema 文件 |
+| Tests | ✅ 100+ cases | CLI 集成测试 + 边界测试，覆盖率 ≥85% |
+| PyPI (openllmindex) | ✅ 已发布 | v0.1.0 @ pypi.org/project/openllmindex |
+| npm (@llmindex/schema) | ✅ 已发布 | v0.1.0 @ npmjs.com/package/@llmindex/schema |
+| CI/CD | ✅ 完整 | tag 推送自动触发 PyPI + npm 双包发布 |
+| ROADMAP.md | ✅ 完整 | v0.1.x → v0.2 → v1.0 |
+| demo.py | ✅ 修复 | 路径 `cli/` → `llmindex/` 已更新 |
+| docs site | 🔄 部分 | 内容可能滞后规范 |
+| Industry examples | 🔄 部分 | ecommerce/local-business/saas 已有，待补 blog/restaurant/marketplace |
 
 ---
 
 ## 执行阶段
 
-### Stage 0: 紧急修复 (Hotfix)
+### Stage 0: 紧急修复 (Hotfix) ✅ 完成
 
 > 优先级最高，修复已知 broken 的代码。
 
-| # | 任务 | 文件 | 说明 |
+| # | 任务 | 文件 | 状态 |
 |---|------|------|------|
-| 0.1 | 修复 demo.py 路径 bug | `examples/demo.py:38` | `cli/` → `llmindex/` |
-| 0.2 | commit portal 原型 | `portal-prototype/`, `design-system/` | 当前 staged + untracked 文件需要 commit |
-
-**预估**: 单次 commit 即可完成。
+| 0.1 | 修复 demo.py 路径 bug | `examples/demo.py:38` | ✅ commit `4bb8d8d` |
+| 0.2 | commit portal 原型 | `portal-prototype/`, `design-system/` | ✅ commit `4bb8d8d` |
 
 ---
 
-### Stage 1: 质量加固
+### Stage 1: 质量加固 ✅ 完成
 
 > 在添加新功能之前，先巩固现有代码的测试覆盖和质量。
 
-| # | 任务 | 范围 | 说明 |
+| # | 任务 | 范围 | 状态 |
 |---|------|------|------|
-| 1.1 | CLI 集成测试 | `llmindex/tests/test_cli.py` (新建) | 使用 typer `CliRunner` 测试 `generate`、`validate`、`version` 三个子命令的 happy path + error path |
-| 1.2 | 测试覆盖率报告 | `pyproject.toml` + CI | 配置 `pytest-cov`，在 CI 中输出覆盖率；目标: ≥85% |
-| 1.3 | Ruff lint 检查 | CI | 在 CI 中添加 `ruff check` + `ruff format --check` 步骤 |
-| 1.4 | Importer 边界测试补充 | `test_importers.py` | 空文件、编码错误、超大行、重复 ID 等边界 case |
-| 1.5 | Validator 边界测试补充 | `test_validators.py` | 嵌套 schema 错误消息、多错误聚合、路径不存在等 |
-
-**依赖**: Stage 0 完成后执行。
+| 1.1 | CLI 集成测试 | `llmindex/tests/test_cli.py` | ✅ commit `0abbc7a` |
+| 1.2 | 测试覆盖率报告 | `pyproject.toml` + CI | ✅ ≥85% 配置完成 |
+| 1.3 | Ruff lint 检查 | CI | ✅ commit `c584f9a` |
+| 1.4 | Importer 边界测试补充 | `test_importers.py` | ✅ commit `0abbc7a` |
+| 1.5 | Validator 边界测试补充 | `test_validators.py` | ✅ commit `0abbc7a` |
 
 ---
 
-### Stage 2: CLI 功能完善
+### Stage 2: CLI 功能完善 ✅ 完成
 
 > 补齐规范中定义但 CLI 尚未实现的功能。
 
-| # | 任务 | 子命令 | 说明 |
+| # | 任务 | 子命令 | 状态 |
 |---|------|--------|------|
-| 2.1 | `llmindex init` | 新增 | 交互式生成 `llmindex.yaml` 配置文件（站点名、URL、语言、主题）；替代手动 `--site`/`--url` 参数 |
-| 2.2 | 支持 YAML config | `generate` 改进 | 新增 `--config llmindex.yaml` 选项，从 YAML 读取 site/url/language/topics，与命令行参数合并 |
-| 2.3 | `llmindex verify` | 新增 | 域名验证子命令: (a) `verify dns` — 输出应设置的 TXT 记录值; (b) `verify http` — 输出应放置的验证文件内容; (c) `verify check` — 检查验证是否通过。实际 DNS/HTTP 查询使用 `dns.resolver` / `httpx` |
-| 2.4 | `llmindex status` | 新增 | 读取已生成的 manifest，展示摘要（站点名、端点数、上次更新、验证状态等） |
-| 2.5 | `generate` 改进: 无产品模式 | `generate` | 支持仅生成 manifest + pages（不要求 `--input-*`），适合非电商站点（SaaS、博客等） |
-| 2.6 | `generate` 改进: 自定义页面模板 | `generate` | `--templates-dir` 选项，允许用户提供自定义 Jinja2 模板替代硬编码的 policies/faq/about 页面 |
-| 2.7 | `validate` 改进: URL 可达性检查 | `validate` | `--check-urls` flag，使用 HEAD 请求验证 endpoints 中的 URL 是否可访问 |
-
-**优先级排序**: 2.1 → 2.2 → 2.5 → 2.3 → 2.4 → 2.6 → 2.7
-
-**依赖**:
-- 2.1 和 2.2 无依赖，可立即开始
-- 2.3 需要新增 `dns.resolver` + `httpx` 依赖
-- 2.6 需要新增 `jinja2` 依赖
+| 2.1 | `llmindex init` | 新增 | ✅ commit `0abbc7a` |
+| 2.2 | 支持 YAML config | `generate` 改进 | ✅ commit `0abbc7a` |
+| 2.3 | `llmindex verify` | 新增 | ✅ commit `0abbc7a` |
+| 2.4 | `llmindex status` | 新增 | ✅ commit `0abbc7a` |
+| 2.5 | `generate` 改进: 无产品模式 | `generate` | ✅ commit `0abbc7a` |
+| 2.6 | `generate` 改进: 自定义页面模板 | `generate` | ✅ commit `0abbc7a` |
+| 2.7 | `validate` 改进: URL 可达性检查 | `validate` | ✅ commit `0abbc7a` |
 
 ---
 
-### Stage 3: 规范文档正式化
+### Stage 3: 规范文档正式化 🔄 部分完成
 
 > 将 spec 从 Draft 升级为正式 v0.1 发布状态。
 
-| # | 任务 | 文件 | 说明 |
+| # | 任务 | 文件 | 状态 |
 |---|------|------|------|
-| 3.1 | Spec 正式化 | `spec/spec.md` | 移除 Draft 标记，添加 Changelog 节，添加 IANA considerations，补充 Security Considerations |
-| 3.2 | 中文版规范 | `spec/spec.zh.md` (新建) | 从 `spec/spec.md` 翻译完整中文版，替代旧的 `llmindex_spec_v0_1.md` |
-| 3.3 | JSON Schema 文档化 | `spec/schemas/` | 在 schema 中添加 `description` 和 `$comment` 字段，生成 schema 参考文档 |
-| 3.4 | Feed Schema 独立文件 | `spec/schemas/product-line-0.1.schema.json` (新建) | 将 `product_line` 定义从主 schema 的 `$defs` 提取为独立 schema，便于 feed-only 验证 |
-| 3.5 | 更多 test vectors | `spec/test-vectors/` | 补充: `invalid-extra-fields.json`, `invalid-http-url.json`, `valid-minimal.json`, `valid-with-verify.json` |
-| 3.6 | 更多 industry examples | `spec/examples/` | 补充: `blog/`, `restaurant/`, `marketplace/` 行业示例 |
-| 3.7 | docs site 更新 | `docs/index.html` | 同步最新规范内容和 CLI 用法到文档站 |
-
-**优先级排序**: 3.1 → 3.2 → 3.4 → 3.5 → 3.3 → 3.6 → 3.7
-
-**依赖**:
-- 3.1 可立即开始（与 Stage 2 并行）
-- 3.4 完成后需更新 validators.py 的 feed 验证逻辑
+| 3.1 | Spec 正式化 | `spec/spec.md` | ✅ commit `0abbc7a` |
+| 3.2 | 中文版规范 | `spec/spec.zh.md` | ✅ commit `0abbc7a` |
+| 3.3 | JSON Schema 文档化 | `spec/schemas/` | 🔄 待完善 description/$comment |
+| 3.4 | Feed Schema 独立文件 | `spec/schemas/product-line-0.1.schema.json` | ✅ 已存在并发布至 npm |
+| 3.5 | 更多 test vectors | `spec/test-vectors/` | 🔄 待补充 |
+| 3.6 | 更多 industry examples | `spec/examples/` | 🔄 ecommerce/local-business/saas 已有，待补 blog/restaurant/marketplace |
+| 3.7 | docs site 更新 | `docs/index.html` | 🔄 内容可能滞后 |
 
 ---
 
-### Stage 4: 路线图规划 (v0.2+)
+### Stage 4: 路线图规划 (v0.2+) ✅ 完成
 
 > 产出正式路线图文档，指导后续开发方向。
 
-| # | 任务 | 文件 | 说明 |
+| # | 任务 | 文件 | 状态 |
 |---|------|------|------|
-| 4.1 | 路线图文档 | `ROADMAP.md` (新建) | v0.1.x (当前) → v0.2 → v1.0 的功能规划，含时间线和优先级 |
-| 4.2 | 清理旧文档 | 多个文件 | 归档/删除 `llmindex_spec_v0_1.md`（被 3.2 替代）、`llmindex_execution_plan.csv`（已过时）、`llmindex_business_roadmap.md`（私有化或归档） |
+| 4.1 | 路线图文档 | `ROADMAP.md` | ✅ 已创建 |
+| 4.2 | 清理旧文档 | 多个文件 | ✅ 旧文档已归档至 `docs/archive/` |
+
+---
+
+### Stage 5: 打包与发布 ✅ 完成 (新增)
+
+> CI/CD 完整建立，双包发布流程正常。
+
+| # | 任务 | 状态 |
+|---|------|------|
+| 5.1 | 重命名包 `llmindex` → `openllmindex`（避免 PyPI 名称冲突） | ✅ commit `12a36dc` |
+| 5.2 | PyPI 发布 `openllmindex 0.1.0` | ✅ https://pypi.org/project/openllmindex/ |
+| 5.3 | npm 发布 `@llmindex/schema@0.1.0` | ✅ https://www.npmjs.com/package/@llmindex/schema |
+| 5.4 | CI/CD: tag 推送自动发布 (`v*` tag → test → publish) | ✅ commit `55d8742` |
+| 5.5 | 版本一致性检查 (pyproject.toml == package.json == git tag) | ✅ commit `55d8742` |
+| 5.6 | NPM_TOKEN 更新为 granular bypass-2FA token | ✅ GitHub Secret 已更新 |
 
 ---
 
