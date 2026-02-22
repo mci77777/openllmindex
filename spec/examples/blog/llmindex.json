@@ -12,5 +12,6 @@
     "policies": "https://morningbrew.com/llm/policies",
     "faq": "https://morningbrew.com/llm/faq",
     "about": "https://morningbrew.com/llm/about"
-  }
+  },
+  "license": "CC-BY-4.0"
 }

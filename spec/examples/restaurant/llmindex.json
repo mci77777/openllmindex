@@ -12,5 +12,10 @@
     "policies": "https://goldenfork.restaurant/llm/policies",
     "faq": "https://goldenfork.restaurant/llm/faq",
     "about": "https://goldenfork.restaurant/llm/about"
-  }
+  },
+  "verify": {
+    "method": "dns_txt",
+    "value": "llmindex-verify-goldenfork-2026"
+  },
+  "license": "CC-BY-4.0"
 }

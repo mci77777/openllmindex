@@ -15,5 +15,9 @@
   },
   "feeds": {
     "products_jsonl": "https://crafthub.io/llm/feed/products.jsonl"
+  },
+  "verify": {
+    "method": "http_file",
+    "value": "llmindex-verify.txt"
   }
 }
