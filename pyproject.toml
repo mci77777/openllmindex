@@ -49,6 +49,9 @@ verify = [
     "dnspython>=2.6",
     "httpx>=0.27",
 ]
+sign = [
+    "cryptography>=42.0",
+]
 
 [project.scripts]
 llmindex = "llmindex.llmindex_cli.main:app"

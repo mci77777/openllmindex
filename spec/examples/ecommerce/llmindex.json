@@ -1,11 +1,13 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "updated_at": "2026-02-17T10:00:00Z",
+  "feed_updated_at": "2026-02-22T10:00:00Z",
   "entity": {
     "name": "ACME Outdoor Gear",
     "canonical_url": "https://acme-outdoor.com"
   },
   "language": "en",
+  "languages": ["en", "zh-CN"],
   "topics": ["outdoor-gear", "camping", "hiking"],
   "endpoints": {
     "products": "https://acme-outdoor.com/llm/products",
@@ -13,8 +15,21 @@
     "faq": "https://acme-outdoor.com/llm/faq",
     "about": "https://acme-outdoor.com/llm/about"
   },
+  "localized_endpoints": {
+    "en": {
+      "products": "https://acme-outdoor.com/llm/products",
+      "policies": "https://acme-outdoor.com/llm/policies",
+      "faq": "https://acme-outdoor.com/llm/faq",
+      "about": "https://acme-outdoor.com/llm/about"
+    },
+    "zh-CN": {
+      "products": "https://acme-outdoor.com/llm/zh/products",
+      "about": "https://acme-outdoor.com/llm/zh/about"
+    }
+  },
   "feeds": {
-    "products_jsonl": "https://acme-outdoor.com/llm/feed/products.jsonl"
+    "products_jsonl": "https://acme-outdoor.com/llm/feed/products.jsonl",
+    "products_jsonl_delta": "https://acme-outdoor.com/llm/feed/products-delta.jsonl?since={timestamp}"
   },
   "verify": {
     "method": "dns_txt",

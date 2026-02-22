@@ -1,5 +1,5 @@
 /**
- * llmindex v0.1 Manifest Schema — TypeScript type definitions.
+ * llmindex Manifest Schema — TypeScript type definitions.
  *
  * @see https://github.com/mci77777/openllmindex/blob/main/spec/spec.md
  */
@@ -33,9 +33,15 @@ export interface LlmindexEndpoints {
   about: string;
 }
 
+/** Localized endpoint URLs keyed by BCP-47 language tag. */
+export interface LocalizedEndpoints {
+  [lang: string]: Partial<LlmindexEndpoints>;
+}
+
 /** Optional machine-readable data feeds. */
 export interface LlmindexFeeds {
   products_jsonl?: string;
+  products_jsonl_delta?: string;
   offers_json?: string;
 }
 
@@ -56,20 +62,26 @@ export interface AccessControl {
   commercial_use?: "allowed" | "non-commercial" | "contact-required";
 }
 
-/** The llmindex v0.1 manifest. */
+/** The llmindex manifest (v0.1/v0.2). */
 export interface LlmindexManifest {
-  /** Spec version. Always "0.1". */
-  version: "0.1";
+  /** Spec version. */
+  version: "0.1" | "0.2";
   /** ISO 8601 datetime of last update. */
   updated_at: string;
+  /** ISO 8601 datetime of last feed update. */
+  feed_updated_at?: string;
   /** Entity information. */
   entity: LlmindexEntity;
   /** Primary language (BCP-47). */
   language: string;
+  /** Optional list of supported languages (BCP-47). */
+  languages?: string[];
   /** Category tags. */
   topics: string[];
   /** Required endpoint URLs. */
   endpoints: LlmindexEndpoints;
+  /** Optional localized endpoint URL overrides. */
+  localized_endpoints?: LocalizedEndpoints;
   /** Optional data feeds. */
   feeds?: LlmindexFeeds;
   /** Domain verification. */

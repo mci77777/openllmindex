@@ -7,12 +7,20 @@ import jsonschema
 import pytest
 
 SPEC_DIR = Path(__file__).resolve().parent.parent.parent / "spec"
-SCHEMA_PATH = SPEC_DIR / "schemas" / "llmindex-0.1.schema.json"
+SCHEMA_V01_PATH = SPEC_DIR / "schemas" / "llmindex-0.1.schema.json"
+SCHEMA_V02_PATH = SPEC_DIR / "schemas" / "llmindex-0.2.schema.json"
+
+
+def _load_schema_for_version(version: str) -> dict:
+    """Load the appropriate schema based on manifest version."""
+    if version == "0.2" and SCHEMA_V02_PATH.exists():
+        return json.loads(SCHEMA_V02_PATH.read_text())
+    return json.loads(SCHEMA_V01_PATH.read_text())
 
 
 @pytest.fixture
 def schema():
-    return json.loads(SCHEMA_PATH.read_text())
+    return json.loads(SCHEMA_V01_PATH.read_text())
 
 
 class TestExamplesValidation:
@@ -22,10 +30,12 @@ class TestExamplesValidation:
         "example_name",
         ["ecommerce", "local-business", "saas", "blog", "restaurant", "marketplace"],
     )
-    def test_example_validates(self, schema, example_name):
+    def test_example_validates(self, example_name):
         path = SPEC_DIR / "examples" / example_name / "llmindex.json"
         data = json.loads(path.read_text())
-        jsonschema.validate(data, schema)  # raises on failure
+        version = data.get("version", "0.1")
+        appropriate_schema = _load_schema_for_version(version)
+        jsonschema.validate(data, appropriate_schema)  # raises on failure
 
 
 class TestTestVectors:

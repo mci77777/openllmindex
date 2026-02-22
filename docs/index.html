@@ -202,6 +202,15 @@ llmindex generate \
 # Validate manifest
 llmindex validate .well-known/llmindex.json
 
+# Generate signing keys (optional)
+llmindex sign keygen --output keys/
+
+# Sign manifest (optional)
+llmindex sign manifest --key keys/private.pem .well-known/llmindex.json
+
+# Verify signature (optional)
+llmindex sign verify --key keys/public.pem .well-known/llmindex.json
+
 # Verify domain ownership &amp; URL reachability
 llmindex verify \
   --manifest .well-known/llmindex.json \
@@ -324,6 +333,19 @@ validate(manifest); // true/false</code></pre>
         <tr><td><code>verify</code></td><td>Domain ownership proof (DNS/HTTP)</td></tr>
         <tr><td><code>sig</code></td><td>Cryptographic signature (JWS)</td></tr>
         <tr><td><code>license</code></td><td>SPDX identifier or URL</td></tr>
+      </tbody>
+    </table>
+    <h3>v0.2 Additions</h3>
+    <table>
+      <thead>
+        <tr><th>Field / Feature</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>languages</code></td><td>Supported languages (BCP-47 codes)</td></tr>
+        <tr><td><code>localized_endpoints</code></td><td>Per-language endpoint map</td></tr>
+        <tr><td><code>access_control</code></td><td>AI access and usage constraints</td></tr>
+        <tr><td><code>feed_updated_at</code></td><td>Feed update timestamp (independent of manifest)</td></tr>
+        <tr><td><code>sign CLI</code></td><td><code>llmindex sign keygen|manifest|verify</code> (EdDSA JWS)</td></tr>
       </tbody>
     </table>
     <p style="margin-top:12px;">

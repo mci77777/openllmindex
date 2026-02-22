@@ -1,6 +1,7 @@
 """Tests for the llmindex validator module."""
 
 import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
@@ -250,3 +251,94 @@ class TestAccessControlValidation:
         result = validate_manifest(path)
         assert result.valid
         assert result.warnings == []
+
+
+class TestLocalizedEndpoints:
+    """Test business-logic validation for languages/localized_endpoints/feed_updated_at."""
+
+    def test_valid_v02_manifest_passes(self, tmp_path):
+        path = _make_manifest(tmp_path, version="0.2")
+        result = validate_manifest(path)
+        assert result.valid, f"Errors: {result.errors}"
+
+    def test_v02_with_localized_endpoints_passes(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            version="0.2",
+            languages=["en", "zh-CN"],
+            localized_endpoints={
+                "en": {
+                    "products": "https://test.com/llm/products",
+                    "policies": "https://test.com/llm/policies",
+                    "faq": "https://test.com/llm/faq",
+                    "about": "https://test.com/llm/about",
+                },
+                "zh-CN": {
+                    "products": "https://test.com/llm/zh/products",
+                    "about": "https://test.com/llm/zh/about",
+                },
+            },
+        )
+        result = validate_manifest(path)
+        assert result.valid, f"Errors: {result.errors}"
+        assert result.warnings == []
+
+    def test_localized_endpoints_without_languages_warns(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            version="0.2",
+            localized_endpoints={
+                "en": {"products": "https://test.com/llm/products"},
+            },
+        )
+        result = validate_manifest(path)
+        assert result.valid
+        assert any("languages and localized_endpoints" in w for w in result.warnings)
+
+    def test_localized_endpoints_lang_not_in_languages_warns(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            version="0.2",
+            languages=["en"],
+            localized_endpoints={
+                "en": {"products": "https://test.com/llm/products"},
+                "zh-CN": {"products": "https://test.com/llm/zh/products"},
+            },
+        )
+        result = validate_manifest(path)
+        assert result.valid
+        assert any("not present in languages" in w for w in result.warnings)
+
+    def test_localized_endpoints_domain_mismatch_warns(self, tmp_path):
+        path = _make_manifest(
+            tmp_path,
+            version="0.2",
+            entity={"name": "Test Co", "canonical_url": "https://example.com"},
+            languages=["en"],
+            localized_endpoints={
+                "en": {"products": "https://other-domain.com/llm/products"},
+            },
+        )
+        result = validate_manifest(path)
+        assert result.valid
+        assert any("localized_endpoints" in w and "differs from canonical" in w for w in result.warnings)
+
+    def test_unknown_version_uses_v01_with_warning(self, tmp_path):
+        path = _make_manifest(tmp_path, version="0.9")
+        result = validate_manifest(path)
+        assert result.valid, f"Errors: {result.errors}"
+        assert any("Unknown manifest version" in w for w in result.warnings)
+
+    def test_feed_updated_at_stale_warns(self, tmp_path):
+        stale = (datetime.now(timezone.utc) - timedelta(days=8)).replace(microsecond=0).isoformat()
+        path = _make_manifest(tmp_path, version="0.2", feed_updated_at=stale)
+        result = validate_manifest(path)
+        assert result.valid, f"Errors: {result.errors}"
+        assert any("feed_updated_at is older than 7 days" in w for w in result.warnings)
+
+    def test_feed_updated_at_fresh_no_warning(self, tmp_path):
+        fresh = (datetime.now(timezone.utc) - timedelta(days=1)).replace(microsecond=0).isoformat()
+        path = _make_manifest(tmp_path, version="0.2", feed_updated_at=fresh)
+        result = validate_manifest(path)
+        assert result.valid, f"Errors: {result.errors}"
+        assert not any("feed_updated_at is older than 7 days" in w for w in result.warnings)

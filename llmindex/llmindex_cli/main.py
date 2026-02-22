@@ -31,6 +31,8 @@ app = typer.Typer(
 console = Console()
 verify_app = typer.Typer(help="Generate and check domain verification challenges.")
 app.add_typer(verify_app, name="verify")
+sign_app = typer.Typer(help="Sign and verify manifest signatures (EdDSA JWS).")
+app.add_typer(sign_app, name="sign")
 
 
 def _default_manifest_path() -> Optional[Path]:
@@ -52,6 +54,19 @@ def _load_manifest(path: Path) -> dict:
         raise FileNotFoundError(f"Manifest not found: {path}") from e
     except json.JSONDecodeError as e:
         raise ValueError(f"Invalid JSON in manifest: {e}") from e
+
+
+def _require_cryptography() -> None:
+    try:
+        import cryptography  # type: ignore[import-not-found]
+    except ModuleNotFoundError as e:
+        console.print(
+            "[red]Error:[/red] cryptography is required for `llmindex sign`. "
+            "Install with: pip install 'llmindex[sign]'"
+        )
+        raise typer.Exit(1) from e
+
+    _ = cryptography.__version__
 
 
 def _normalize_base_url(url: str) -> str:
@@ -354,6 +369,66 @@ def verify_check(
     console.print(f"  Expected: {expected_value}")
     console.print(f"  Got: {body}")
     raise typer.Exit(1)
+
+
+@sign_app.command("keygen")
+def sign_keygen(
+    output: Path = typer.Option(
+        ...,
+        "--output",
+        "-o",
+        help="Output directory for key files (private.pem + public.pem).",
+    ),
+) -> None:
+    """Generate an Ed25519 keypair for signing llmindex manifests."""
+    _require_cryptography()
+    from llmindex.llmindex_cli.commands.sign import keygen
+
+    try:
+        private_path, public_path = keygen(output)
+    except (OSError, ValueError, ModuleNotFoundError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1) from e
+
+    console.print("[bold]Generated keys:[/bold]")
+    console.print(f"  [green]✓[/green] {private_path}")
+    console.print(f"  [green]✓[/green] {public_path}")
+
+
+@sign_app.command("manifest")
+def sign_manifest_cmd(
+    manifest: Path = typer.Argument(..., help="Path to llmindex.json manifest file"),
+    key: Path = typer.Option(..., "--key", help="Path to Ed25519 private key PEM (private.pem)"),
+) -> None:
+    """Sign a manifest and write the `sig` field back to disk."""
+    _require_cryptography()
+    from llmindex.llmindex_cli.commands.sign import sign_manifest
+
+    try:
+        sign_manifest(manifest, key)
+    except (OSError, ValueError, ModuleNotFoundError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1) from e
+
+    console.print(f"[green]✓[/green] Signed manifest: {manifest}")
+
+
+@sign_app.command("verify")
+def sign_verify_cmd(
+    manifest: Path = typer.Argument(..., help="Path to llmindex.json manifest file"),
+    key: Path = typer.Option(..., "--key", help="Path to Ed25519 public key PEM (public.pem)"),
+) -> None:
+    """Verify a signed manifest using an Ed25519 public key."""
+    _require_cryptography()
+    from llmindex.llmindex_cli.commands.verify_sig import verify_signature
+
+    try:
+        ok = verify_signature(manifest, key)
+    except (OSError, ValueError, ModuleNotFoundError) as e:
+        console.print(f"[red]Error:[/red] {e}")
+        raise typer.Exit(1) from e
+
+    raise typer.Exit(0 if ok else 1)
 
 
 @app.command()

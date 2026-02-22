@@ -16,8 +16,8 @@
 
 ### 待完成 (v0.1.1)
 
-- [ ] 更多行业示例：`blog/`、`restaurant/`、`marketplace/`
-- [ ] `docs/index.html` 更新（同步 CLI 用法和当前规范）
+- [x] 更多行业示例：`blog/`、`restaurant/`、`marketplace/`
+- [x] `docs/index.html` 更新（同步 CLI 用法和当前规范）
 
 ---
 
@@ -27,7 +27,7 @@
 
 ### 特性规划
 
-#### 1. 多语言 manifest
+#### 1. 多语言 manifest [x]
 
 **动机**：全球化站点需要为不同语言的 AI Agent 提供本地化内容。
 
@@ -53,7 +53,7 @@
 
 ---
 
-#### 2. `access_control` 字段
+#### 2. `access_control` 字段 [x]
 
 **动机**：允许站点声明哪些 AI 系统可以使用数据，以及访问限制。
 
@@ -76,7 +76,7 @@
 
 ---
 
-#### 3. EdDSA JWS 签名
+#### 3. EdDSA JWS 签名 [x]
 
 **动机**：允许 AI Agent 验证 manifest 来源真实性，防篡改。
 
@@ -93,15 +93,16 @@
 
 **CLI 支持**：
 ```bash
-llmindex sign --key private.pem manifest.json
-llmindex verify-sig --key public.pem manifest.json
+llmindex sign keygen --output keys/
+llmindex sign manifest --key keys/private.pem .well-known/llmindex.json
+llmindex sign verify --key keys/public.pem .well-known/llmindex.json
 ```
 
 **依赖**：`cryptography>=42.0`（可选 extra）
 
 ---
 
-#### 4. 增量更新支持
+#### 4. 增量更新支持 [x]
 
 **动机**：大型产品目录频繁全量发布代价高，需要增量机制。
 
@@ -121,7 +122,7 @@ llmindex verify-sig --key public.pem manifest.json
 
 ---
 
-#### 5. CLI watch 模式
+#### 5. CLI watch 模式（v0.2.1）
 
 **动机**：开发阶段自动监听源数据（CSV/JSON），变更后自动重建 artifacts。
 
@@ -174,7 +175,7 @@ llmindex watch --config llmindex.yaml --output-dir dist
 | 版本 | 预计内容 | 状态 |
 |------|----------|------|
 | v0.1.0 | CLI 完整 + 规范正式化 + 双包发布 | ✅ 已发布 |
-| v0.1.1 | 更多行业示例 + docs site 更新 | 🔄 待做 |
-| v0.2.0 | 多语言 + access_control + EdDSA 签名 | 📋 规划中 |
-| v0.2.1 | 增量更新 + CLI watch 模式 | 📋 规划中 |
+| v0.1.1 | 更多行业示例 + docs site 更新 | ✅ 已完成 |
+| v0.2.0 | 多语言 + access_control + EdDSA 签名 + 增量更新 | 🔄 开发中 |
+| v0.2.1 | CLI watch 模式 | 📋 规划中 |
 | v1.0.0 | 稳定版 + SDK + validator service | 📋 远期 |
