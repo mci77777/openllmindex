@@ -24,7 +24,7 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
-      - run: pip install -e ".[dev]"
+      - run: pip install -e ".[dev,sign]"
 
       - run: pytest -v
 
@@ -42,12 +42,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
-          cache-dependency-path: packages/schema/package-lock.json
 
       - name: Install dependencies
         working-directory: packages/schema
-        run: npm ci
+        run: npm install ajv ajv-formats
 
       - name: CJS require test
         run: node packages/schema/tests/test_cjs_require.cjs
@@ -135,8 +133,6 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
-          cache: npm
-          cache-dependency-path: packages/schema/package.json
 
       - name: Copy schemas
         run: |
