@@ -18,10 +18,8 @@ from llmindex.llmindex_cli.models import SiteConfig
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SAMPLE_CSV = PROJECT_ROOT / "llmindex" / "sample_data" / "sample.csv"
-SCHEMA_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.1.schema.json"
-
-
-SCHEMA_V02_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.2.schema.json"
+SCHEMA_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.2.schema.json"
+SCHEMA_V01_PATH = PROJECT_ROOT / "spec" / "schemas" / "llmindex-0.1.schema.json"
 
 
 @pytest.fixture
@@ -58,7 +56,7 @@ class TestDemoWorkflow:
         loaded = json.loads(Path(path).read_text())
         jsonschema.validate(loaded, schema)  # must not raise
 
-        assert loaded["version"] == "0.1"
+        assert loaded["version"] == "0.2"
         assert loaded["entity"]["name"] == "Demo Store"
 
     def test_generate_pages(self, output_dir):
@@ -123,8 +121,12 @@ class TestSchemaExamplesValidation:
     """Validate all spec examples against appropriate schema version."""
 
     @pytest.fixture
+    def schema_v01(self):
+        return json.loads(SCHEMA_V01_PATH.read_text())
+
+    @pytest.fixture
     def schema_v02(self):
-        return json.loads(SCHEMA_V02_PATH.read_text())
+        return json.loads(SCHEMA_PATH.read_text())
 
     @pytest.mark.parametrize(
         "industry",
@@ -141,12 +143,12 @@ class TestSchemaExamplesValidation:
             "saas",
         ],
     )
-    def test_v01_examples_valid(self, schema, industry):
+    def test_v01_examples_valid(self, schema_v01, industry):
         """Each v0.1 example must validate against the v0.1 schema."""
         path = PROJECT_ROOT / "spec" / "examples" / industry / "llmindex.json"
         data = json.loads(path.read_text())
         assert data["version"] == "0.1"
-        jsonschema.validate(data, schema)
+        jsonschema.validate(data, schema_v01)
 
     @pytest.mark.parametrize(
         "industry",

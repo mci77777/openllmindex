@@ -14,7 +14,7 @@ from llmindex.llmindex_cli.models import SiteConfig
 
 SAMPLE_CSV = Path(__file__).resolve().parent.parent / "sample_data" / "sample.csv"
 SCHEMA_PATH = (
-    Path(__file__).resolve().parent.parent.parent / "spec" / "schemas" / "llmindex-0.1.schema.json"
+    Path(__file__).resolve().parent.parent.parent / "spec" / "schemas" / "llmindex-0.2.schema.json"
 )
 
 
@@ -45,13 +45,15 @@ class TestManifestGenerator:
 
     def test_manifest_fields(self, config):
         manifest = generate_manifest(config)
-        assert manifest["version"] == "0.1"
+        assert manifest["version"] == "0.2"
         assert manifest["entity"]["name"] == "Test Store"
         assert manifest["entity"]["canonical_url"] == "https://test-store.com"
         assert manifest["language"] == "en"
+        assert manifest["languages"] == ["en"]
         assert manifest["topics"] == ["test", "outdoor"]
         assert "products" in manifest["endpoints"]
         assert "feeds" in manifest
+        assert "feed_updated_at" in manifest
 
     def test_manifest_without_feed(self, config):
         manifest = generate_manifest(config, has_feed=False)
@@ -70,7 +72,7 @@ class TestManifestGenerator:
         out_path = str(tmp_path / ".well-known" / "llmindex.json")
         write_manifest(manifest, out_path)
         loaded = json.loads(Path(out_path).read_text())
-        assert loaded["version"] == "0.1"
+        assert loaded["version"] == "0.2"
 
 
 class TestFeedGenerator:

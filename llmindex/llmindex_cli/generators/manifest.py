@@ -12,14 +12,16 @@ def generate_manifest(config: SiteConfig, has_feed: bool = True) -> dict:
     """Build the llmindex.json manifest dict from a SiteConfig."""
     base = config.get_base_url()
 
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     manifest: dict = {
-        "version": "0.1",
-        "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "version": "0.2",
+        "updated_at": now,
         "entity": {
             "name": config.name,
             "canonical_url": config.canonical_url,
         },
         "language": config.language,
+        "languages": [config.language],
         "topics": config.topics,
         "endpoints": {
             "products": f"{base}/llm/products",
@@ -30,6 +32,7 @@ def generate_manifest(config: SiteConfig, has_feed: bool = True) -> dict:
     }
 
     if has_feed:
+        manifest["feed_updated_at"] = now
         manifest["feeds"] = {
             "products_jsonl": f"{base}/llm/feed/products.jsonl",
         }

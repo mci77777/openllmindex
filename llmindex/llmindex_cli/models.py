@@ -76,12 +76,14 @@ class Sig(BaseModel):
 class LLMIndexManifest(BaseModel):
     """The top-level /.well-known/llmindex.json manifest."""
 
-    version: str = "0.1"
+    version: str = "0.2"
     updated_at: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     )
+    feed_updated_at: Optional[str] = None
     entity: Entity
     language: str = Field(pattern=r"^[a-z]{2,3}(-[A-Z][a-zA-Z]{1,7})?$")
+    languages: Optional[list[str]] = None
     topics: list[str] = Field(min_length=1)
     endpoints: Endpoints
     feeds: Optional[Feeds] = None

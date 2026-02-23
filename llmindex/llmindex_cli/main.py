@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from importlib.metadata import version as pkg_version
 from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
@@ -689,7 +690,7 @@ def watch(
 @app.command()
 def version() -> None:
     """Show llmindex CLI version."""
-    console.print("llmindex v0.1.0")
+    console.print(f"llmindex v{pkg_version('openllmindex')}  (spec: v0.1, v0.2)")
 
 
 @app.command()
@@ -706,7 +707,7 @@ def validate(
         ),
     ),
 ) -> None:
-    """Validate a manifest (and optionally its feed) against the llmindex v0.1 schema."""
+    """Validate a manifest (and optionally its feed) against the llmindex v0.1/v0.2 schema."""
 
     console.print(f"[bold]Validating:[/bold] {manifest}")
 
@@ -780,7 +781,7 @@ def validate(
         console.print(table)
 
     if result.valid:
-        console.print("[bold green]Valid![/bold green] Manifest passes llmindex v0.1 schema.")
+        console.print("[bold green]Valid![/bold green] Manifest passes llmindex v0.1/v0.2 schema.")
     else:
         console.print(f"\n[bold red]Invalid.[/bold red] {len(result.errors)} error(s) found.")
         raise typer.Exit(1)
