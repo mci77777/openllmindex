@@ -59,13 +59,14 @@ Your website structure:
 
 ```json
 {
-  "version": "0.1",
-  "updated_at": "2026-02-17T10:00:00Z",
+  "version": "0.2",
+  "updated_at": "2026-02-23T10:00:00Z",
   "entity": {
     "name": "ACME Outdoor Gear",
     "canonical_url": "https://acme-outdoor.com"
   },
   "language": "en",
+  "languages": ["en"],
   "topics": ["outdoor-gear", "camping", "hiking"],
   "endpoints": {
     "products": "https://acme-outdoor.com/llm/products",
@@ -75,7 +76,8 @@ Your website structure:
   },
   "feeds": {
     "products_jsonl": "https://acme-outdoor.com/llm/feed/products.jsonl"
-  }
+  },
+  "feed_updated_at": "2026-02-23T10:00:00Z"
 }
 ```
 
@@ -87,13 +89,14 @@ You don't need the CLI tool. Just create a JSON file at `/.well-known/llmindex.j
 
 ```json
 {
-  "version": "0.1",
-  "updated_at": "2026-02-20T00:00:00Z",
+  "version": "0.2",
+  "updated_at": "2026-02-23T00:00:00Z",
   "entity": {
     "name": "Your Brand Name",
     "canonical_url": "https://your-site.com"
   },
   "language": "en",
+  "languages": ["en"],
   "topics": ["your-industry"],
   "endpoints": {
     "products": "https://your-site.com/llm/products",
@@ -111,7 +114,7 @@ Validate your manifest against the [JSON Schema](spec/schemas/llmindex-0.1.schem
 ```bash
 python -c "
 import json, jsonschema
-schema = json.load(open('spec/schemas/llmindex-0.1.schema.json'))
+schema = json.load(open('spec/schemas/llmindex-0.2.schema.json'))
 data = json.load(open('your-manifest.json'))
 jsonschema.validate(data, schema)
 print('Valid!')
@@ -250,6 +253,35 @@ See [`llmindex/sample_data/sample_shopify.csv`](llmindex/sample_data/sample_shop
 ## Industry Examples
 
 Each example includes a complete `llmindex.json` manifest and `/llm` content pages.
+
+### All Examples (22 industries)
+
+| Industry | Spec | Highlights |
+|----------|------|------------|
+| [automotive](spec/examples/automotive/) | v0.2 | Multilingual feeds, access control |
+| [beauty](spec/examples/beauty/) | v0.2 | Beauty brand, access control |
+| [blog](spec/examples/blog/) | v0.1 | Blog/newsletter |
+| [ecommerce](spec/examples/ecommerce/) | v0.2 | Full store, feed + DNS verify |
+| [education](spec/examples/education/) | v0.2 | 3-language courses, non-commercial |
+| [fintech](spec/examples/fintech/) | v0.2 | Selective bot access, dual feeds |
+| [fitness](spec/examples/fitness/) | v0.2 | Fitness gear, access control |
+| [food-beverage](spec/examples/food-beverage/) | v0.2 | Food & beverage brand |
+| [gaming](spec/examples/gaming/) | v0.1 | Gaming accessories |
+| [healthcare](spec/examples/healthcare/) | v0.2 | Telemedicine, attribution required |
+| [home-decor](spec/examples/home-decor/) | v0.2 | Delta feed, multilingual |
+| [jewelry](spec/examples/jewelry/) | v0.2 | Jewelry, access control |
+| [kids](spec/examples/kids/) | v0.1 | Kids & toys |
+| [local-business](spec/examples/local-business/) | v0.1 | Minimal bakery |
+| [marketplace](spec/examples/marketplace/) | v0.1 | Handmade marketplace |
+| [nonprofit](spec/examples/nonprofit/) | v0.1 | Public domain, DNS verify |
+| [pet](spec/examples/pet/) | v0.1 | Pet products |
+| [real-estate](spec/examples/real-estate/) | v0.1 | Property listings, HTTP verify |
+| [restaurant](spec/examples/restaurant/) | v0.1 | Restaurant with verify |
+| [saas](spec/examples/saas/) | v0.1 | License + verify |
+| [travel](spec/examples/travel/) | v0.2 | 6-language, delta feed |
+| [wellness](spec/examples/wellness/) | v0.2 | Wellness & supplements |
+
+---
 
 ### E-commerce — Outdoor Gear Store
 
@@ -504,13 +536,13 @@ Travel platform with 6-language support, delta feeds, and open access.
 
 ## Specification
 
-The full llmindex v0.1 specification: [`spec/spec.md`](spec/spec.md)
+The full llmindex specification (v0.1/v0.2): [`spec/spec.md`](spec/spec.md) / [`spec/spec.zh.md`](spec/spec.zh.md)
 
 ### Required Manifest Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `version` | string | `"0.1"` |
+| `version` | string | `"0.1"` or `"0.2"` |
 | `updated_at` | string | ISO 8601 datetime |
 | `entity.name` | string | Brand/company name |
 | `entity.canonical_url` | string | Homepage (HTTPS) |
@@ -526,10 +558,16 @@ The full llmindex v0.1 specification: [`spec/spec.md`](spec/spec.md)
 | `verify` | Domain ownership proof (`dns_txt` or `http_file`) |
 | `sig` | Cryptographic signature (JWS with EdDSA) |
 | `license` | SPDX license identifier or URL |
+| `languages` | BCP-47 language codes array — multi-language support (v0.2+) |
+| `localized_endpoints` | Per-language endpoint overrides (v0.2+) |
+| `access_control` | Bot allow/deny lists, rate limits, and usage terms (v0.2+) |
+| `feed_updated_at` | ISO 8601 datetime of last feed update (v0.2+) |
 
 ### JSON Schema
 
-Machine-readable schema for validation: [`spec/schemas/llmindex-0.1.schema.json`](spec/schemas/llmindex-0.1.schema.json)
+Machine-readable schemas for validation:
+- v0.1: [`spec/schemas/llmindex-0.1.schema.json`](spec/schemas/llmindex-0.1.schema.json)
+- v0.2: [`spec/schemas/llmindex-0.2.schema.json`](spec/schemas/llmindex-0.2.schema.json)
 
 ### Comparison with llms.txt
 
@@ -562,22 +600,34 @@ llmindex and llms.txt serve complementary purposes. llmindex focuses on structur
 ```
 openllmindex/
 ├── spec/                        # The llmindex specification
-│   ├── spec.md                  # v0.1 specification document
+│   ├── spec.md                  # Specification document (v0.1/v0.2)
+│   ├── spec.zh.md               # Chinese specification (v0.1/v0.2)
 │   ├── schemas/                 # JSON Schema for validation
-│   │   └── llmindex-0.1.schema.json
-│   ├── examples/                # Industry examples (12 industries)
-│   │   ├── blog/                #   Blog/newsletter
+│   │   ├── llmindex-0.1.schema.json
+│   │   └── llmindex-0.2.schema.json
+│   ├── examples/                # Industry examples (22 industries)
+│   │   ├── automotive/          #   Auto dealer, multilingual feeds (v0.2)
+│   │   ├── beauty/              #   Beauty brand, access control (v0.2)
+│   │   ├── blog/                #   Blog/newsletter (v0.1)
 │   │   ├── ecommerce/           #   Full store with feed + verify (v0.2)
 │   │   ├── education/           #   Online courses, 3 languages (v0.2)
 │   │   ├── fintech/             #   Digital payments, selective access (v0.2)
+│   │   ├── fitness/             #   Fitness & sports gear (v0.2)
+│   │   ├── food-beverage/       #   Food & beverage brand (v0.2)
+│   │   ├── gaming/              #   Gaming accessories (v0.1)
 │   │   ├── healthcare/          #   Telemedicine, access control (v0.2)
-│   │   ├── local-business/      #   Minimal bakery
-│   │   ├── marketplace/         #   Handmade marketplace
-│   │   ├── nonprofit/           #   Environmental foundation
-│   │   ├── real-estate/         #   Property listings with feed
-│   │   ├── restaurant/          #   Restaurant with verify
-│   │   ├── saas/                #   SaaS with license + verify
-│   │   └── travel/              #   Global tourism, 6 languages (v0.2)
+│   │   ├── home-decor/          #   Home decor with delta feed (v0.2)
+│   │   ├── jewelry/             #   Jewelry & accessories (v0.2)
+│   │   ├── kids/                #   Kids & toys (v0.1)
+│   │   ├── local-business/      #   Minimal bakery (v0.1)
+│   │   ├── marketplace/         #   Handmade marketplace (v0.1)
+│   │   ├── nonprofit/           #   Environmental foundation (v0.1)
+│   │   ├── pet/                 #   Pet products (v0.1)
+│   │   ├── real-estate/         #   Property listings with feed (v0.1)
+│   │   ├── restaurant/          #   Restaurant with verify (v0.1)
+│   │   ├── saas/                #   SaaS with license + verify (v0.1)
+│   │   ├── travel/              #   Global tourism, 6 languages (v0.2)
+│   │   └── wellness/            #   Wellness & supplements (v0.2)
 │   └── test-vectors/            # Invalid manifests for testing
 ├── llmindex/                    # Generator CLI tool (Python package)
 │   ├── llmindex_cli/            # CLI application (Typer)
@@ -611,7 +661,7 @@ Contributions welcome. Please open an issue first to discuss what you'd like to 
 
 ### Areas for Contribution
 
-- **New industry examples** — Healthcare, education, real estate, etc.
+- **New industry examples** — Regional variants, localized manifests, niche industries
 - **New importers** — Shopify, WooCommerce, JSON, XML
 - **Validators** — Standalone validation tools for manifest + feeds
 - **Integrations** — WordPress plugin, Next.js middleware, etc.

@@ -1,6 +1,6 @@
 # ROADMAP
 
-## v0.1.x (当前稳定版)
+## v0.1.x
 
 **已发布**: `openllmindex 0.1.0` / `@llmindex/schema 0.1.0`
 
@@ -21,9 +21,9 @@
 
 ---
 
-## v0.2 (下一个 minor)
+## v0.2.x (当前稳定版)
 
-> 目标：扩展 manifest 表达能力，面向真实生产部署的完整性。
+> 已发布：`openllmindex 0.2.0` — 扩展 manifest 表达能力，面向真实生产部署的完整性。
 
 ### 特性规划
 
@@ -136,6 +136,19 @@ llmindex watch --config llmindex.yaml --output-dir dist
 
 ---
 
+#### 6. 规范示例库扩展 [x]
+
+**交付**：22 个行业 manifest 示例 + JSONL feed，覆盖 v0.1（10 个）和 v0.2（12 个）：
+
+| v0.1 示例 | v0.2 示例 |
+|-----------|-----------|
+| blog, gaming, kids | automotive, beauty, ecommerce |
+| local-business, marketplace | education, fintech, fitness |
+| nonprofit, pet | food-beverage, healthcare |
+| real-estate, restaurant, saas | home-decor, jewelry, travel, wellness |
+
+---
+
 ### v0.2 向后兼容性
 
 | 变更类型 | 内容 | 兼容性 |
@@ -176,6 +189,5 @@ llmindex watch --config llmindex.yaml --output-dir dist
 |------|----------|------|
 | v0.1.0 | CLI 完整 + 规范正式化 + 双包发布 | ✅ 已发布 |
 | v0.1.1 | 更多行业示例 + docs site 更新 | ✅ 已完成 |
-| v0.2.0 | 多语言 + access_control + EdDSA 签名 + 增量更新 | ✅ 已完成 |
-| v0.2.1 | CLI watch 模式 | ✅ 已完成 |
+| v0.2.0 | 多语言 + access_control + EdDSA 签名 + 增量更新 + CLI watch + 22 行业示例 | ✅ 已发布 |
 | v1.0.0 | 稳定版 + SDK + validator service | 📋 远期 |
