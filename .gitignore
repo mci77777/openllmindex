@@ -22,6 +22,8 @@ htmlcov/
 # Multi-model CLI tool configs (local only)
 .gemini/
 .qwen/
+.geminiignore
+.qwenignore
 
 # Internal prototypes (not for open-source)
 design-system/
