@@ -1,6 +1,6 @@
-# llmindex Specification v0.1
+# llmindex Specification v0.2
 
-> **Status**: v0.1.0
+> **Status**: v0.2.0
 > **Fixed Entry Point**: `/.well-known/llmindex.json`
 > **Goal**: Provide a machine-readable index for LLMs, AI search engines, and crawlers to discover and understand a website's key information.
 
@@ -32,7 +32,7 @@ Servers SHOULD support conditional requests via:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `version` | string | Specification version. MUST be `"0.1"` for this version. |
+| `version` | string | Specification version. MUST be `"0.1"` (v0.1) or `"0.2"` (v0.2). |
 | `updated_at` | string | ISO 8601 datetime (UTC recommended). Indicates when the manifest was last updated. |
 | `entity` | object | The entity this manifest describes. |
 | `entity.name` | string | Display name of the entity (company, brand, person). |
@@ -60,6 +60,19 @@ Servers SHOULD support conditional requests via:
 | `sig.kid` | string | Key identifier for public key lookup. |
 | `sig.jws` | string | JWS Compact Serialization of the signed manifest. |
 | `license` | string | License identifier (SPDX format) or URL to license text. |
+
+### 3.3 v0.2 Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `languages` | array[string] | BCP-47 language codes supported. SHOULD include `language`. Unique values only. |
+| `localized_endpoints` | object | Per-language endpoint overrides. Keys are BCP-47 codes; values mirror `endpoints`. |
+| `access_control` | object | Bot allow/deny and usage constraints. |
+| `access_control.allow` | array[string] | Bot user-agent patterns explicitly allowed (e.g., `"GPTBot"`). |
+| `access_control.deny` | array[string] | Bot user-agent patterns explicitly denied. |
+| `access_control.usage_terms` | string | Free-text usage terms URL or statement. |
+| `feed_updated_at` | string | ISO 8601 datetime of last feed update. Enables incremental sync. |
+| `feeds.products_jsonl_delta` | string (URI) | URL to incremental JSONL feed (changed products only). |
 
 ## 4. /llm Pages
 

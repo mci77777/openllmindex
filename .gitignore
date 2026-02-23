@@ -19,6 +19,10 @@ htmlcov/
 # Internal workflow artifacts
 .workflow/
 
+# Multi-model CLI tool configs (local only)
+.gemini/
+.qwen/
+
 # Internal prototypes (not for open-source)
 design-system/
 portal-prototype/
