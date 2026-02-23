@@ -34,6 +34,23 @@ AI search engines (ChatGPT, Perplexity, Gemini, etc.) are increasingly answering
 | No way to verify domain ownership | Built-in DNS/HTTP verification |
 | No version control for AI-facing data | Timestamped, versioned manifest |
 
+## Portal
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/00-landing.png" alt="Landing"/><br><sub><b>Landing</b> — 一行命令生成 AI 索引</sub></td>
+    <td width="50%"><img src="docs/screenshots/01-dashboard.png" alt="Dashboard"/><br><sub><b>Dashboard</b> — 站点状态 · 评分 · 近期活动</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/03-generate.png" alt="Generate"/><br><sub><b>Generate</b> — 3 步向导生成 manifest</sub></td>
+    <td width="50%"><img src="docs/screenshots/04-validate.png" alt="Validate"/><br><sub><b>Validate</b> — 规则级通过 / 警告 / 错误</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/06-verify.png" alt="Verify"/><br><sub><b>Verify</b> — DNS TXT / Meta 标签域名验证</sub></td>
+    <td width="50%"><img src="docs/screenshots/05-catalog.png" alt="Catalog"/><br><sub><b>Catalog</b> — Feed 管理与同步</sub></td>
+  </tr>
+</table>
+
 ## How It Works
 
 ```
